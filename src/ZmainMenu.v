@@ -6,7 +6,7 @@
 //// 1. 1 bit, high if 1 on the PS2 is pressed, low if not pressed
 //// 2. 1 bit, high if 2 on the PS2 is pressed, low if not pressed
 // OUTPUTS
-//// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp)
+//// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp, 11 default)
 
 // Internal needs:
 //// 
