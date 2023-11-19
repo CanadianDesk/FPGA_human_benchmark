@@ -1,0 +1,3 @@
+module mainMenuDataPath();
+
+endmodule

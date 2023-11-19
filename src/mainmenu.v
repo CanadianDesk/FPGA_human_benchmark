@@ -3,7 +3,7 @@
 // ECE241 Project
 
 
-module mainFSM(iClock, iReset, iW, iUserChoice, oZ, oCurState);
+module mainMenu(iClock, iReset, iW, iUserChoice, oZ, oCurState);
     input iClock, iReset, iW;
     input [1:0] iUserChoice;
     output iZ;

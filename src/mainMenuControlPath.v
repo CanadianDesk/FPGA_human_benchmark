@@ -2,7 +2,7 @@
 // Jonah Diamond
 // ECE241 Project
 
-module mainctrlpath(input iMode, iQuit, [1:0] iUserChoice/*, output*/);
+module mainMenuControlPath(input iMode, iQuit, [1:0] iUserChoice/*, output*/);
     localparam LOAD_MODE = 2'd0,
     LOAD_MODE_WAIT = 2'd1,
     LOAD_SCREEN = 2'd2;
