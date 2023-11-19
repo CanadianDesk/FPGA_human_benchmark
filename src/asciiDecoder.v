@@ -103,11 +103,13 @@ module scancode_to_ascii(
             break_code_received <= 1'b0;
         end 
         else if (scan_code_ready) begin
-            if (scan_code == 8'hF0) begin
+            if (scan_code == 8'hF0) 
+            begin
                 // If we receive the break code prefix, set our flag and wait for the next code
                 break_code_received <= 1'b1;
             end
-            else if (break_code_received) begin
+            else if (break_code_received) 
+            begin
                 // If the break code prefix was received, check the following scan code
                 case (scan_code)
                     8'h5A: enter_pressed <= 1'b0; // Enter key released
@@ -118,7 +120,8 @@ module scancode_to_ascii(
                 // Reset the break code received flag after handling the break code
                 break_code_received <= 1'b0;
             end
-            else begin
+            else 
+            begin
                 // If it's not a break code, handle the make code
                 case (scan_code)
                     8'h5A: enter_pressed <= 1'b1; // Enter key pressed
