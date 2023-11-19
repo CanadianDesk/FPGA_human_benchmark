@@ -1,0 +1,77 @@
+// Chimp FSM Top-Level Module
+// Jonah Diamond
+// ECE241 Project
+
+// INPUTS
+//// 1. 1 bit, clock
+//// 2. 1 bit, high if KEY0 pressed (will reset game to main menu)
+//// 3. 2 bit, 10 if chimp game selected, otherwise don't care
+
+module chimpControlPath(input clk, iKey0, iEnter);
+    reg [6:0] current_state, next_state;
+    localparam LOAD_START = 6'd0,
+    LOAD_1 = 6'd1,
+    LOAD_2 = 6'd2,
+    LOAD_3 = 6'd3,
+    LOAD_4 = 6'd4,
+    LOAD_5 = 6'd5,
+    LOAD_6 = 6'd6,
+    LOAD_7 = 6'd7,
+    LOAD_8 = 6'd8,
+    LOAD_9 = 6'd9,
+    LOAD_10 = 6'd10,
+    LOAD_11 = 6'd11,
+    LOAD_12 = 6'd12,
+    LOAD_13 = 6'd13,
+    LOAD_14 = 6'd14,
+    LOAD_15 = 6'd15,
+    LOAD_16 = 6'd16,
+    LOAD_17 = 6'd17,
+    LOAD_18 = 6'd18,
+    LOAD_19 = 6'd19,
+    LOAD_20 = 6'd20,
+    LOAD_21 = 6'd21,
+    LOAD_22 = 6'd22,
+    LOAD_23 = 6'd23,
+    LOAD_24 = 6'd24,
+    LOAD_25 = 6'd25,
+    LOAD_26 = 6'd26,
+    LOAD_27 = 6'd27,
+    LOAD_28 = 6'd28,
+    LOAD_29 = 6'd29,
+    LOAD_30 = 6'd30,
+    LOAD_31 = 6'd31,
+    START_GAME = 6'd32,
+    CHOSEN_1 = 6'd33,
+    CHOSEN_2 = 6'd34,
+    CHOSEN_3 = 6'd35,
+    CHOSEN_4 = 6'd36,
+    CHOSEN_5 = 6'd37,
+    CHOSEN_6 = 6'd38,
+    CHOSEN_7 = 6'd39,
+    CHOSEN_8 = 6'd40,
+    CHOSEN_9 = 6'd41,
+    CHOSEN_10 = 6'd42,
+    CHOSEN_11 = 6'd43,
+    CHOSEN_12 = 6'd44,
+    CHOSEN_13 = 6'd45,
+    CHOSEN_14 = 6'd46,
+    CHOSEN_15 = 6'd47,
+    CHOSEN_16 = 6'd48,
+    CHOSEN_17 = 6'd49,
+    CHOSEN_18 = 6'd50,
+    CHOSEN_19 = 6'd51,
+    CHOSEN_20 = 6'd52,
+    CHOSEN_21 = 6'd53,
+    CHOSEN_22 = 6'd54,
+    CHOSEN_23 = 6'd55,
+    CHOSEN_24 = 6'd56,
+    CHOSEN_25 = 6'd57,
+    CHOSEN_26 = 6'd58,
+    CHOSEN_27 = 6'd59,
+    CHOSEN_28 = 6'd60,
+    CHOSEN_29 = 6'd61,
+    CHOSEN_30 = 6'd62,
+    CHOSEN_31 = 6'd63;
+    
+endmodule
