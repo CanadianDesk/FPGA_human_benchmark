@@ -1,5 +1,4 @@
 
-
 //TOP LEVEL MODULE FOR VGA ENCODER
 
 //NEEDS INPUTS:
@@ -7,6 +6,7 @@
 
 
 module zVGAencoder (
-    ports
+
 );
+
 endmodule   
