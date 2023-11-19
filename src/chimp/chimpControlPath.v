@@ -305,7 +305,7 @@ module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
 
     // enable signals
     always@(*) begin
-        level = 5'd0;
+        //level = 5'd0;
         ////do we do anything in this ????
     end    
 
