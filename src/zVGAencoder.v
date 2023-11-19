@@ -9,5 +9,4 @@
 module zVGAencoder (
     ports
 );
-    
-endmodule
+endmodule   
