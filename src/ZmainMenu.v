@@ -9,7 +9,7 @@
 // Internal needs:
 //// 
 
-//module mainMenu(i1, i2, iKey0)
+//module mainMenu(clk, i1, i2, iKey0, oDisplayChoice)
 module mainMenu(iClock, iReset, iW, iUserChoice, oZ, oCurState);
     input iClock, iReset, iW;
     input [1:0] iUserChoice;
