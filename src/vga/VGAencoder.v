@@ -9,5 +9,6 @@ module zVGAencoder (
     input clk,
     input [1:0] iGameMode
 );
-    VGAcontrol u1();
+    wire menuEnable, reactionEnable, chimpEnable;
+    VGAcontrol u1(clk, iGameMode, menuEnable, reactionEnable, chimpEnable);
 endmodule   
