@@ -2,10 +2,12 @@
 // Jonah Diamond
 // ECE241 Project
 
+// INPUTS
+//// 1. 1 bit, high if 1 on the PS2 is pressed, low if not pressed
+//// 2. 1 bit, high if 2 on the PS2 is pressed, low if not pressed
+// OUTPUTS
+//// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp)
 
-// External needs:
-//// Input: 1, 2 (ie whether they're pressed)
-//// Output: 2'b output of which to display (00 menu, 01 react, 10 chimp)
 // Internal needs:
 //// 
 
