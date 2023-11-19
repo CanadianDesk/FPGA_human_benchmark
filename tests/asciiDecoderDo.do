@@ -1,6 +1,6 @@
 vlib work
 
-vlog asciiDecoder.v
+vlog ../src/asciiDecoder.v
 
 vsim scancode_to_ascii
 
