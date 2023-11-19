@@ -6,6 +6,8 @@
 //// 1. 1 bit, clock
 //// 2. 1 bit, high if KEY0 pressed (will reset game to main menu)
 //// 3. 2 bit, 10 if chimp game selected, otherwise don't care
+// OUTPUTS
+//// 1. 
 
 module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
     reg [6:0] current_state, next_state;
@@ -301,8 +303,14 @@ module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
         endcase
     end
 
+    // enable signals
+    always@(*) begin
+        level = 5'd0;
+        ////do we do anything in this ????
+    end    
+
     always@(posedge clk) begin
-        if (iKey0) current_state = LOAD_START;
-        else current_state = next_state;
+        if (iKey0) current_state <= LOAD_START;
+        else current_state <= next_state;
     end    
 endmodule
