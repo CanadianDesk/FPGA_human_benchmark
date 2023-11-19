@@ -22,17 +22,18 @@ module zMainMenu(input i1, i2, iKey0, clk,
         MENU: begin
             oMode = 2'd0;
             if (i1) next_state = REACT_WAIT;
-            if (i2) next_state = CHIMP_WAIT;
+            else if (i2) next_state = CHIMP_WAIT;
+            else if (iKey0) next_state = MENU_WAIT;
             end
         REACT_WAIT: next_state = i1 ? REACT_WAIT : REACT;
-        CHIMP_WAIT: next_state = 12 ? CHIMP_WAIT : CHIMP;
         REACT: begin 
-            next_state = iKey0 ? MENU_WAIT : REACT;
             oMode = 2'd1;
+            next_state = iKey0 ? MENU_WAIT : REACT;
             end
+        CHIMP_WAIT: next_state = i2 ? CHIMP_WAIT : CHIMP;
         CHIMP: begin
-            next_state = iKey0 ? MENU_WAIT : CHIMP;
             oMode = 2'd2;
+            next_state = iKey0 ? MENU_WAIT : CHIMP;
             end
         MENU_WAIT: next_state = iKey0 ? MENU_WAIT : MENU;
         default: next_state = MENU;
