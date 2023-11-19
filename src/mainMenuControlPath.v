@@ -2,41 +2,31 @@
 // Jonah Diamond
 // ECE241 Project
 
-module mainMenuControlPath(input iMode, iQuit, [1:0] iUserChoice/*, output*/);
-    localparam LOAD_MODE = 2'd0,
-    LOAD_MODE_WAIT = 2'd1,
-    LOAD_SCREEN = 2'd2;
+module mainMenuControlPath(input i1, i2, iKey0, clk,
+    output oCurrState);
+    localparam MENU = 2'd0,
+    REACT_WAIT = 2'd1,
+    REACT = 2'd2,
+    CHIMP_WAIT = 2'd3,
+    CHIMP = 2'd4,
+    MENU_WAIT = 2'd5;
     always@(*) begin
         case (current_state) 
-        LOAD_MODE: next_state = iMode ? LOAD_MODE_WAIT : LOAD_MODE;
-        LOAD_MODE_WAIT: next_state = iMode ? LOAD_MODE_WAIT : LOAD_SCREEN;
-        LOAD_SCREEN: begin
-            if (iQuit) next_state = LOAD_MODE;
-            else if (!iQuit) next_state = LOAD_SCREEN;
-            else if (iMode) next_state = LOAD_MODE_WAIT;
-            else if (!iMode) next_state = LOAD_MODE;
+        MENU: begin
+            if (i1) next_state = REACT_WAIT;
+            if (i2) next_state = CHIMP_WAIT;
             end
-        default: next_state = LOAD_MODE;
+        REACT_WAIT: next_state = i1 ? REACT_WAIT : REACT;
+        CHIMP_WAIT: next_state = 12 ? CHIMP_WAIT : CHIMP;
+        REACT: next_state = iKey0 ? MENU_WAIT : REACT;
+        CHIMP: next_state = iKey0 ? MENU_WAIT : CHIMP;
+        MENU_WAIT: next_state = iKey0 ? MENU_WAIT : MENU;
+        default: next_state = MENU_WAIT;
         endcase
     end
 
-    output reg menu, react, chimp;
-
-    always@(*) begin
-        //set signals to 0 by default
-        menu = 1'b0;
-        react = 1'b0;
-        chimp = 1'b0;
-        case (next_state)
-        LOAD_MODE: begin
-            if (iUserChoice == 2'd0) menu = 1;
-            else if (iUserChoice == 2'd1) react = 1;
-            else if (iUserChoice == 2'd2) chimp = 1;
-            end
-        LOAD_MODE_WAIT: begin
-            ///confused
-            end
-    end
-
+    always@(posedge clk) begin
+        current_state = next_state;
+    end    
 endmodule
 

@@ -9,7 +9,7 @@
 //// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp, 11 default)
 
 // Internal needs:
-//// 
+////
 
 //module mainMenu(clk, i1, i2, iKey0, oDisplayChoice)
 module mainMenu(iClock, iReset, iW, iUserChoice, oZ, oCurState);
