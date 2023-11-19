@@ -9,7 +9,8 @@
 //// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp)
 
 module zMainMenu(input i1, i2, iKey0, clk,
-    output [1:0] oMode);
+    output reg [1:0] oMode);
+    reg [3:0] current_state, next_state;
     localparam MENU = 2'd0,
     REACT_WAIT = 2'd1,
     REACT = 2'd2,
