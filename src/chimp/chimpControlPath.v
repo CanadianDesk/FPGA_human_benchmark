@@ -75,8 +75,7 @@ module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
     CHOOSE_28 = 7'd60,
     CHOOSE_29 = 7'd61,
     CHOOSE_30 = 7'd62,
-    CHOOSE_31 = 7'd63,
-    LOST = 7'd64;
+    CHOOSE_31 = 7'd63;
     always @(*) begin
         case (current_state)
             LOAD_START: next_state = iEnter ? LOAD_1 : LOAD_START;
@@ -116,190 +115,188 @@ module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
                 if (iPressNum == 6'd1 && level > 5'd1) next_state = CHOOSE_2;
                 else if (iPressNum == 6'd2 && level == 5'd1) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_1;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_2: begin
                 if (iPressNum == 6'd2 && level > 5'd2) next_state = CHOOSE_3;
                 else if (iPressNum == 6'd2 && level == 5'd2) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_2;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_3: begin
                 if (iPressNum == 6'd3 && level > 5'd3) next_state = CHOOSE_4;
                 else if (iPressNum == 6'd3 && level == 5'd3) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_3;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_4: begin
                 if (iPressNum == 6'd4 && level > 5'd4) next_state = CHOOSE_5;
                 else if (iPressNum == 6'd4 && level == 5'd4) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_4;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_5: begin
                 if (iPressNum == 6'd5 && level > 5'd5) next_state = CHOOSE_6;
                 else if (iPressNum == 6'd5 && level == 5'd5) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_5;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_6: begin
                 if (iPressNum == 6'd6 && level > 5'd6) next_state = CHOOSE_7;
                 else if (iPressNum == 6'd6 && level == 5'd6) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_6;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_7: begin
                 if (iPressNum == 6'd7 && level > 5'd7) next_state = CHOOSE_8;
                 else if (iPressNum == 6'd7 && level == 5'd7) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_7;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_8: begin
                 if (iPressNum == 6'd8 && level > 5'd8) next_state = CHOOSE_9;
                 else if (iPressNum == 6'd8 && level == 5'd8) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_8;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_9: begin
                 if (iPressNum == 6'd9 && level > 5'd9) next_state = CHOOSE_10;
                 else if (iPressNum == 6'd9 && level == 5'd9) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_9;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_10: begin
                 if (iPressNum == 6'd10 && level > 5'd10) next_state = CHOOSE_11;
                 else if (iPressNum == 6'd10 && level == 5'd10) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_10;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_11: begin
                 if (iPressNum == 6'd11 && level > 5'd11) next_state = CHOOSE_12;
                 else if (iPressNum == 6'd11 && level == 5'd11) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_11;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_12: begin
                 if (iPressNum == 6'd12 && level > 5'd12) next_state = CHOOSE_13;
                 else if (iPressNum == 6'd12 && level == 5'd12) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_12;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_13: begin
                 if (iPressNum == 6'd13 && level > 5'd13) next_state = CHOOSE_14;
                 else if (iPressNum == 6'd13 && level == 5'd13) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_13;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_14: begin
                 if (iPressNum == 6'd14 && level > 5'd14) next_state = CHOOSE_15;
                 else if (iPressNum == 6'd14 && level == 5'd14) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_14;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_15: begin
                 if (iPressNum == 6'd15 && level > 5'd15) next_state = CHOOSE_16;
                 else if (iPressNum == 6'd15 && level == 5'd15) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_15;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_16: begin
                 if (iPressNum == 6'd16 && level > 5'd16) next_state = CHOOSE_17;
                 else if (iPressNum == 6'd16 && level == 5'd16) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_16;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_17: begin
                 if (iPressNum == 6'd17 && level > 5'd17) next_state = CHOOSE_18;
                 else if (iPressNum == 6'd17 && level == 5'd17) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_17;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_18: begin
                 if (iPressNum == 6'd18 && level > 5'd18) next_state = CHOOSE_19;
                 else if (iPressNum == 6'd18 && level == 5'd18) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_18;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_19: begin
                 if (iPressNum == 6'd19 && level > 5'd19) next_state = CHOOSE_20;
                 else if (iPressNum == 6'd19 && level == 5'd19) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_19;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_20: begin
                 if (iPressNum == 6'd20 && level > 5'd20) next_state = CHOOSE_21;
                 else if (iPressNum == 6'd20 && level == 5'd20) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_20;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_21: begin
                 if (iPressNum == 6'd21 && level > 5'd21) next_state = CHOOSE_22;
                 else if (iPressNum == 6'd21 && level == 5'd21) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_21;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_22: begin
                 if (iPressNum == 6'd22 && level > 5'd22) next_state = CHOOSE_23;
                 else if (iPressNum == 6'd22 && level == 5'd22) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_22;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_23: begin
                 if (iPressNum == 6'd23 && level > 5'd23) next_state = CHOOSE_24;
                 else if (iPressNum == 6'd23 && level == 5'd23) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_23;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_24: begin
                 if (iPressNum == 6'd24 && level > 5'd24) next_state = CHOOSE_25;
                 else if (iPressNum == 6'd24 && level == 5'd24) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_24;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_25: begin
                 if (iPressNum == 6'd25 && level > 5'd25) next_state = CHOOSE_26;
                 else if (iPressNum == 6'd25 && level == 5'd25) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_25;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_26: begin
                 if (iPressNum == 6'd26 && level > 5'd26) next_state = CHOOSE_27;
                 else if (iPressNum == 6'd26 && level == 5'd26) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_26;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_27: begin
                 if (iPressNum == 6'd27 && level > 5'd27) next_state = CHOOSE_28;
                 else if (iPressNum == 6'd27 && level == 5'd27) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_27;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_28: begin
                 if (iPressNum == 6'd28 && level > 5'd28) next_state = CHOOSE_29;
                 else if (iPressNum == 6'd28 && level == 5'd28) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_28;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_29: begin
                 if (iPressNum == 6'd29 && level > 5'd29) next_state = CHOOSE_30;
                 else if (iPressNum == 6'd29 && level == 5'd29) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_29;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_30: begin
                 if (iPressNum == 6'd30 && level > 5'd30) next_state = CHOOSE_31;
                 else if (iPressNum == 6'd30 && level == 5'd30) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_30;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
             CHOOSE_31: begin
                 if (iPressNum == 6'd31 && level == 5'd31) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_31;
-                else next_state = LOST;
+                else next_state = LOAD_START;
             end
-            LOST: begin
-                ////not sure
-            end
+            default: next_state = LOAD_START;
         endcase
     end
 
