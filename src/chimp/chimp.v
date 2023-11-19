@@ -7,6 +7,6 @@
 //// 2. 1 bit, high if KEY0 pressed (will reset game to main menu)
 //// 3. 2 bit, 10 if chimp game selected, otherwise don't care
 
-module zChimp(input clk, iKey0, [1:0] iGameMode);
+module chimp(input clk, iKey0, [1:0] iGameMode);
 
 endmodule
