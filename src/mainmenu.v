@@ -3,6 +3,12 @@
 // ECE241 Project
 
 
+// External needs:
+//// Input: 1, 2 (ie whether they're pressed)
+//// Output: 2'b output of which to display (00 menu, 01 react, 10 chimp)
+// Internal needs:
+//// 
+
 module mainMenu(iClock, iReset, iW, iUserChoice, oZ, oCurState);
     input iClock, iReset, iW;
     input [1:0] iUserChoice;
