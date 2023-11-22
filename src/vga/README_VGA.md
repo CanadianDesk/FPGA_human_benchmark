@@ -1,6 +1,6 @@
 # INTERNAL INTERFACING WITH VGA MODULES
 
-**From the Chimp Test:**
+**__<u>From the Chimp Test:__</u>**
 
 VGAencoder.v receives and input of the form ``reg [6:0] arr [2:0] [2:0] ``.
 
