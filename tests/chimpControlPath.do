@@ -19,4 +19,8 @@ run 0.5ns
 # should go into CHOOSE_2
 force iPressNum 6'd0;
 run 0.5ns
- 
+force iPressNum 6'd2;
+run 0.5
+force iPressNum 6'd1;
+run 0.5
+#  
