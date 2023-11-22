@@ -1,6 +1,7 @@
 # INTERNAL INTERFACING WITH VGA MODULES
 
 **From the Chimp Test:**
+
 VGAencoder.v receives and input of the form ``reg [6:0] arr [2:0] [2:0] ``.
 
 The two 3-bit signals represent the position in the 8x8 array.
