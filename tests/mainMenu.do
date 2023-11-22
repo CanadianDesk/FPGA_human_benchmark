@@ -1,7 +1,7 @@
 vlib work
 
-vlog ../src/zMainMenu.v
-vsim zMainMenu
+vlog mainMenu.v
+vsim mainMenu
 
 log -r /*
 

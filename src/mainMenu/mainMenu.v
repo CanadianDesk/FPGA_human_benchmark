@@ -11,12 +11,12 @@
 module mainMenu(input i1, i2, iKey0, clk,
     output reg [1:0] oMode);
     reg [3:0] current_state, next_state;
-    localparam MENU = 2'd0,
-    REACT_WAIT = 2'd1,
-    REACT = 2'd2,
-    CHIMP_WAIT = 2'd3,
-    CHIMP = 2'd4,
-    MENU_WAIT = 2'd5;
+    localparam MENU = 3'd0,
+    REACT_WAIT = 3'd1,
+    REACT = 3'd2,
+    CHIMP_WAIT = 3'd3,
+    CHIMP = 3'd4,
+    MENU_WAIT = 3'd5;
     always@(*) begin
         case (current_state) 
         MENU: begin
