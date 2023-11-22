@@ -113,7 +113,7 @@ module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
             START_GAME: next_state = iEnter ? CHOOSE_1 : START_GAME;
             CHOOSE_1: begin
                 if (iPressNum == 6'd1 && level > 5'd1) next_state = CHOOSE_2;
-                else if (iPressNum == 6'd2 && level == 5'd1) next_state = LOAD_1;
+                else if (iPressNum == 6'd1 && level == 5'd1) next_state = LOAD_1;
                 else if (iPressNum == 6'd0) next_state = CHOOSE_1;
                 else next_state = LOAD_START;
             end

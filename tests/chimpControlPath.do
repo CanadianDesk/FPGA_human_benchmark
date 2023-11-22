@@ -15,4 +15,8 @@ force level 5'd4
 force iEnter 1; 
 run 10ns
 force iPressNum 6'd1;
-run 0.5ns 
+run 0.5ns
+# should go into CHOOSE_2
+force iPressNum 6'd0;
+run 0.5ns
+ 
