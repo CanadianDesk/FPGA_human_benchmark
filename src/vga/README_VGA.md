@@ -2,7 +2,7 @@
 
 ## How it works:
 
-The VGA uses two blocks of the on-chip BRAM memory in order to implement a dual-buffering, 60Hz display.
+The VGA uses two blocks of on-chip BRAM memory in order to implement a dual-buffering, 60Hz display.
 
 
 
