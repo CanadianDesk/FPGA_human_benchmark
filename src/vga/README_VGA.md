@@ -15,7 +15,7 @@ The 7-bit signal comprises the least significant 5 bits representing the number 
 
 For example, { 1 0 0 0 0 1 0 } @ { 1 0 0 } { 0 1 0 } would represent a cell at x=4 and y=2, that is active but the number is hidden.
 
-## From reaction
+### From reaction
 
 VGAencoder.v has a 1-bit input port `iReactionScreen` which goes high when the test is in its WAIT state, and low when its in its CLICK state.
 
