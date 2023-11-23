@@ -2,7 +2,7 @@
 
 ## How it works:
 
-The VGA uses
+The VGA uses two blocks of the on-chip BRAM memory in order to implement a dual-buffering, 60Hz display.
 
 
 
@@ -17,7 +17,7 @@ The two 3-bit signals represent the position in the 8x8 array.
 
 The 7-bit signal comprises the least significant 5 bits representing the number stored in the cell, and the two most significant bits reprsenting a one-hot-encoding for where the box is active, and whether the number is showing respectively (both signals active high).
 
-For example, { 1 0 0 0 0 1 0 } @ { 1 0 0 } { 0 1 0 } would represent a cell at x=4 and y=2, that is active but the number is hidden.
+For example, { 1 0 0 0 0 1 0 } @ { 1 0 0 } { 0 1 0 } would represent a cell with value 2 at x=4 and y=2, that is active but the number is hidden.
 
 ### From reaction
 
