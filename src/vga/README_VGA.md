@@ -25,7 +25,7 @@ VGAencoder.v has a 1-bit input port `iReactionScreen` which goes high when the t
 
 ### From the PS/2 mouse
 
-VGAencoder.v has 2 multi-bit inputs,`iMouseX` and `iMouseY` repersenting the x and y coordinate of the current position of the mouse on a 320px x 240px screen.
+VGAencoder.v has 2 multi-bit input ports,`iMouseX` and `iMouseY` repersenting the x and y coordinate of the current position of the mouse cursor on a 320px x 240px screen.
 
 ### From the main menu
 
