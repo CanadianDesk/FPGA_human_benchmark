@@ -7,7 +7,7 @@
 
 ### From chimp
 
-VGAencoder.v has an input port of the form `reg [6:0] arr [2:0] [2:0] `.
+VGAencoder.v has an input port of the form `input reg [6:0] arr [2:0] [2:0] `.
 
 The two 3-bit signals represent the position in the 8x8 array.
 
