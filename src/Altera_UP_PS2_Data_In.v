@@ -86,6 +86,9 @@ localparam	PS2_STATE_0_IDLE			= 3'h0,
 			PS2_STATE_3_PARITY_IN		= 3'h3,
 			PS2_STATE_4_STOP_IN			= 3'h4;
 
+
+parameter x_sensitivity = 3;
+parameter y_sensitivity = 2;
 /*****************************************************************************
  *                 Internal wires and registers Declarations                 *
  *****************************************************************************/
@@ -283,7 +286,7 @@ begin
 				signed [8:0] y_movement_signed = (y_negative) ? -byte_3 : byte_3;
 
 				// Update X position
-				signed [10:0] new_x_position = x_position + x_movement_signed;
+				signed [10:0] new_x_position = x_position + (x_movement_signed/x_sensitivity);
 				if (new_x_position > 320) 
 				begin
 					x_position = 320;
@@ -298,7 +301,7 @@ begin
 				end
 
 				// Update Y position
-				signed [9:0] new_y_position = y_position + y_movement_signed;
+				signed [9:0] new_y_position = y_position + (y_movement_signed/y_sensitivity);
 				if (new_y_position > 240)
 				begin
 					y_position = 240;
@@ -317,8 +320,6 @@ begin
 				byte_3 <= 0;
 				byte_count <= 0;
 			end
-
-
 
             previous_data <= data_shift_reg;  // Update the previous data
         end
