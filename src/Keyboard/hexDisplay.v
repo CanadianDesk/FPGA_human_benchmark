@@ -1,8 +1,7 @@
-module hex_display(SW, HEX0);
-	input [3:0] SW;
-	output [6:0] HEX0;
-	
-	hex_decoder u1(SW, HEX0);
+module hex_display(data, hex);
+	input [3:0] data;
+	output [6:0] hex;
+	hex_decoder u1(data, hex);
 	
 endmodule
 
