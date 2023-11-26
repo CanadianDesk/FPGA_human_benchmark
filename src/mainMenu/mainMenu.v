@@ -10,6 +10,7 @@
 
 module mainMenu(input i1, i2, iKey0, clk, iReset,
     output reg [1:0] oMode);
+    Keyboard_PS2_Controller j9(.one_pressed_out(i1), .two_pressed_out(i2));
     reg [3:0] current_state, next_state;
     localparam MENU = 3'd0,
     REACT_WAIT = 3'd1,
