@@ -18,5 +18,7 @@ module chimp(input clk, iKey0, [1:0] iGameMode, iReset, output reg [6:0] board [
     PS2_Controller j1(.x_position(mouseX), .y_position(mouseY), .mousePressed(mousePressed));
     chimpMouseClick j2 (.iReset(iReset), .clk(clk), .mouseX(mouseX), .mouseY(mouseY),
          .BoxX(BoxX), .BoxY(BoxY));
+    mainMenuKey j3(.iKey0(iKey0));
+    chimpControlPath j4(.clk(clk), .iKey0(iKey0), .iEnter())
     //chimpControlPath();
 endmodule
