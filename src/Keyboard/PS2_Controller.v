@@ -48,9 +48,6 @@ input	[7:0]	the_command;
 input			send_command;
 
 
-
-
-
 // Bidirectionals
 inout			PS2_CLK;
 inout		 	PS2_DAT;
