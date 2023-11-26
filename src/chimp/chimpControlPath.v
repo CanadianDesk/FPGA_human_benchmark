@@ -9,9 +9,8 @@
 // OUTPUTS
 //// 1. 
 
-module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum);
+module chimpControlPath(input clk, iKey0, iEnter, [5:0] iPressNum, output reg [4:0] level);
     reg [6:0] current_state, next_state;
-    reg [4:0] level;
     localparam LOAD_START = 7'd0,
     LOAD_1 = 7'd1,
     LOAD_2 = 7'd2,

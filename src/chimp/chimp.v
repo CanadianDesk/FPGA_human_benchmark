@@ -9,6 +9,6 @@
 // OUTPUTS
 //// 1. 7 bit [ABCDEFG]: A - high if active, B - high if showing, low if hidden, C-G: 0-31 depending on what number is there
 
-module chimp(input clk, iKey0, [1:0] iGameMode);
+module chimp(input clk, iKey0, [1:0] iGameMode, iReset);
 
 endmodule
