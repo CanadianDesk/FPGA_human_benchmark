@@ -434,6 +434,7 @@ output oLoad, output reg [4:0] level, [4:0] oloadNum, [4:0] oChooseNum);
 
     // enable signals
     always@(*) begin
+        hideEnable = 0;
         loadEnable = 0;
         iResetBoard = 0;
         oLoadNum = 0;
@@ -473,7 +474,10 @@ output oLoad, output reg [4:0] level, [4:0] oloadNum, [4:0] oChooseNum);
             LOAD_30: oLoadNum = 30;
             LOAD_31: oLoadNum = 31;
             CHOOSE_1: oChooseNum = 1;
-            CHOOSE_2: oChooseNum = 2;
+            CHOOSE_2: begin
+                oChooseNum = 2;
+                hideEnable = 1;
+            end
             CHOOSE_3: oChooseNum = 3;
             CHOOSE_4: oChooseNum = 4;
             CHOOSE_5: oChooseNum = 5;
