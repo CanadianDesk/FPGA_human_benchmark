@@ -1,19 +1,19 @@
 module prng #(
-    N = 8;
+    parameter N = 8
 ) (
     input clk,
     input iReset,
     output reg [N-1:0] oOutput
 );
-
+    localparam seed = 2;
     wire feedback;
-    assign feedback = out[N-1] ^ out[5] ^ out[4] ^ out[3];
+    assign feedback = oOutput[N-1] ^ oOutput[5] ^ oOutput[4] ^ oOutput[3];
 
     always @(posedge clk, posedge iReset) begin
         if (iReset)
-            out <= 1;
+            oOutput <= seed;
         else 
-            out <= {out[N-2:0], feedback};
+            oOutput <= {oOutput[N-2:0], feedback};
     end
     
 endmodule
