@@ -9,7 +9,7 @@
 // OUTPUTS
 //// 1. 7 bit [ABCDEFG]: A - high if active, B - high if showing, low if hidden, C-G: 0-31 depending on what number is there
 
-module chimp(input clk, iKey0, [1:0] iGameMode, iReset, output reg [6:0] board [2:0] [2:0] );
+module chimp(input clk, iKey0, [1:0] iGameMode, iReset, output reg [6:0] board[2:0][2:0]);
     wire [7:0] iRandNum;
     wire mousePressed, enterPressed, resetBoard, choseCorrectNum, load;
     wire [4:0] loadNum, [4:0] chooseNum;
