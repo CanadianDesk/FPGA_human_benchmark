@@ -14,4 +14,4 @@ It also has a localparam `seed`, which can be set to any `N`-bit number. This se
 
 ## Outputs:
 
-oOutput is the `N`-bit output of the PRNG. You may shave off bits if all `N` bits aren't used.
+`[N-1 : 0] oOutput` is the `N`-bit output of the PRNG. You may shave off bits if all `N` bits aren't used.
