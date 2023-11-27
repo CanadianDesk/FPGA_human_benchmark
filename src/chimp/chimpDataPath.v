@@ -95,7 +95,7 @@ module chimpDataPath(input clk, iKey0, [4:0] iLevel, [7:0] iRandNum, [4:0] iLoad
         // load relevant numbers if cell is unused
         if (iLoadEnable && board[iRandNum[2:0]][iRandNum[5:3]][6] == 0) begin
             board[iRandNum[2:0]][iRandNum[5:3]][6] = 1;
-            board[iRandNum[2:0]][iRandNum[5:3]][4:0] = iLandNum;
+            board[iRandNum[2:0]][iRandNum[5:3]][4:0] = iLoadNum;
             oDoneLoad = 1;
         end
         if (!showEnable && board[iRandNum[2:0]][iRandNum[5:3]][6] == 1) begin
