@@ -65,6 +65,8 @@ output reg two_pressed;
 output reg	[7:0]	received_data;
 output reg		 	received_data_en;
 
+
+
 /*****************************************************************************
  *                           Constant Declarations                           *
  *****************************************************************************/
@@ -86,6 +88,8 @@ reg			[7:0]	data_shift_reg;
 reg			[2:0]	ns_ps2_receiver;
 reg			[2:0]	s_ps2_receiver;
 
+reg [10:0] counter;
+reg continue;
 
 
 /*****************************************************************************
@@ -158,20 +162,20 @@ end
  *                             Sequential logic                              *
  *****************************************************************************/
 
-reg [7:0] previous_data;  // Register to hold the previous scan code
 
 always @(posedge clk)
 begin
     if (reset == 1'b1) 
     begin
 
-        device_type <= 0; // Default to keyboard, can be changed based on initialization response
+        count <= 1'b0;
+		continue <= 1'b1;
 
         data_count <= 3'h0;
         data_shift_reg <= 8'h00;
         received_data <= 8'h00;
         received_data_en <= 1'b0;
-        previous_data <= 8'h00;  // Reset the previous data register
+
         // Reset the key state variables
         space_pressed <= 1'b0;
         enter_pressed <= 1'b0;
@@ -193,11 +197,20 @@ begin
         // Received Data and Key Press Logic
         if (s_ps2_receiver == PS2_STATE_4_STOP_IN)
         begin
+			if(continue == 0)
+			begin
+				count = count + 1;
+				if(count == 100)
+				begin
+					continue = 1'b1;
+					count = 1'b0;
+				end
+			end
             received_data <= data_shift_reg;
             received_data_en <= 1'b1;
 
 			// Check for key press and release
-			if (previous_data == 8'hF0)  // Check if the previous data was a release indicator
+			if (data_shift_reg == 8'hF0)  // Check if the previous data was a release indicator
 			begin
 				case (data_shift_reg)
 					8'h29: space_pressed <= 1'b0;
@@ -205,6 +218,8 @@ begin
 					8'h16: one_pressed <= 1'b0;
 					8'h1E: two_pressed <= 1'b0;
 				endcase
+				//we want this to stop the system from receiving anything for a fraction of a second
+				continue <= 1'b0;
 			end
 			else 
 			begin
@@ -216,7 +231,6 @@ begin
 				endcase
 			end
 			
-            previous_data <= data_shift_reg;  // Update the previous data
         end
         else if (s_ps2_receiver != PS2_STATE_4_STOP_IN)
         begin
