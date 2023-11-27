@@ -208,28 +208,31 @@ begin
 			end
             received_data <= data_shift_reg;
             received_data_en <= 1'b1;
+			else
+			{
+				// Check for key press and release
+				if (data_shift_reg == 8'hF0)  // Check if the previous data was a release indicator
+				begin
+					case (data_shift_reg)
+						8'h29: space_pressed <= 1'b0;
+						8'h5A: enter_pressed <= 1'b0;
+						8'h16: one_pressed <= 1'b0;
+						8'h1E: two_pressed <= 1'b0;
+					endcase
+					//we want this to stop the system from receiving anything for a fraction of a second
+					continue <= 1'b0;
+				end
+				else 
+				begin
+					case (data_shift_reg)
+						8'h29: space_pressed <= 1'b1;
+						8'h5A: enter_pressed <= 1'b1;
+						8'h16: one_pressed <= 1'b1;
+						8'h1E: two_pressed <= 1'b1;
+					endcase
+				end
+			}
 
-			// Check for key press and release
-			if (data_shift_reg == 8'hF0)  // Check if the previous data was a release indicator
-			begin
-				case (data_shift_reg)
-					8'h29: space_pressed <= 1'b0;
-					8'h5A: enter_pressed <= 1'b0;
-					8'h16: one_pressed <= 1'b0;
-					8'h1E: two_pressed <= 1'b0;
-				endcase
-				//we want this to stop the system from receiving anything for a fraction of a second
-				continue <= 1'b0;
-			end
-			else 
-			begin
-				case (data_shift_reg)
-					8'h29: space_pressed <= 1'b1;
-					8'h5A: enter_pressed <= 1'b1;
-					8'h16: one_pressed <= 1'b1;
-					8'h1E: two_pressed <= 1'b1;
-				endcase
-			end
 			
         end
         else if (s_ps2_receiver != PS2_STATE_4_STOP_IN)
