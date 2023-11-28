@@ -8,10 +8,12 @@
 // OUTPUTS
 //// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp)
 
-module mainMenu(input i1, i2, iKey0, clk, iReset,
+module mainMenu(input i1, i2, clk, iReset, KEY[0],
     output reg [1:0] oMode);
     Keyboard_PS2_Controller j9(.one_pressed_out(i1), .two_pressed_out(i2));
     reg [3:0] current_state, next_state;
+    wire iKey0;
+    assign iKey0 = !KEY[0];
     localparam MENU = 3'd0,
     REACT_WAIT = 3'd1,
     REACT = 3'd2,
