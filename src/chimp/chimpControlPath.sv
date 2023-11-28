@@ -152,282 +152,282 @@ output reg oLoadEnable, oResetBoard, [4:0] oLevel, [4:0] oNumToLoad, [4:0] oNumT
             LOAD_31: next_state = START_GAME;*/
             START_GAME: next_state = iEnter ? CHOOSE_1 : START_GAME;
             CHOOSE_1: begin
-                if (oChoseCorrectNum && oLevel > 5'd1) next_state = CHOOSE_2;
-                else if (oChoseCorrectNum && oLevel == 5'd1) begin 
+                if (iChoseCorrectNum && oLevel > 5'd1) next_state = CHOOSE_2;
+                else if (iChoseCorrectNum && oLevel == 5'd1) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_1;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_1;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_2: begin
-                if (oChoseCorrectNum && oLevel > 5'd2) next_state = CHOOSE_3;
-                else if (oChoseCorrectNum && oLevel == 5'd2) begin 
+                if (iChoseCorrectNum && oLevel > 5'd2) next_state = CHOOSE_3;
+                else if (iChoseCorrectNum && oLevel == 5'd2) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_2;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_2;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_3: begin
-                if (oChoseCorrectNum && oLevel > 5'd3) next_state = CHOOSE_4;
-                else if (oChoseCorrectNum && oLevel == 5'd3) begin 
+                if (iChoseCorrectNum && oLevel > 5'd3) next_state = CHOOSE_4;
+                else if (iChoseCorrectNum && oLevel == 5'd3) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_3;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_3;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_4: begin
-                if (oChoseCorrectNum && oLevel > 5'd4) next_state = CHOOSE_5;
-                else if (oChoseCorrectNum && oLevel == 5'd4) begin 
+                if (iChoseCorrectNum && oLevel > 5'd4) next_state = CHOOSE_5;
+                else if (iChoseCorrectNum && oLevel == 5'd4) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_4;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_4;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_5: begin
-                if (oChoseCorrectNum && oLevel > 5'd5) next_state = CHOOSE_6;
-                else if (oChoseCorrectNum && oLevel == 5'd5) begin 
+                if (iChoseCorrectNum && oLevel > 5'd5) next_state = CHOOSE_6;
+                else if (iChoseCorrectNum && oLevel == 5'd5) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_5;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_5;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_6: begin
-                if (oChoseCorrectNum && oLevel > 5'd6) next_state = CHOOSE_7;
-                else if (oChoseCorrectNum && oLevel == 5'd6) begin 
+                if (iChoseCorrectNum && oLevel > 5'd6) next_state = CHOOSE_7;
+                else if (iChoseCorrectNum && oLevel == 5'd6) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_6;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_6;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_7: begin
-                if (oChoseCorrectNum && oLevel > 5'd7) next_state = CHOOSE_8;
-                else if (oChoseCorrectNum && oLevel == 5'd7) begin 
+                if (iChoseCorrectNum && oLevel > 5'd7) next_state = CHOOSE_8;
+                else if (iChoseCorrectNum && oLevel == 5'd7) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_7;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_7;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_8: begin
-                if (oChoseCorrectNum && oLevel > 5'd8) next_state = CHOOSE_9;
-                else if (oChoseCorrectNum && oLevel == 5'd8) begin 
+                if (iChoseCorrectNum && oLevel > 5'd8) next_state = CHOOSE_9;
+                else if (iChoseCorrectNum && oLevel == 5'd8) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_8;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_8;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_9: begin
-                if (oChoseCorrectNum && oLevel > 5'd9) next_state = CHOOSE_10;
-                else if (oChoseCorrectNum && oLevel == 5'd9) begin 
+                if (iChoseCorrectNum && oLevel > 5'd9) next_state = CHOOSE_10;
+                else if (iChoseCorrectNum && oLevel == 5'd9) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_9;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_9;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_10: begin
-                if (oChoseCorrectNum && oLevel > 5'd10) next_state = CHOOSE_11;
-                else if (oChoseCorrectNum && oLevel == 5'd10) begin 
+                if (iChoseCorrectNum && oLevel > 5'd10) next_state = CHOOSE_11;
+                else if (iChoseCorrectNum && oLevel == 5'd10) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_10;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_10;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_11: begin
-                if (oChoseCorrectNum && oLevel > 5'd11) next_state = CHOOSE_12;
-                else if (oChoseCorrectNum && oLevel == 5'd11) begin 
+                if (iChoseCorrectNum && oLevel > 5'd11) next_state = CHOOSE_12;
+                else if (iChoseCorrectNum && oLevel == 5'd11) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_11;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_11;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_12: begin
-                if (oChoseCorrectNum && oLevel > 5'd12) next_state = CHOOSE_13;
-                else if (oChoseCorrectNum && oLevel == 5'd12) begin 
+                if (iChoseCorrectNum && oLevel > 5'd12) next_state = CHOOSE_13;
+                else if (iChoseCorrectNum && oLevel == 5'd12) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_12;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_12;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_13: begin
-                if (oChoseCorrectNum && oLevel > 5'd13) next_state = CHOOSE_14;
-                else if (oChoseCorrectNum && oLevel == 5'd13) begin 
+                if (iChoseCorrectNum && oLevel > 5'd13) next_state = CHOOSE_14;
+                else if (iChoseCorrectNum && oLevel == 5'd13) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_13;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_13;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_14: begin
-                if (oChoseCorrectNum && oLevel > 5'd14) next_state = CHOOSE_15;
-                else if (oChoseCorrectNum && oLevel == 5'd14) begin 
+                if (iChoseCorrectNum && oLevel > 5'd14) next_state = CHOOSE_15;
+                else if (iChoseCorrectNum && oLevel == 5'd14) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_14;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_14;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_15: begin
-                if (oChoseCorrectNum && oLevel > 5'd15) next_state = CHOOSE_16;
-                else if (oChoseCorrectNum && oLevel == 5'd15) begin 
+                if (iChoseCorrectNum && oLevel > 5'd15) next_state = CHOOSE_16;
+                else if (iChoseCorrectNum && oLevel == 5'd15) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_15;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_15;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_16: begin
-                if (oChoseCorrectNum && oLevel > 5'd16) next_state = CHOOSE_17;
-                else if (oChoseCorrectNum && oLevel == 5'd16) begin 
+                if (iChoseCorrectNum && oLevel > 5'd16) next_state = CHOOSE_17;
+                else if (iChoseCorrectNum && oLevel == 5'd16) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_16;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_16;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_17: begin
-                if (oChoseCorrectNum && oLevel > 5'd17) next_state = CHOOSE_18;
-                else if (oChoseCorrectNum && oLevel == 5'd17) begin 
+                if (iChoseCorrectNum && oLevel > 5'd17) next_state = CHOOSE_18;
+                else if (iChoseCorrectNum && oLevel == 5'd17) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_17;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_17;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_18: begin
-                if (oChoseCorrectNum && oLevel > 5'd18) next_state = CHOOSE_19;
-                else if (oChoseCorrectNum && oLevel == 5'd18) begin 
+                if (iChoseCorrectNum && oLevel > 5'd18) next_state = CHOOSE_19;
+                else if (iChoseCorrectNum && oLevel == 5'd18) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_18;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_18;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_19: begin
-                if (oChoseCorrectNum && oLevel > 5'd19) next_state = CHOOSE_20;
-                else if (oChoseCorrectNum && oLevel == 5'd19) begin 
+                if (iChoseCorrectNum && oLevel > 5'd19) next_state = CHOOSE_20;
+                else if (iChoseCorrectNum && oLevel == 5'd19) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_19;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_19;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_20: begin
-                if (oChoseCorrectNum && oLevel > 5'd20) next_state = CHOOSE_21;
-                else if (oChoseCorrectNum && oLevel == 5'd20) begin 
+                if (iChoseCorrectNum && oLevel > 5'd20) next_state = CHOOSE_21;
+                else if (iChoseCorrectNum && oLevel == 5'd20) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_20;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_20;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_21: begin
-                if (oChoseCorrectNum && oLevel > 5'd21) next_state = CHOOSE_22;
-                else if (oChoseCorrectNum && oLevel == 5'd21) begin 
+                if (iChoseCorrectNum && oLevel > 5'd21) next_state = CHOOSE_22;
+                else if (iChoseCorrectNum && oLevel == 5'd21) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_21;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_21;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_22: begin
-                if (oChoseCorrectNum && oLevel > 5'd22) next_state = CHOOSE_23;
-                else if (oChoseCorrectNum && oLevel == 5'd22) begin 
+                if (iChoseCorrectNum && oLevel > 5'd22) next_state = CHOOSE_23;
+                else if (iChoseCorrectNum && oLevel == 5'd22) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_22;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_22;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_23: begin
-                if (oChoseCorrectNum && oLevel > 5'd23) next_state = CHOOSE_24;
-                else if (oChoseCorrectNum && oLevel == 5'd23) begin 
+                if (iChoseCorrectNum && oLevel > 5'd23) next_state = CHOOSE_24;
+                else if (iChoseCorrectNum && oLevel == 5'd23) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_23;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_23;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_24: begin
-                if (oChoseCorrectNum && oLevel > 5'd24) next_state = CHOOSE_25;
-                else if (oChoseCorrectNum && oLevel == 5'd24) begin 
+                if (iChoseCorrectNum && oLevel > 5'd24) next_state = CHOOSE_25;
+                else if (iChoseCorrectNum && oLevel == 5'd24) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_24;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_24;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_25: begin
-                if (oChoseCorrectNum && oLevel > 5'd25) next_state = CHOOSE_26;
-                else if (oChoseCorrectNum && oLevel == 5'd25) begin 
+                if (iChoseCorrectNum && oLevel > 5'd25) next_state = CHOOSE_26;
+                else if (iChoseCorrectNum && oLevel == 5'd25) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_25;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_25;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_26: begin
-                if (oChoseCorrectNum && oLevel > 5'd26) next_state = CHOOSE_27;
-                else if (oChoseCorrectNum && oLevel == 5'd26) begin 
+                if (iChoseCorrectNum && oLevel > 5'd26) next_state = CHOOSE_27;
+                else if (iChoseCorrectNum && oLevel == 5'd26) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_26;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_26;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_27: begin
-                if (oChoseCorrectNum && oLevel > 5'd27) next_state = CHOOSE_28;
-                else if (oChoseCorrectNum && oLevel == 5'd27) begin 
+                if (iChoseCorrectNum && oLevel > 5'd27) next_state = CHOOSE_28;
+                else if (iChoseCorrectNum && oLevel == 5'd27) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_27;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_27;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_28: begin
-                if (oChoseCorrectNum && oLevel > 5'd28) next_state = CHOOSE_29;
-                else if (oChoseCorrectNum && oLevel == 5'd28) begin 
+                if (iChoseCorrectNum && oLevel > 5'd28) next_state = CHOOSE_29;
+                else if (iChoseCorrectNum && oLevel == 5'd28) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_28;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_28;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_29: begin
-                if (oChoseCorrectNum && oLevel > 5'd29) next_state = CHOOSE_30;
-                else if (oChoseCorrectNum && oLevel == 5'd29) begin 
+                if (iChoseCorrectNum && oLevel > 5'd29) next_state = CHOOSE_30;
+                else if (iChoseCorrectNum && oLevel == 5'd29) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_29;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_29;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_30: begin
-                if (oChoseCorrectNum && oLevel > 5'd30) next_state = CHOOSE_31;
-                else if (oChoseCorrectNum && oLevel == 5'd30) begin 
+                if (iChoseCorrectNum && oLevel > 5'd30) next_state = CHOOSE_31;
+                else if (iChoseCorrectNum && oLevel == 5'd30) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_30;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_30;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             CHOOSE_31: begin
-                if (oChoseCorrectNum && oLevel > 5'd31) next_state = CHOOSE_32;
-                else if (oChoseCorrectNum && oLevel == 5'd31) begin 
+                if (iChoseCorrectNum && oLevel > 5'd31) next_state = CHOOSE_32;
+                else if (iChoseCorrectNum && oLevel == 5'd31) begin 
                     oLevel = oLevel + 1'd1;
                     next_state = LOAD_1;
                 end
-                else if (oChoseCorrectNum == 0) next_state = CHOOSE_31;
+                else if (iChoseCorrectNum == 0) next_state = CHOOSE_31;
                 if (iChoseWrongNum) next_state = LOAD_START;
                 end
             // CHOOSE_31: begin
