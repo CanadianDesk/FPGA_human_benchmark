@@ -5,11 +5,10 @@
 // INPUTS
 //// 1. 1 bit, clock
 //// 2. 1 bit, high if KEY0 pressed (will reset game to main menu)
-//// 3. 2 bit, 10 if chimp game selected, otherwise don't care
 // OUTPUTS
 //// 1. 7 bit [ABCDEFG]: A - high if active, B - high if showing, low if hidden, C-G: 0-31 depending on what number is there
 
-module chimp(input clk, iKey0, [1:0] iGameMode, iReset, output reg [6:0] board[2:0][2:0]);
+module chimp(input clk, iKey0, iReset, output reg [6:0] board[2:0][2:0]);
     wire [7:0] iRandNum;
     wire mousePressed, enterPressed, resetBoard, choseCorrectNum, choseWrongNum, loadEnable, doneLoad;
     wire [4:0] numToLoad, [4:0] numToChoose;
