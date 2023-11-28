@@ -10,13 +10,13 @@
 //// 1. 3X3 bit of 7 bit [ABCDEFG]: A - high if active, B - high if showing, low if hidden, C-G: 0-31 depending on what number is there
 
 module chimp(input clk, KEY[0], iReset, output reg [6:0] board[2:0][2:0]);
-    wire [7:0] iRandNum;
-    wire mousePressed, enterPressed, resetBoard, choseCorrectNum, choseWrongNum, loadEnable, doneLoad;
-    wire [4:0] numToLoad, [4:0] numToChoose;
-    wire [4:0] level;
-    wire [2:0] BoxX, [2:0] BoxY;
-    wire [9:0] mouseX, [8:0] mouseY;
-    wire iKey0;
+    reg [7:0] iRandNum;
+    reg mousePressed, enterPressed, resetBoard, choseCorrectNum, choseWrongNum, loadEnable, doneLoad;
+    reg [4:0] numToLoad, [4:0] numToChoose;
+    reg [4:0] level;
+    reg [2:0] BoxX, [2:0] BoxY;
+    reg [9:0] mouseX, [8:0] mouseY;
+    reg iKey0;
     assign iKey0 = !KEY[0];
     prng j0(.clk(clk), .iReset(iReset), .oOutput(iRandNum));
     //MOUSE_PS2_Controller j1(.x_position(mouseX), .y_position(mouseY), .mousePressed(mousePressed));

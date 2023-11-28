@@ -5,7 +5,7 @@
 // INPUTS: Reset, clk, mouseX, mouseY
 // OUTPUTS: BoxX, BoxY
 
-module chimpMouseClick(input iReset, clk, [9:0] mouseX, [8:0] mouseY, output [2:0] BoxX, [2:0] BoxY);
+module chimpMouseClick(input iReset, clk, [9:0] mouseX, [8:0] mouseY, output reg [2:0] BoxX, [2:0] BoxY);
 
     always @(posedge clk ) begin
         
