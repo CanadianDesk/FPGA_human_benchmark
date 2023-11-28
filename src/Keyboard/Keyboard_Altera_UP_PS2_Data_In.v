@@ -23,12 +23,7 @@ module Altera_UP_PS2_Data_In (
 
 	// Outputs
 	received_data,
-	received_data_en,			// If 1 - new data has been received
-
-	enter_pressed,
-	space_pressed,
-	one_pressed,
-	two_pressed
+	received_data_en			// If 1 - new data has been received
 );
 
 
@@ -51,20 +46,12 @@ input				ps2_clk_posedge;
 input				ps2_clk_negedge;
 input			 	ps2_data;
 
-// Outputs
-output reg enter_pressed;
-output reg space_pressed;
-output reg one_pressed;
-output reg two_pressed;
-
-
 // Bidirectionals
 
 // Outputs
 output reg	[7:0]	received_data;
+
 output reg		 	received_data_en;
-
-
 
 /*****************************************************************************
  *                           Constant Declarations                           *
@@ -86,10 +73,6 @@ reg			[7:0]	data_shift_reg;
 // State Machine Registers
 reg			[2:0]	ns_ps2_receiver;
 reg			[2:0]	s_ps2_receiver;
-
-reg [10:0] counter;
-reg go;
-
 
 /*****************************************************************************
  *                         Finite State Machine(s)                           *
@@ -164,81 +147,42 @@ end
 
 always @(posedge clk)
 begin
-    if (reset == 1'b1) 
-    begin
-        counter <= 1'b0;
-		  go <= 1'b1;
-
-        data_count <= 3'h0;
-        data_shift_reg <= 8'h00;
-        received_data <= 8'h00;
-        received_data_en <= 1'b0;
-
-        // Reset the key state variables
-        space_pressed <= 1'b0;
-        enter_pressed <= 1'b0;
-        one_pressed <= 1'b0;
-        two_pressed <= 1'b0;
-    end
-    else
-    begin
-        // Data Count Logic
-        if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && (ps2_clk_posedge == 1'b1))
-            data_count <= data_count + 3'h1;
-        else if (s_ps2_receiver != PS2_STATE_2_DATA_IN)
-            data_count <= 3'h0;
-
-        // Data Shift Register Logic
-        if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && (ps2_clk_posedge == 1'b1))
-            data_shift_reg <= {ps2_data, data_shift_reg[7:1]};
-
-        // Received Data and Key Press Logic
-        if (s_ps2_receiver == PS2_STATE_4_STOP_IN)
-        begin
-			received_data <= data_shift_reg;
-            received_data_en <= 1'b1;
-		    if(go == 0)
-			begin
-				counter <= counter + 1;
-				if(counter == 100)
-				begin
-					go = 1'b1;
-					counter <= 1'b0;
-				end
-			end
-			else if(go == 1)
-			begin
-				// Check for key press and release
-				if (data_shift_reg == 8'hF0)  // Check if the previous data was a release indicator
-				begin
-					case (data_shift_reg)
-						8'h29: space_pressed <= 1'b0;
-						8'h5A: enter_pressed <= 1'b0;
-						8'h16: one_pressed <= 1'b0;
-						8'h1E: two_pressed <= 1'b0;
-					endcase
-					//we want this to stop the system from receiving anything for a fraction of a second
-					go <= 1'b0;
-				end
-				else 
-				begin
-					case (data_shift_reg)
-						8'h29: space_pressed <= 1'b1;
-						8'h5A: enter_pressed <= 1'b1;
-						8'h16: one_pressed <= 1'b1;
-						8'h1E: two_pressed <= 1'b1;
-					endcase
-				end
-			end
-        end
-        else if (s_ps2_receiver != PS2_STATE_4_STOP_IN)
-        begin
-            received_data_en <= 1'b0;
-        end
-    end
+	if (reset == 1'b1) 
+		data_count	<= 3'h0;
+	else if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && 
+			(ps2_clk_posedge == 1'b1))
+		data_count	<= data_count + 3'h1;
+	else if (s_ps2_receiver != PS2_STATE_2_DATA_IN)
+		data_count	<= 3'h0;
 end
 
+always @(posedge clk)
+begin
+	if (reset == 1'b1)
+		data_shift_reg			<= 8'h00;
+	else if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && 
+			(ps2_clk_posedge == 1'b1))
+		data_shift_reg	<= {ps2_data, data_shift_reg[7:1]};
+end
 
+always @(posedge clk)
+begin
+	if (reset == 1'b1)
+		received_data		<= 8'h00;
+	else if (s_ps2_receiver == PS2_STATE_4_STOP_IN)
+		received_data	<= data_shift_reg;
+end
+
+always @(posedge clk)
+begin
+	if (reset == 1'b1)
+		received_data_en		<= 1'b0;
+	else if ((s_ps2_receiver == PS2_STATE_4_STOP_IN) &&
+			(ps2_clk_posedge == 1'b1))
+		received_data_en	<= 1'b1;
+	else
+		received_data_en	<= 1'b0;
+end
 
 /*****************************************************************************
  *                            Combinational logic                            *
@@ -251,12 +195,4 @@ end
 
 
 endmodule
-
-
-
-
-
-
-
-
 
