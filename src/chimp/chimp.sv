@@ -18,12 +18,12 @@ module chimp(input clk, KEY[0], iReset, output reg [6:0] board[2:0][2:0]);
     wire [9:0] mouseX, [8:0] mouseY;
     wire iKey0;
     assign iKey0 = !KEY[0];
-    prng j0(.clk(clk), .iReset(iReset) .oOutput(iRandNum));
-    MOUSE_PS2_Controller j1(.x_position(mouseX), .y_position(mouseY), .mousePressed(mousePressed));
-    Keyboard_PS2_Controller j2(.enter_pressed_out(enterPressed));
+    prng j0(.clk(clk), .iReset(iReset), .oOutput(iRandNum));
+    //MOUSE_PS2_Controller j1(.x_position(mouseX), .y_position(mouseY), .mousePressed(mousePressed));
+    //Keyboard_PS2_Controller j2(.enter_pressed_out(enterPressed));
     chimpMouseClick j3 (.iReset(iReset), .clk(clk), .mouseX(mouseX), .mouseY(mouseY),
          .BoxX(BoxX), .BoxY(BoxY));
-    mainMenuKey j4(.iKey0(iKey0));
+    //mainMenuKey j4(.iKey0(iKey0));
     chimpControlPath j5(.clk(clk), .iKey0(iKey0), .iEnter(enterPressed), .iDoneLoad(doneLoad). oResetBoard(resetBoard), 
         .iReset(iReset), .iChoseCorrectNum(choseCorrectNum), .iChoseWrongNum(choseWrongNum), .oLoadEnable(loadEnable), 
         .oLevel(level), .oNumToLoad(numToLoad), .oNumToChoose(chooseNum));
