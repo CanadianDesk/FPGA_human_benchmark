@@ -11,24 +11,22 @@
 
 module chimp(input clk, iKey0, [1:0] iGameMode, iReset, output reg [6:0] board[2:0][2:0]);
     wire [7:0] iRandNum;
-    wire mousePressed, enterPressed, resetBoard, choseCorrectNum, load;
-    wire [4:0] loadNum, [4:0] chooseNum;
+    wire mousePressed, enterPressed, resetBoard, choseCorrectNum, choseWrongNum, loadEnable, doneLoad;
+    wire [4:0] numToLoad, [4:0] numToChoose;
     wire [4:0] level;
     wire [2:0] BoxX, [2:0] BoxY;
     wire [9:0] mouseX, [8:0] mouseY;
-    wire doneLoad;
     prng j0(.clk(clk), .iReset(iReset) .oOutput(iRandNum));
     MOUSE_PS2_Controller j1(.x_position(mouseX), .y_position(mouseY), .mousePressed(mousePressed));
     Keyboard_PS2_Controller j2(.enter_pressed_out(enterPressed));
     chimpMouseClick j3 (.iReset(iReset), .clk(clk), .mouseX(mouseX), .mouseY(mouseY),
          .BoxX(BoxX), .BoxY(BoxY));
     mainMenuKey j4(.iKey0(iKey0));
-    chimpControlPath j5(.clk(clk), .iKey0(iKey0), .iEnter(enterPressed), .iDoneLoad(doneLoad). iResetBoard(resetBoard), 
-        .iReset(iReset), .iChoseCorrectNum(choseCorrectNum), .oLoad(load), 
-        .level(level), .oLoadNum(loadNum), oChooseNum(chooseNum));
-    chimpDataPath j6(.clk(clk), .iKey0(iKey0), .iLevel(level), .iRandNum(iRandNum), .iLoadNum(loadNum), .iShowEnable(showEnable),
-        .iLoadEnable(load), .iResetBoard(resetBoard), .iMouseClick(mousePressed), .iChooseNum(chooseNum),
-        .iBoxX(BoxX), .iBoxY(BoxY), .board(board),
-        .oDoneLoad(doneLoad));
+    chimpControlPath j5(.clk(clk), .iKey0(iKey0), .iEnter(enterPressed), .iDoneLoad(doneLoad). oResetBoard(resetBoard), 
+        .iReset(iReset), .iChoseCorrectNum(choseCorrectNum), .iChoseWrongNum(choseWrongNum), .oLoadEnable(loadEnable), 
+        .oLevel(level), .oNumToLoad(numToLoad), .oNumToChoose(chooseNum));
+    chimpDataPath j6(.clk(clk), .iKey0(iKey0), .iLevel(level), .iRandNum(iRandNum), .iNumToLoad(loadNum), .iShowEnable(showEnable),
+        .iLoadEnable(loadEnable), .iResetBoard(resetBoard), .iMouseClick(mousePressed), .iNumToChoose(numToChoose),
+        .iBoxX(BoxX), .iBoxY(BoxY), .board(board), .oDoneLoad(doneLoad));
     //chimpControlPath();
 endmodule

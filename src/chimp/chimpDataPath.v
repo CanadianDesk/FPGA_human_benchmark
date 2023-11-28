@@ -22,8 +22,8 @@
 //// 2. 8x8 array of 7 bit [ABCDEFG]: A - high if active, B - high if showing, 
 /////// low if hidden, C-G: 0-31 depending on what number is there
 
-module chimpDataPath(input clk, iKey0, [4:0] iLevel, [7:0] iRandNum, [4:0] iLoadNum, iShowEnable,
-    iLoadEnable, iResetBoard, iMouseClick, iChooseNum, iChoseCorrectNum, iChoseWrongNum, iReset,
+module chimpDataPath(input clk, iKey0, [4:0] iLevel, [7:0] iRandNum, [4:0] iNumToLoad, iShowEnable,
+    iLoadEnable, iResetBoard, iMouseClick, iNumToChoose, iChoseCorrectNum, iChoseWrongNum, iReset,
     [2:0] iBoxX, [2:0] iBoxY,
     output reg [6:0] board [2:0] [2:0],
     output reg oDoneLoad);
@@ -109,7 +109,7 @@ module chimpDataPath(input clk, iKey0, [4:0] iLevel, [7:0] iRandNum, [4:0] iLoad
         // load relevant numbers if cell is unused
         if (iLoadEnable && board[iRandNum[2:0]][iRandNum[5:3]][3'd6] == 0) begin
             board[iRandNum[2:0]][iRandNum[5:3]][3'd6] = 1;
-            board[iRandNum[2:0]][iRandNum[5:3]][4:0] = iLoadNum;
+            board[iRandNum[2:0]][iRandNum[5:3]][4:0] = iNumToLoad;
             oDoneLoad = 1;
         end
         if (!iShowEnable && board[iRandNum[2:0]][iRandNum[5:3]][3'd6] == 1) begin
@@ -125,7 +125,7 @@ module chimpDataPath(input clk, iKey0, [4:0] iLevel, [7:0] iRandNum, [4:0] iLoad
         end
     end
     always @(posedge iMouseClick) begin
-        if (board[BoxX][BoxY][4:0] == iChooseNum) oChoseCorrectNum = 1;
+        if (board[BoxX][BoxY][4:0] == iNumToChoose) oChoseCorrectNum = 1;
         else oChoseWrongNum = 1;
     end
 
