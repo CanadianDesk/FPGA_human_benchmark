@@ -17,11 +17,31 @@ force {clk} 0 0ns, 1 0.25ns -r 0.5ns
 #    wire [2:0] BoxX, [2:0] BoxY;
 #    wire [9:0] mouseX, [8:0] mouseY;
 
+force level 3'd4;
 force iReset 0;
-force iRandNum 8'd27;
-force mousePressed 0;
 force enterPressed 1;
-force resetBoard 0;
-force choseCorrectNum ;
-force choseWrongNum ;
+run 0.5ns
+force enterPressed 0;
+run 0.5ns
+# now entering load state
+force choseCorrectNum 1;
+force iRandNum 8'b10101111;
+run 0.5ns
+force choseCorrectNum 0;
+run 0.5ns
+force choseCorrectNum 1;
+force iRandNum 8'b01110001;
+run 0.5ns
+force choseCorrectNum 0;
+run 0.5ns
+force choseCorrectNum 1;
+force iRandNum 8'b11010010;
+run 0.5ns
+force choseCorrectNum 0;
+run 0.5ns
+force choseCorrectNum 1; # level should increment
+force iRandNum 8'b10000101;
+run 0.5ns
+force choseCorrectNum 0;
+run 0.5ns
 

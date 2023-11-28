@@ -7,7 +7,7 @@
 //// 2. 1 bit, high if KEY0 pressed (will reset game to main menu)
 //// 3. 1 bit, low if KEY[0] pressed
 // OUTPUTS
-//// 1. 7 bit [ABCDEFG]: A - high if active, B - high if showing, low if hidden, C-G: 0-31 depending on what number is there
+//// 1. 3X3 bit of 7 bit [ABCDEFG]: A - high if active, B - high if showing, low if hidden, C-G: 0-31 depending on what number is there
 
 module chimp(input clk, KEY[0], iReset, output reg [6:0] board[2:0][2:0]);
     wire [7:0] iRandNum;

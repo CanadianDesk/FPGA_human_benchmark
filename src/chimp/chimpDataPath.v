@@ -92,7 +92,7 @@ module chimpDataPath(input clk, iKey0, [4:0] iLevel, [7:0] iRandNum, [4:0] iNumT
     assign board[3'd7][3'd5][3'd5] = iShowEnable;
     assign board[3'd7][3'd6][3'd5] = iShowEnable;
     assign board[3'd7][3'd7][3'd5] = iShowEnable;
-    integer loadBoardX, loadBoardY, boardSize = 3'd8, resetX, resetY;
+    integer loadBoardX, loadBoardY, boardSize = 4'd8, resetX, resetY;
     // always @(iKey0) begin // reset all cells to 7'd0 if iKey0 pressed to reset
     //     if (iKey0) begin
     //         for (resetX = 3'd0; resetX < boardSize; resetX = resetX + 1'd1) begin
