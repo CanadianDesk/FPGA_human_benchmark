@@ -26,8 +26,9 @@ module chimp(input clk, iKey0, [1:0] iGameMode, iReset, output reg [6:0] board[2
     chimpControlPath j5(.clk(clk), .iKey0(iKey0), .iEnter(enterPressed), .iDoneLoad(doneLoad). iResetBoard(resetBoard), 
         .iReset(iReset), .iChoseCorrectNum(choseCorrectNum), .oLoad(load), 
         .level(level), .oLoadNum(loadNum), oChooseNum(chooseNum));
-    chimpDataPath(.clk(clk), .iKey0(iKey0), .iLevel(level), .iRandNum(iRandNum), .iLoadNum(loadNum), .iLoadEnable(load),
-        .iResetBoard(resetBoard), .iMouseClick(mousePressed), .iChooseNum(chooseNum), .iBoxX(BoxX), .iBoxY(BoxY), .board(board),
+    chimpDataPath j6(.clk(clk), .iKey0(iKey0), .iLevel(level), .iRandNum(iRandNum), .iLoadNum(loadNum), .iShowEnable(showEnable),
+        .iLoadEnable(load), .iResetBoard(resetBoard), .iMouseClick(mousePressed), .iChooseNum(chooseNum),
+        .iBoxX(BoxX), .iBoxY(BoxY), .board(board),
         .oDoneLoad(doneLoad));
     //chimpControlPath();
 endmodule
