@@ -1,4 +1,4 @@
-module PS2_Demo (
+module code_to_signal (
     input [7:0] key_data,
     output reg space_pressed,
     output reg enter_pressed,

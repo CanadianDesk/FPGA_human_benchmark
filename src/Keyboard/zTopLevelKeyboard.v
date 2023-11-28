@@ -16,7 +16,9 @@ module PS2_Demo (
 	HEX4,
 	HEX5,
 	HEX6,
-	HEX7
+	HEX7,
+
+    LEDR
 );
 
 /*****************************************************************************
@@ -45,6 +47,8 @@ output		[6:0]	HEX4;
 output		[6:0]	HEX5;
 output		[6:0]	HEX6;
 output		[6:0]	HEX7;
+
+output      [3:0]   LEDR;
 
 /*****************************************************************************
  *                 Internal Wires and Registers Declarations                 *
@@ -125,5 +129,6 @@ Hexadecimal_To_Seven_Segment Segment1 (
 	.seven_seg_display	(HEX1)
 );
 
+code_to_signal keyboard_code_to_signal(ps2_key_data, LEDR[0], LEDR[1], LEDR[2], LEDR[3]);
 
 endmodule
