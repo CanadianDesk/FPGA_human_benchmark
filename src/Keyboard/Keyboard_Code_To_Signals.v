@@ -1,6 +1,6 @@
 module code_to_signal (
-    input clk,  // System clock at 50 MHz
-    input [7:0] key_data,
+    input [7:0] last_data_received,
+    input key_pressed,
     input reset,
     output reg space_pressed,
     output reg enter_pressed,
@@ -8,61 +8,120 @@ module code_to_signal (
     output reg two_pressed
 );
 
-    reg break_code_received;
-    reg [23:0] delay_counter;  // Enough to count 12,500,000 cycles
-    reg delay_active;
+    reg read;
+    reg read1;
 
-    always @(posedge clk) begin
+    // Initialize the break code flag and output signals
+    initial begin
+        
+        space_pressed = 1'b0;
+        enter_pressed = 1'b0;
+        one_pressed = 1'b0;
+        two_pressed = 1'b0;
+        read = 1'b0;
+        read1 = 1'b0;
+    end
+
+    always @(posedge key_pressed) begin
         if (reset) begin
             // Reset logic
             space_pressed <= 1'b0;
             enter_pressed <= 1'b0;
             one_pressed <= 1'b0;
             two_pressed <= 1'b0;
-            break_code_received <= 1'b0;
-            delay_counter <= 0;
-            delay_active <= 1'b0;
-        end else begin
-            if (delay_active) begin
-                // Count down the delay period
-                if (delay_counter > 0) begin
-                    delay_counter <= delay_counter - 1;
-                end else begin
-                    // Delay period has ended
-                    delay_active <= 1'b0;
+          
+        end 
+        else 
+        begin
+            case (last_data_received)
+            8'h29:
+                begin
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        space_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
+                end
+
+            8'h5A:
+                begin
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        enter_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
+                end
+            8'h16:
+                begin
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        one_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
+                end
+            8'h1E:
+                begin
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        two_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
+                end
+            8'hf0:
+                begin
+                    read1 <= 1'b0;
                     space_pressed <= 1'b0;
                     enter_pressed <= 1'b0;
                     one_pressed <= 1'b0;
                     two_pressed <= 1'b0;
                 end
-            end else if (key_data == 8'hF0) begin
-                // Break code prefix detected
-                break_code_received <= 1'b1;
-            end else if (break_code_received) begin
-                // Start the delay period
-                delay_counter <= 12500000;  // For a quarter of a second delay at 50 MHz
-                delay_active <= 1'b1;
-                break_code_received <= 1'b0;
-            end else begin
-                // Handle key press
-                case (key_data)
-                    8'h29: space_pressed <= 1'b1;
-                    8'h5A: enter_pressed <= 1'b1;
-                    8'h16: one_pressed <= 1'b1;
-                    8'h1E: two_pressed <= 1'b1;
-                endcase
-            end
+
+            endcase
         end
     end
 
-    // Initialize the break code flag and output signals
-    initial begin
-        break_code_received = 1'b0;
-        delay_active = 1'b0;
-        delay_counter = 0;
-        space_pressed = 1'b0;
-        enter_pressed = 1'b0;
-        one_pressed = 1'b0;
-        two_pressed = 1'b0;
-    end
+
+    
+
+
 endmodule
+
+
+
+// always @(posedge ps2_key_pressed)
+// begin
+// 	if (last_data_received == 8'h29 & read == 1'b0 & read1 == 1'b0) begin
+// 		space <= 1'b1;
+// 		read <= 1'b1;
+// 		read1 <= 1'b1;
+// 	end
+// 	else if (last_data_received == 8'hf0) begin
+// 		read1 <= 1'b0;
+// 		space <= 1'b0;
+// 	end
+// 	else if (last_data_received == 8'h29 & read1 == 1'b0) begin
+// 		read <= 1'b0;
+// 	end
+// end
+
+
