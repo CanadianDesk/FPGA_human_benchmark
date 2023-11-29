@@ -35,56 +35,66 @@ module code_to_signal (
         begin
             case (last_data_received)
             8'h29:
-                if(read == 1'b0 & read1 == 1'b0)
                 begin
-                    space_pressed <= 1'b1;
-		            read <= 1'b1;
-		            read1 <= 1'b1;
-                end
-                if(read1 == 1'b0)
-                begin
-                    read <= 1b'0;
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        space_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
                 end
 
             8'h5A:
-                if(read == 1'b0 & read1 == 1'b0)
                 begin
-                    enter_pressed <= 1'b1;
-		            read <= 1'b1;
-		            read1 <= 1'b1;
-                end
-                if(read1 == 1'b0)
-                begin
-                    read <= 1b'0;
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        enter_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
                 end
             8'h16:
-                if(read == 1'b0 & read1 == 1'b0)
                 begin
-                    one_pressed <= 1'b1;
-		            read <= 1'b1;
-		            read1 <= 1'b1;
-                end
-                if(read1 == 1'b0)
-                begin
-                    read <= 1b'0;
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        one_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
                 end
             8'h1E:
-                if(read == 1'b0 & read1 == 1'b0)
                 begin
-                    two_pressed <= 1'b1;
-		            read <= 1'b1;
-		            read1 <= 1'b1;
-                end
-                if(read1 == 1'b0)
-                begin
-                    read <= 1b'0;
+                    if(read == 1'b0 && read1 == 1'b0)
+                    begin
+                        two_pressed <= 1'b1;
+                        read <= 1'b1;
+                        read1 <= 1'b1;
+                    end
+                    if(read1 == 1'b0)
+                    begin
+                        read <= 1b'0;
+                    end
                 end
             8'hf0:
-                read1 <= 1'b0;
-                space_pressed = 1'b0;
-                enter_pressed = 1'b0;
-                one_pressed = 1'b0;
-                two_pressed = 1'b0;
+                begin
+                    read1 <= 1'b0;
+                    space_pressed <= 1'b0;
+                    enter_pressed <= 1'b0;
+                    one_pressed <= 1'b0;
+                    two_pressed <= 1'b0;
+                end
 
             endcase
         end
