@@ -1,5 +1,5 @@
 
-module PS2_Demo (
+module zTopLevelKeyboard (
 	// Inputs
 	CLOCK_50,
 	KEY,
@@ -60,6 +60,7 @@ wire				ps2_key_pressed;
 
 // Internal Registers
 reg			[7:0]	last_data_received;
+reg reset = 1'b0;
 
 // State Machine Registers
 
@@ -129,6 +130,6 @@ Hexadecimal_To_Seven_Segment Segment1 (
 	.seven_seg_display	(HEX1)
 );
 
-code_to_signal keyboard_code_to_signal(ps2_key_data, LEDR[0], LEDR[1], LEDR[2], LEDR[3]);
+code_to_signal keyboard_code_to_signal(CLOCK_50, ps2_key_data, ~KEY[0], LEDR[0], LEDR[1], LEDR[2], LEDR[3]);
 
 endmodule
