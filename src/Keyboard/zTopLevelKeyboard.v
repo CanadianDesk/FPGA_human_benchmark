@@ -1,68 +1,135 @@
-module code_to_signal (
-    input clk,  // System clock at 50 MHz
-    input [7:0] key_data,
-    input reset,
-    output reg space_pressed,
-    output reg enter_pressed,
-    output reg one_pressed,
-    output reg two_pressed
+
+module zTopLevelKeyboard (
+	// Inputs
+	CLOCK_50,
+	KEY,
+
+	// Bidirectionals
+	PS2_CLK,
+	PS2_DAT,
+	
+	// Outputs
+	HEX0,
+	HEX1,
+	HEX2,
+	HEX3,
+	HEX4,
+	HEX5,
+	HEX6,
+	HEX7,
+
+    LEDR
 );
 
-    reg break_code_received;
-    reg [23:0] delay_counter;  // Enough to count 12,500,000 cycles
-    reg delay_active;
+/*****************************************************************************
+ *                           Parameter Declarations                          *
+ *****************************************************************************/
 
-    always @(posedge clk) begin
-        if (reset) begin
-            // Reset logic
-            space_pressed <= 1'b0;
-            enter_pressed <= 1'b0;
-            one_pressed <= 1'b0;
-            two_pressed <= 1'b0;
-            break_code_received <= 1'b0;
-            delay_counter <= 0;
-            delay_active <= 1'b0;
-        end else begin
-            if (delay_active) begin
-                // Count down the delay period
-                if (delay_counter > 0) begin
-                    delay_counter <= delay_counter - 1;
-                end else begin
-                    // Delay period has ended
-                    delay_active <= 1'b0;
-                    space_pressed <= 1'b0;
-                    enter_pressed <= 1'b0;
-                    one_pressed <= 1'b0;
-                    two_pressed <= 1'b0;
-                end
-            end else if (key_data == 8'hF0) begin
-                // Break code prefix detected
-                break_code_received <= 1'b1;
-            end else if (break_code_received) begin
-                // Start the delay period
-                delay_counter <= 12500000;  // For a quarter of a second delay at 50 MHz
-                delay_active <= 1'b1;
-                break_code_received <= 1'b0;
-            end else begin
-                // Handle key press
-                case (key_data)
-                    8'h29: if (!delay_active) space_pressed <= 1'b1;
-                    8'h5A: if (!delay_active) enter_pressed <= 1'b1;
-                    8'h16: if (!delay_active) one_pressed <= 1'b1;
-                    8'h1E: if (!delay_active) two_pressed <= 1'b1;
-                endcase
-            end
-        end
-    end
 
-    // Initialize the break code flag and output signals
-    initial begin
-        break_code_received = 1'b0;
-        delay_active = 1'b0;
-        delay_counter = 0;
-        space_pressed = 1'b0;
-        enter_pressed = 1'b0;
-        one_pressed = 1'b0;
-        two_pressed = 1'b0;
-    end
+/*****************************************************************************
+ *                             Port Declarations                             *
+ *****************************************************************************/
+
+// Inputs
+input				CLOCK_50;
+input		[3:0]	KEY;
+
+// Bidirectionals
+inout				PS2_CLK;
+inout				PS2_DAT;
+
+// Outputs
+output		[6:0]	HEX0;
+output		[6:0]	HEX1;
+output		[6:0]	HEX2;
+output		[6:0]	HEX3;
+output		[6:0]	HEX4;
+output		[6:0]	HEX5;
+output		[6:0]	HEX6;
+output		[6:0]	HEX7;
+
+output      [3:0]   LEDR;
+
+/*****************************************************************************
+ *                 Internal Wires and Registers Declarations                 *
+ *****************************************************************************/
+
+// Internal Wires
+wire		[7:0]	ps2_key_data;
+wire				ps2_key_pressed;
+
+// Internal Registers
+reg			[7:0]	last_data_received;
+
+
+// State Machine Registers
+
+/*****************************************************************************
+ *                         Finite State Machine(s)                           *
+ *****************************************************************************/
+
+
+/*****************************************************************************
+ *                             Sequential Logic                              *
+ *****************************************************************************/
+
+always @(posedge CLOCK_50)
+begin
+	if (KEY[0] == 1'b0)
+		last_data_received <= 8'h00;
+	else if (ps2_key_pressed == 1'b1)
+		last_data_received <= ps2_key_data;
+end
+
+/*****************************************************************************
+ *                            Combinational Logic                            *
+ *****************************************************************************/
+
+assign HEX2 = 7'h7F;
+assign HEX3 = 7'h7F;
+assign HEX4 = 7'h7F;
+assign HEX5 = 7'h7F;
+assign HEX6 = 7'h7F;
+assign HEX7 = 7'h7F;
+
+/*****************************************************************************
+ *                              Internal Modules                             *
+ *****************************************************************************/
+
+PS2_Controller PS2 (
+	// Inputs
+	.CLOCK_50				(CLOCK_50),
+	.reset				(~KEY[0]),
+
+	// Bidirectionals
+	.PS2_CLK			(PS2_CLK),
+ 	.PS2_DAT			(PS2_DAT),
+
+	// Outputs
+	.received_data		(ps2_key_data),
+	.received_data_en	(ps2_key_pressed)
+);
+
+Hexadecimal_To_Seven_Segment Segment0 (
+	// Inputs
+	.hex_number			(last_data_received[3:0]),
+
+	// Bidirectional
+
+	// Outputs
+	.seven_seg_display	(HEX0)
+);
+
+Hexadecimal_To_Seven_Segment Segment1 (
+	// Inputs
+	.hex_number			(last_data_received[7:4]),
+
+	// Bidirectional
+
+	// Outputs
+	.seven_seg_display	(HEX1)
+);
+
+code_to_signal keyboard_code_to_signal(last_data_received, ps2_key_pressed, ~KEY[0], LEDR[0], LEDR[1], LEDR[2], LEDR[3]);
+
 endmodule
