@@ -1,5 +1,5 @@
 
-module zTopLevelKeyboard (
+module zTopLevelMouse (
 	// Inputs
 	CLOCK_50,
 	KEY,
@@ -56,7 +56,7 @@ output      [3:0]   LEDR;
 
 // Internal Wires
 wire		[7:0]	ps2_key_data;
-wire				ps2_key_pressed;
+wire				mouseMoved;
 
 // Internal Registers
 reg			[7:0]	last_data_received;
@@ -107,7 +107,7 @@ PS2_Controller PS2 (
 
 	// Outputs
 	.received_data		(ps2_key_data),
-	.received_data_en	(ps2_key_pressed)
+	.received_data_en	(mouse_moved)
 );
 
 Hexadecimal_To_Seven_Segment Segment0 (
@@ -129,6 +129,8 @@ Hexadecimal_To_Seven_Segment Segment1 (
 	// Outputs
 	.seven_seg_display	(HEX1)
 );
+
+
 
 code_to_signal keyboard_code_to_signal(ps2_key_data, ps2_key_pressed, ~KEY[0], LEDR[0], LEDR[1], LEDR[2], LEDR[3]);
 

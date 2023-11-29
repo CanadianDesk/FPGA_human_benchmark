@@ -1,6 +1,10 @@
+module mouseCodeToSignal(
 
 
-
+    output x_position;
+    output y_position;
+    
+);
 
 always @(posedge clk)
 begin
@@ -105,3 +109,4 @@ begin
         end
     end
 end
+endmodule
