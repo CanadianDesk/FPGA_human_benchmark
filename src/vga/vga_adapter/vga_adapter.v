@@ -196,7 +196,7 @@ module vga_adapter(
 			WRITE_1: next_state = VGA_VS ? WRITE_2_WAIT : WRITE_1;
 			WRITE_2_WAIT: next_state = VGA_VS ? WRITE_2_WAIT : WRITE_2;
 			WRITE_2: next_state = VGA_VS ? WRITE_1_WAIT : WRITE_2;
-			default: next = WRITE_1;
+			default: next_state = WRITE_1;
 		endcase
 	end
 
@@ -210,8 +210,7 @@ module vga_adapter(
 			WRITE_2: begin
 				writeEn0 = 0;
 				writeEn1 = (plot) & (valid_160x120 | valid_320x240);
-			end
-			default: 
+			end 
 		endcase
 	end
 
