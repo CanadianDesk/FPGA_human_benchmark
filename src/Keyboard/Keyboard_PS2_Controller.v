@@ -11,25 +11,19 @@ module PS2_Controller #(parameter INITIALIZE_MOUSE = 0) (
 	CLOCK_50,
 	reset,
 
-	// the_command,
-	// send_command,
+	the_command,
+	send_command,
 
 	// Bidirectionals
 	PS2_CLK,					// PS2 Clock
  	PS2_DAT,					// PS2 Data
 
 	// Outputs
-	// command_was_sent,
-	// error_communication_timed_out,
+	command_was_sent,
+	error_communication_timed_out,
 
 	received_data,
-	received_data_en,			// If 1 - new data has been received
-
-
-	enter_pressed_out,
-	space_pressed_out,
-	one_pressed_out,
-	two_pressed_out
+	received_data_en			// If 1 - new data has been received
 );
 
 /*****************************************************************************
@@ -44,29 +38,22 @@ module PS2_Controller #(parameter INITIALIZE_MOUSE = 0) (
 input			CLOCK_50;
 input			reset;
 
-// input	[7:0]	the_command;
-// input			send_command;
-
+input	[7:0]	the_command;
+input			send_command;
 
 // Bidirectionals
 inout			PS2_CLK;
 inout		 	PS2_DAT;
 
 // Outputs
-// output			command_was_sent;
-// output			error_communication_timed_out;
+output			command_was_sent;
+output			error_communication_timed_out;
 
 output	[7:0]	received_data;
 output		 	received_data_en;
 
-output enter_pressed_out;
-output space_pressed_out;
-output one_pressed_out;
-output two_pressed_out;
-
-
-// wire [7:0] the_command_w;
-// wire send_command_w, command_was_sent_w, error_communication_timed_out_w;
+wire [7:0] the_command_w;
+wire send_command_w, command_was_sent_w, error_communication_timed_out_w;
 
 generate
 	if(INITIALIZE_MOUSE) begin
@@ -255,33 +242,28 @@ Altera_UP_PS2_Data_In PS2_Data_In (
 
 	// Outputs
 	.received_data					(received_data),
-	.received_data_en				(received_data_en),
-
-	.enter_pressed(enter_pressed_out),
-    .space_pressed(space_pressed_out),
-    .one_pressed(one_pressed_out),
-    .two_pressed(two_pressed_out)
+	.received_data_en				(received_data_en)
 );
 
-// Altera_UP_PS2_Command_Out PS2_Command_Out (
-// 	// Inputs
-// 	.clk							(CLOCK_50),
-// 	.reset							(reset),
+Altera_UP_PS2_Command_Out PS2_Command_Out (
+	// Inputs
+	.clk							(CLOCK_50),
+	.reset							(reset),
 
-// 	.the_command					(the_command_w),
-// 	.send_command					(send_command_w),
+	.the_command					(the_command_w),
+	.send_command					(send_command_w),
 
-// 	.ps2_clk_posedge				(ps2_clk_posedge),
-// 	.ps2_clk_negedge				(ps2_clk_negedge),
+	.ps2_clk_posedge				(ps2_clk_posedge),
+	.ps2_clk_negedge				(ps2_clk_negedge),
 
-// 	// Bidirectionals
-// 	.PS2_CLK						(PS2_CLK),
-//  	.PS2_DAT						(PS2_DAT),
+	// Bidirectionals
+	.PS2_CLK						(PS2_CLK),
+ 	.PS2_DAT						(PS2_DAT),
 
-// 	// Outputs
-// 	.command_was_sent				(command_was_sent_w),
-// 	.error_communication_timed_out	(error_communication_timed_out_w)
-// );
+	// Outputs
+	.command_was_sent				(command_was_sent_w),
+	.error_communication_timed_out	(error_communication_timed_out_w)
+);
 
 endmodule
 

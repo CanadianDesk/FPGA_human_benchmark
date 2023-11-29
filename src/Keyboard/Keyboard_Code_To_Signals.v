@@ -46,10 +46,10 @@ module code_to_signal (
             end else begin
                 // Handle key press
                 case (key_data)
-                    8'h29: if (!delay_active) space_pressed <= 1'b1;
-                    8'h5A: if (!delay_active) enter_pressed <= 1'b1;
-                    8'h16: if (!delay_active) one_pressed <= 1'b1;
-                    8'h1E: if (!delay_active) two_pressed <= 1'b1;
+                    8'h29: space_pressed <= 1'b1;
+                    8'h5A: enter_pressed <= 1'b1;
+                    8'h16: one_pressed <= 1'b1;
+                    8'h1E: two_pressed <= 1'b1;
                 endcase
             end
         end
