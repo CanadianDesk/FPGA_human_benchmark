@@ -30,10 +30,9 @@ module chimpMouseClick(input iReset, clk, [9:0] mouseX, [8:0] mouseY, output [2:
             BoxX <= 0;
 
         //DEAL WITH Y:
-        if (mouseY > 7 && mouseY < 28)
-            BoxY <= 0;
+        if (mouseY > 7 
         else if (mouseY > 35 && mouseY < 56)
-            BoxY <= 1;
+            BoxY    <= 1;
         else if (mouseY > 63 && mouseY < 84)
             BoxY <= 2;
         else if (mouseY > 91 && mouseY < 112)
