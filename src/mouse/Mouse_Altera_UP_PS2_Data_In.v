@@ -23,11 +23,7 @@ module Altera_UP_PS2_Data_In (
 
 	// Outputs
 	received_data,
-	received_data_en,			// If 1 - new data has been received
-
-	x_position,
-	y_position,
-	mousePressed
+	received_data_en			// If 1 - new data has been received
 );
 
 
@@ -50,19 +46,11 @@ input				ps2_clk_posedge;
 input				ps2_clk_negedge;
 input			 	ps2_data;
 
-
-reg [8:0] x_movement;  // 9-bit signed integer for X movement
-reg [8:0] y_movement;  // 9-bit signed integer for Y movement
-output reg [9:0] x_position;  // 10-bit integer for X position on screen (0-319)
-output reg [8:0] y_position;  // 9-bit integer for Y position on screen (0-239)
-
-output reg mousePressed;
-
-
 // Bidirectionals
 
 // Outputs
 output reg	[7:0]	received_data;
+
 output reg		 	received_data_en;
 
 /*****************************************************************************
@@ -75,9 +63,6 @@ localparam	PS2_STATE_0_IDLE			= 3'h0,
 			PS2_STATE_3_PARITY_IN		= 3'h3,
 			PS2_STATE_4_STOP_IN			= 3'h4;
 
-
-parameter x_sensitivity = 3;
-parameter y_sensitivity = 2;
 /*****************************************************************************
  *                 Internal wires and registers Declarations                 *
  *****************************************************************************/
@@ -88,12 +73,6 @@ reg			[7:0]	data_shift_reg;
 // State Machine Registers
 reg			[2:0]	ns_ps2_receiver;
 reg			[2:0]	s_ps2_receiver;
-
-
-reg [2:0] byte_count;  // Counter for the number of bytes received
-reg device_type;       // 0 for keyboard, 1 for mouse
-reg [7:0] byte_1, byte_2, byte_3;  // Registers to store mouse packet bytes
-
 
 /*****************************************************************************
  *                         Finite State Machine(s)                           *
@@ -165,113 +144,45 @@ end
  *                             Sequential logic                              *
  *****************************************************************************/
 
-reg [7:0] previous_data;  // Register to hold the previous scan code
 
 always @(posedge clk)
 begin
-    if (reset == 1'b1) 
-    begin
-		byte_count <= 0;
-
-		byte_1 <= 0;
-		byte_2 <= 0;
-		byte_3 <= 0;
-
-		x_position <= 10'd160;  // Center of 320 width
-        y_position <= 9'd120;   // Center of 240 height
-		
-        data_count <= 3'h0;
-        data_shift_reg <= 8'h00;
-        received_data <= 8'h00;
-        received_data_en <= 1'b0;
-    end
-    else
-    begin
-        // Data Count Logic
-        if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && (ps2_clk_posedge == 1'b1))
-            data_count <= data_count + 3'h1;
-        else if (s_ps2_receiver != PS2_STATE_2_DATA_IN)
-            data_count <= 3'h0;
-
-        // Data Shift Register Logic
-        if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && (ps2_clk_posedge == 1'b1))
-            data_shift_reg <= {ps2_data, data_shift_reg[7:1]};
-
-        // Received Data and Key Press Logic
-        if (s_ps2_receiver == PS2_STATE_4_STOP_IN)
-        begin
-
-            received_data <= data_shift_reg;
-            received_data_en <= 1'b1;
-
-			byte_count <= byte_count + 1; 
-			if(byte_count == 1)
-			{
-				byte_1 <= data_shift_reg;
-			}
-			else if(byte count == 2)
-			{
-				byte_2 <= data_shift_reg;
-			}
-			else if(byte_count == 3)
-			{
-				byte_3 <= data_shift_reg;
-			}
-			
-   
-			if (byte_count == 3) begin // Mouse
-
-				left_button_pressed = byte_1[0]; 
-
-				// Interpret the 8-bit movement data as signed values
-				signed [8:0] x_movement_signed = (x_negative) ? -byte_2 : byte_2;
-				signed [8:0] y_movement_signed = (y_negative) ? -byte_3 : byte_3;
-
-				// Update X position
-				signed [10:0] new_x_position = x_position + (x_movement_signed/x_sensitivity);
-				if (new_x_position > 320) 
-				begin
-					x_position = 320;
-				end 
-				else if (new_x_position < 0) 
-				begin
-					x_position = 0;
-				end 
-				else 
-				begin
-					x_position = new_x_position[9:0];
-				end
-
-				// Update Y position
-				signed [9:0] new_y_position = y_position + (y_movement_signed/y_sensitivity);
-				if (new_y_position > 240)
-				begin
-					y_position = 240;
-				end 
-				else if (new_y_position < 0) 
-				begin
-					y_position = 0;
-				end 
-				else 
-				begin
-					y_position = new_y_position[8:0];
-				end
-
-				byte_1 <= 0;
-				byte_2 <= 0;
-				byte_3 <= 0;
-				byte_count <= 0;
-			end
-        end
-		
-        else if (s_ps2_receiver != PS2_STATE_4_STOP_IN)
-        begin
-            received_data_en <= 1'b0;
-        end
-    end
+	if (reset == 1'b1) 
+		data_count	<= 3'h0;
+	else if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && 
+			(ps2_clk_posedge == 1'b1))
+		data_count	<= data_count + 3'h1;
+	else if (s_ps2_receiver != PS2_STATE_2_DATA_IN)
+		data_count	<= 3'h0;
 end
 
+always @(posedge clk)
+begin
+	if (reset == 1'b1)
+		data_shift_reg			<= 8'h00;
+	else if ((s_ps2_receiver == PS2_STATE_2_DATA_IN) && 
+			(ps2_clk_posedge == 1'b1))
+		data_shift_reg	<= {ps2_data, data_shift_reg[7:1]};
+end
 
+always @(posedge clk)
+begin
+	if (reset == 1'b1)
+		received_data		<= 8'h00;
+	else if (s_ps2_receiver == PS2_STATE_4_STOP_IN)
+		received_data	<= data_shift_reg;
+end
+
+always @(posedge clk)
+begin
+	if (reset == 1'b1)
+		received_data_en		<= 1'b0;
+	else if ((s_ps2_receiver == PS2_STATE_4_STOP_IN) &&
+			(ps2_clk_posedge == 1'b1))
+		received_data_en	<= 1'b1;
+	else
+		received_data_en	<= 1'b0;
+end
 
 /*****************************************************************************
  *                            Combinational logic                            *
