@@ -156,14 +156,15 @@ module vga_adapter(
 	wire valid_160x120;
 	wire valid_320x240;
 	/* Set to 1 if the specified coordinates are in a valid range for a given resolution.*/
-	
-	wire writeEn;
+	reg writeEn0;
+	reg writeEn1;
 	/* This is a local signal that allows the Video Memory contents to be changed.
 	 * It depends on the screen resolution, the values of X and Y inputs, as well as 
 	 * the state of the plot signal.
 	 */
 	
-	wire [((MONOCHROME == "TRUE") ? (0) : (BITS_PER_COLOUR_CHANNEL*3-1)):0] to_ctrl_colour;
+	wire [((MONOCHROME == "TRUE") ? (0) : (BITS_PER_COLOUR_CHANNEL*3-1)):0] to_ctrl_colour0;
+	wire [((MONOCHROME == "TRUE") ? (0) : (BITS_PER_COLOUR_CHANNEL*3-1)):0] to_ctrl_colour1;
 	/* Pixel colour read by the VGA controller */
 	
 	wire [((RESOLUTION == "320x240") ? (16) : (14)):0] user_to_video_memory_addr;
@@ -185,9 +186,42 @@ module vga_adapter(
 	/*****************************************************************************/
 	/* STATE MACHINE TO CONTROL DOUBLE BUFFERING */
 	/*****************************************************************************/
+	reg [1:0] next_state, curr_state;
+	localparam WRITE_1_WAIT = 0, WRITE_1 = 1, WRITE_2_WAIT = 2, WRITE_2 = 3;
 
-	
+	//state table:
+	always @(*) begin
+		case (curr_state)
+			WRITE_1_WAIT: next_state = VGA_VS ? WRITE_1_WAIT : WRITE_1;
+			WRITE_1: next_state = VGA_VS ? WRITE_2_WAIT : WRITE_1;
+			WRITE_2_WAIT: next_state = VGA_VS ? WRITE_2_WAIT : WRITE_2;
+			WRITE_2: next_state = VGA_VS ? WRITE_1_WAIT : WRITE_2;
+			default: next = WRITE_1;
+		endcase
+	end
 
+	//signals:
+	always @(*) begin
+		case (curr_state)
+			WRITE_1: begin
+				writeEn1 = 0;
+				writeEn0 = (plot) & (valid_160x120 | valid_320x240);
+			end
+			WRITE_2: begin
+				writeEn0 = 0;
+				writeEn1 = (plot) & (valid_160x120 | valid_320x240);
+			end
+			default: 
+		endcase
+	end
+
+	//switch state:
+	always @(posedge clock) begin
+		if (resetn)
+			curr_state = WRITE_1;
+		else 
+			curr_state = next_state;
+	end
 
 
 	
@@ -204,12 +238,12 @@ module vga_adapter(
 
 	assign valid_160x120 = (({1'b0, x} >= 0) & ({1'b0, x} < 160) & ({1'b0, y} >= 0) & ({1'b0, y} < 120)) & (RESOLUTION == "160x120");
 	assign valid_320x240 = (({1'b0, x} >= 0) & ({1'b0, x} < 320) & ({1'b0, y} >= 0) & ({1'b0, y} < 240)) & (RESOLUTION == "320x240");
-	assign writeEn = (plot) & (valid_160x120 | valid_320x240);
+	// assign writeEn = (plot) & (valid_160x120 | valid_320x240);
 	/* Allow the user to plot a pixel if and only if the (X,Y) coordinates supplied are in a valid range. */
 	
 	/* Create video memory. */
 	altsyncram	VideoMemory0 (
-				.wren_a (writeEn),
+				.wren_a (writeEn0),
 				.wren_b (gnd),
 				.clock0 (clock), // write clock
 				.clock1 (clock_25), // read clock
@@ -218,7 +252,7 @@ module vga_adapter(
 				.address_a (user_to_video_memory_addr),
 				.address_b (controller_to_video_memory_addr),
 				.data_a (colour), // data in
-				.q_b (to_ctrl_colour)	// data out
+				.q_b (to_ctrl_colour0)	// data out
 				);
 	defparam
 		VideoMemory0.WIDTH_A = ((MONOCHROME == "FALSE") ? (BITS_PER_COLOUR_CHANNEL*3) : 1),
@@ -240,7 +274,7 @@ module vga_adapter(
 
 	/*Create video memory*/
 	altsyncram	VideoMemory1 (
-				.wren_a (writeEn),
+				.wren_a (writeEn1),
 				.wren_b (gnd),
 				.clock0 (clock), // write clock
 				.clock1 (clock_25), // read clock
@@ -249,7 +283,7 @@ module vga_adapter(
 				.address_a (user_to_video_memory_addr),
 				.address_b (controller_to_video_memory_addr),
 				.data_a (colour), // data in
-				.q_b (to_ctrl_colour)	// data out
+				.q_b (to_ctrl_colour1)	// data out
 				);
 	defparam
 		VideoMemory1.WIDTH_A = ((MONOCHROME == "FALSE") ? (BITS_PER_COLOUR_CHANNEL*3) : 1),
@@ -291,7 +325,7 @@ module vga_adapter(
 	vga_controller controller(
 			.vga_clock(clock_25),
 			.resetn(resetn),
-			.pixel_colour(to_ctrl_colour),
+			.pixel_colour(curr_state == WRITE_2 ? to_ctrl_colour1 : to_ctrl_colour0), // ternary operator here
 			.memory_address(controller_to_video_memory_addr), 
 			.VGA_R(r),
 			.VGA_G(g),
