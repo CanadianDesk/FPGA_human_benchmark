@@ -3,16 +3,15 @@
 
 module VGAcontrol(
     input clk,
-    input [1:0] iGameMode,
     input V_SYNC,
     input iReset,
     input keyPress,
     //input [8:0] iMouseX
     //input [7:0] iMouseY
-    output reg [8:0] x,
-    output reg [7:0] y,
+    output [8:0] x,
+    output [7:0] y,
     output [2:0] color,
-    output writeEn
+    output reg writeEn
 );
 
     reg [2:0] qReading;
@@ -23,7 +22,7 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    reg [3:0] qMenu, qRed;
+    wire [2:0] qMenu, qRed;
     assign color = qReading;
 
     /**********************************************
@@ -31,7 +30,7 @@ module VGAcontrol(
     **********************************************/
 
     menurom q1(readingAddress, clk, qMenu);
-    redrom q2(readingAddress, clk, qRed;)
+    redrom q2(readingAddress, clk, qRed);
 
     /**********************************************
     STATE MACHINE TO CHOOSE THE RIGHT Q
@@ -76,34 +75,35 @@ module VGAcontrol(
     /**********************************************
     DRAWING LOGIC
     **********************************************/
-    always @(negedge V_SYNC) begin
-        xCounter <= 0;
-        yCounter <= 0;
-        readingAddress <= 0;
-        writeEn <= 1;
-        // mouseRegX <= iMouseX;
-        // mouseRegY <= iMouseY;
-    end
+    reg V_SYNC_prev;
 
     always @(posedge clk) begin
+        V_SYNC_prev <= V_SYNC;
         if (iReset) begin
-            xCounter <= 0;
-            yCounter <= 0;
-            writeEn <= 0;
-        end        
-
-        if (writeEn) begin
+            xCounter = 0;
+            yCounter = 0;
+            writeEn = 0;
+        end 
+        else if (~V_SYNC && V_SYNC_prev) begin
+            writeEn <= 1;
+            mouseRegX <= iMouseX;
+            mouseRegY <= iMouseY;
+        end
+        else if (writeEn) begin
             if (xCounter == 319 && yCounter == 249) begin
-                writeEn = 0;
+                writeEn <= 0;
+                yCounter <= 0;
+                xCounter <= 0;
+                readingAddress <= 0;
             end
             else if (xCounter == 319) begin
-                yCounter = yCounter + 1;
-                xCounter = 0;
-                readingAddress = readingAddress + 1;
+                yCounter <= yCounter + 1;
+                xCounter <= 0;
+                readingAddress <= readingAddress + 1;
             end
             else begin
-                xCounter = xCounter + 1;
-                readingAddress = readingAddress + 1;
+                xCounter <= xCounter + 1;
+                readingAddress <= readingAddress + 1;
             end
         end
     end
