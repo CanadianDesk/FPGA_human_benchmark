@@ -9,6 +9,16 @@ module VGAcontrol(
     output reg oChimpEnable
 );
 
+    reg [2:0] qReading
+
+    always@(*) begin
+        
+
+
+    end
+
+    
+
     always @(posedge clk) begin
         case (iGameMode)
         2d'0: begin
