@@ -26,7 +26,7 @@ module VGAcontrol(
     assign color = qReading;
 
     /**********************************************
-    Modules to assign the Q values
+    Modules to assign the Q values from ROM images
     **********************************************/
 
     menurom q1(readingAddress, clk, qMenu);
@@ -86,8 +86,8 @@ module VGAcontrol(
         end 
         else if (~V_SYNC && V_SYNC_prev) begin
             writeEn <= 1;
-            mouseRegX <= iMouseX;
-            mouseRegY <= iMouseY;
+            // mouseRegX <= iMouseX;
+            // mouseRegY <= iMouseY;
         end
         else if (writeEn) begin
             if (xCounter == 319 && yCounter == 249) begin
