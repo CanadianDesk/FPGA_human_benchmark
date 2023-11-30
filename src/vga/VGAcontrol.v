@@ -31,7 +31,7 @@ module VGAcontrol(
     STATE MACHINE TO CHOOSE THE RIGHT Q
     **********************************************/
     //States
-
+    
 
     //State transition logic
 
