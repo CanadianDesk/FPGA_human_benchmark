@@ -39,16 +39,18 @@ module VGAcontrol(
     reg [3:0] current_state, next_state;
 
     //States
-    localparam MENU = 0,
-    RED = 1,
-    GREEN = 2,
-    SCORE = 3;
+    localparam MENU_WAIT = 0
+    MENU = 1,
+    RED_WAIT = 2,
+    RED = 3;
 
     //State transition logic
     always @(*) begin
         case (current_state)
-            MENU: next_state = keyPress ? RED : MENU;
-            RED: next_state = keyPress ? MENU: RED;
+            MENU_WAIT: next_state = keyPress ? : MENU_WAIT : MENU;
+            MENU: next_state = keyPress ? RED_WAIT : MENU;
+            RED_WAIT: next_state = keyPress ? RED_WAIT : RED;
+            RED: next_state = keyPress ? MENU_WAIT: RED;
             default: next_state = MENU;
         endcase
     end
