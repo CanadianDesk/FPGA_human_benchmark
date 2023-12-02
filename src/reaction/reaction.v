@@ -6,8 +6,8 @@ module reaction (
     input spacePressed,
     input onePressed,
     output [1:0] screen,
-    output [13:0] currentScore,
-    output [13:0] highScore
+    output [11:0] currentScore,
+    output [11:0] highScore
 );
     wire downCountComplete, startUpCount, startDownCount, loadScore;
     wire [7:0] PRNG_out;

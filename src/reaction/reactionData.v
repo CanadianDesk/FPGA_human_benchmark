@@ -5,17 +5,17 @@ module reactionData (
     input iStart_up_count,
     input iStart_down_count,
     input iLoad_score,
-    output reg [13:0] highScore,
+    output reg [11:0] highScore,
     output [1:0] screen,
-    output reg [13:0] currentScore,
+    output reg [11:0] currentScore,
     output countComplete
 );
     wire m_clk;
     wire [12:0] m_PRNG;
-    wire [13:0] upCount;
+    wire [11:0] upCount;
 
     rateDivider oneMHzClock(clk, iReset, m_clk);
-    PRNG_scaler scaler(.cll(clk), .PRNG(PRNG), .m_PRNG(m_PRNG));
+    PRNG_scaler scaler(.clk(clk), .PRNG(PRNG), .m_PRNG(m_PRNG));
     upCounter countUP(.iStart_up_count(iStart_up_count), .iReset(iReset), .clk(m_clk),.upCount(upCount));
     downCounter countDown(
         .clk(m_clk) , 
