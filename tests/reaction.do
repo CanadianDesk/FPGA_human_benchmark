@@ -24,7 +24,7 @@ run 10ms
 
 
 force {iReset} 0
-run 10mns
+run 10ms
 
 #THE PROGRAM IS NOW IN THE RESET STATE. HOPEFULLY, THE FSM IS IN THE READY STATE
 
