@@ -6,7 +6,7 @@ module reactionData (
     input iStart_down_count,
     input iLoad_score,
     output reg [13:0] highScore,
-    output screen,
+    output [1:0] screen,
     output reg [13:0] currentScore,
     output countComplete
 );
