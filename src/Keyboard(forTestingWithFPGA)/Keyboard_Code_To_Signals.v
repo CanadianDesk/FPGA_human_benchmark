@@ -99,29 +99,9 @@ module code_to_signal (
             endcase
         end
     end
-
-
-    
-
-
 endmodule
 
 
 
-// always @(posedge ps2_key_pressed)
-// begin
-// 	if (last_data_received == 8'h29 & read == 1'b0 & read1 == 1'b0) begin
-// 		space <= 1'b1;
-// 		read <= 1'b1;
-// 		read1 <= 1'b1;
-// 	end
-// 	else if (last_data_received == 8'hf0) begin
-// 		read1 <= 1'b0;
-// 		space <= 1'b0;
-// 	end
-// 	else if (last_data_received == 8'h29 & read1 == 1'b0) begin
-// 		read <= 1'b0;
-// 	end
-// end
 
 
