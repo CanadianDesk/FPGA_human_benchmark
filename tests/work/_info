@@ -9,7 +9,7 @@ z2
 cModel Technology
 Z0 dC:/Users/darsa/Documents/GitHub/FPGA_human_benchmark/tests
 vdownCoutner
-Z1 !s110 1701504051
+Z1 !s110 1701504159
 !i10b 1
 !s100 [IS]koIJ=E6^>KA7E93o50
 I3G<^WX@aNXcH2Vme[BT>11
@@ -23,7 +23,7 @@ Z7 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z8 !s108 1701504051.000000
+Z8 !s108 1701504158.000000
 Z9 !s107 ../src/reaction/reactionData.v|
 Z10 !s90 -reportprogress|300|../src/reaction/reactionData.v|
 !i113 1
@@ -44,7 +44,7 @@ R7
 r1
 !s85 0
 31
-R8
+!s108 1701504159.000000
 !s107 ../src/prng/prng.v|
 !s90 -reportprogress|300|../src/prng/prng.v|
 !i113 1
@@ -92,7 +92,7 @@ R10
 R11
 nrate@divider
 vreaction
-R1
+Z13 !s110 1701504158
 !i10b 1
 !s100 BjgPXiFDEzQB6RU6U9gdY0
 ICEH_S2QV]DUmAg7Xin_H23
@@ -112,7 +112,7 @@ R8
 !i113 1
 R11
 vreactionControl
-R1
+R13
 !i10b 1
 !s100 5iMRNR[X:PfCl?<aV?:RR3
 I>2Xi^ie8?H@^V6@:45BVD1
