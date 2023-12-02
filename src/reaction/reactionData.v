@@ -94,7 +94,7 @@ endmodule
 module PRNG_scaler (
     input clk,
     input [7:0] PRNG,
-    output reg [12:0] m_PRNG,
+    output reg [12:0] m_PRNG
 );
     reg [19:0] temp;
 
