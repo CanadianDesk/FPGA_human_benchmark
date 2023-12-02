@@ -20,16 +20,16 @@ force {iReset} 1
 force {spacePressed} 0
 force {onePressed} 0
 
-run 10ms
+run 1ms
 
 
 force {iReset} 0
-run 10ms
+run 1ms
 
 #THE PROGRAM IS NOW IN THE RESET STATE. HOPEFULLY, THE FSM IS IN THE READY STATE
 
 force {spacePressed} 1
-run 10ms
+run 1ms
 force {spacePressed} 0
 
 #SHOULD NOW BE IN THE NEXT STATE, RED
