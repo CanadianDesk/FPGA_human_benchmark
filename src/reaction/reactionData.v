@@ -14,7 +14,7 @@ module reactionData (
     wire [12:0] m_PRNG;
     wire [11:0] upCount;
 
-    rateDivider oneMHzClock(clk, iReset, m_clk);
+    rateDivider onekHzClock(clk, iReset, m_clk);
     PRNG_scaler scaler(.clk(clk), .PRNG(PRNG), .m_PRNG(m_PRNG));
     upCounter countUP(.iStart_up_count(iStart_up_count), .iReset(iReset), .clk(m_clk),.upCount(upCount));
     downCounter countDown(
@@ -40,11 +40,11 @@ module rateDivider (
     output m_clk
 );
 
-    reg [5:0] downCount;
+    reg [15:0] downCount;
 
     always @(posedge clk ) begin
         if (iReset || downCount == 0)
-            downCount <= 49;
+            downCount <= 49999;
         else
             downCount <= downCount - 1;
     end
