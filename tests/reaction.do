@@ -12,7 +12,7 @@ log -r /*
 add wave -r /*
 
 
-force {clk} 0 0ns, 1 1ns -r 2ns
+force {clk} 0 0ns, 1 10ns -r 20ns
 
 
 
