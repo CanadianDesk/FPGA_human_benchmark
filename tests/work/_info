@@ -9,121 +9,162 @@ z2
 cModel Technology
 Z0 dC:/Users/darsa/Documents/GitHub/FPGA_human_benchmark/tests
 vdownCoutner
-!s110 1701503942
+Z1 !s110 1701504051
 !i10b 1
 !s100 [IS]koIJ=E6^>KA7E93o50
 I3G<^WX@aNXcH2Vme[BT>11
-Z1 VDg1SIo80bB@j0V0VzS_@n1
-Z2 dC:/Users/avina/Documents/GitHub/FPGA_human_benchmark/tests
-Z3 w1701503718
-Z4 8../src/reaction/reactionData.v
-Z5 F../src/reaction/reactionData.v
+Z2 VDg1SIo80bB@j0V0VzS_@n1
+Z3 dC:/Users/avina/Documents/GitHub/FPGA_human_benchmark/tests
+Z4 w1701504044
+Z5 8../src/reaction/reactionData.v
+Z6 F../src/reaction/reactionData.v
 L0 72
-Z6 OV;L;10.5b;63
+Z7 OV;L;10.5b;63
 r1
 !s85 0
 31
-Z7 !s108 1701503940.000000
-Z8 !s107 ../src/reaction/reactionData.v|
-Z9 !s90 -reportprogress|300|../src/reaction/reactionData.v|
+Z8 !s108 1701504051.000000
+Z9 !s107 ../src/reaction/reactionData.v|
+Z10 !s90 -reportprogress|300|../src/reaction/reactionData.v|
 !i113 1
-Z10 tCvgOpt 0
+Z11 tCvgOpt 0
 ndown@coutner
+vprng
+R1
+!i10b 1
+!s100 =IDhLzm<6i9M7hg4GM`M?0
+IbSLldYV@A?SVDO`if4koR3
+R2
+R3
+Z12 w1701503718
+8../src/prng/prng.v
+F../src/prng/prng.v
+L0 1
+R7
+r1
+!s85 0
+31
+R8
+!s107 ../src/prng/prng.v|
+!s90 -reportprogress|300|../src/prng/prng.v|
+!i113 1
+R11
+vPRNG_scaler
+R1
+!i10b 1
+!s100 XnQZXW`@O3H1JENQPFO;A1
+I=408^T9b@F6gL=2i91Ll?2
+R2
+R3
+R4
+R5
+R6
+L0 94
+R7
+r1
+!s85 0
+31
+R8
+R9
+R10
+!i113 1
+R11
+n@p@r@n@g_scaler
 vrateDivider
-Z11 !s110 1701503941
+R1
 !i10b 1
 !s100 AQ8WQl?hMTX42dJ8io1Bh2
 IMJeg@e:^aV8eNkYJCTLbG1
-R1
 R2
 R3
 R4
 R5
-L0 37
 R6
+L0 37
+R7
 r1
 !s85 0
 31
-R7
 R8
 R9
-!i113 1
 R10
+!i113 1
+R11
 nrate@divider
 vreaction
-Z12 !s110 1701503940
+R1
 !i10b 1
 !s100 BjgPXiFDEzQB6RU6U9gdY0
 ICEH_S2QV]DUmAg7Xin_H23
-R1
 R2
 R3
+R12
 8../src/reaction/reaction.v
 F../src/reaction/reaction.v
 L0 3
-R6
+R7
 r1
 !s85 0
 31
-R7
+R8
 !s107 ../src/reaction/reaction.v|
 !s90 -reportprogress|300|../src/reaction/reaction.v|
 !i113 1
-R10
+R11
 vreactionControl
-R12
+R1
 !i10b 1
 !s100 5iMRNR[X:PfCl?<aV?:RR3
 I>2Xi^ie8?H@^V6@:45BVD1
-R1
 R2
 R3
+R12
 8../src/reaction/reactionControl.v
 F../src/reaction/reactionControl.v
 L0 1
-R6
+R7
 r1
 !s85 0
 31
-R7
+R8
 !s107 ../src/reaction/reactionControl.v|
 !s90 -reportprogress|300|../src/reaction/reactionControl.v|
 !i113 1
-R10
+R11
 nreaction@control
 vreactionData
-R11
+R1
 !i10b 1
 !s100 Od`mRKkLIM>S7=29z?=3=2
 IOf>Ne=J=E0m`0<e6[C]JZ2
-R1
 R2
 R3
 R4
 R5
-L0 1
 R6
+L0 1
+R7
 r1
 !s85 0
 31
-R7
 R8
 R9
-!i113 1
 R10
+!i113 1
+R11
 nreaction@data
 vscancode_to_ascii
 !s110 1700369558
 !i10b 1
 !s100 zUJlcSQIK3J:RQS?ELPj10
 ITc[4bKln:UQ7PZY43TSB:0
-R1
+R2
 R0
 w1700369008
 8../src/asciiDecoder.v
 F../src/asciiDecoder.v
 L0 83
-R6
+R7
 r1
 !s85 0
 31
@@ -131,25 +172,25 @@ r1
 !s107 ../src/asciiDecoder.v|
 !s90 -reportprogress|300|../src/asciiDecoder.v|
 !i113 1
-R10
-vupCounter
 R11
+vupCounter
+R1
 !i10b 1
 !s100 E2>d2Kh_kdOJ2]ajSQ3LS3
 I5]zk2^GQQE<coBIj<NnWl0
-R1
 R2
 R3
 R4
 R5
-L0 56
 R6
+L0 56
+R7
 r1
 !s85 0
 31
-R7
 R8
 R9
-!i113 1
 R10
+!i113 1
+R11
 nup@counter
