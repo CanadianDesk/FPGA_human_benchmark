@@ -5,7 +5,7 @@ module prng #(
     input iReset,
     output reg [N-1:0] oOutput
 );
-    localparam seed = 2;
+    localparam seed = 31;
     wire feedback;
     assign feedback = oOutput[N-1] ^ oOutput[5] ^ oOutput[4] ^ oOutput[3];
 

@@ -27,7 +27,7 @@ module VGAcontrol(
 
     /**********************************************
     Modules to assign the Q values from ROM images
-    **********************************************/
+    *********************************************/
 
     menurom q1(readingAddress, clk, qMenu);
     redrom q2(readingAddress, clk, qRed);
@@ -39,7 +39,7 @@ module VGAcontrol(
     reg [3:0] current_state, next_state;
 
     //States
-    localparam MENU_WAIT = 0
+    localparam MENU_WAIT = 0,
     MENU = 1,
     RED_WAIT = 2,
     RED = 3;
@@ -47,7 +47,7 @@ module VGAcontrol(
     //State transition logic
     always @(*) begin
         case (current_state)
-            MENU_WAIT: next_state = keyPress ? : MENU_WAIT : MENU;
+            MENU_WAIT: next_state = keyPress ? MENU_WAIT : MENU;
             MENU: next_state = keyPress ? RED_WAIT : MENU;
             RED_WAIT: next_state = keyPress ? RED_WAIT : RED;
             RED: next_state = keyPress ? MENU_WAIT: RED;
