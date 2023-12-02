@@ -69,7 +69,7 @@ module upCounter (
     
 endmodule
 
-module downCoutner (
+module downCounter (
     input clk,
     input iReset,
     input [12:0] iPRNG,
