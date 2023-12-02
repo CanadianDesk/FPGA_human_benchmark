@@ -1,3 +1,5 @@
+`timescale 1ns/1ns
+
 module reaction (
     input clk,
     input iReset,
