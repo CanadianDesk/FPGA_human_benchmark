@@ -7,28 +7,12 @@ module zTopLevelKeyboard (
 	// Bidirectionals
 	PS2_CLK,
 	PS2_DAT,
-	
-	// Outputs
-	HEX0,
-	HEX1,
-	HEX2,
-	HEX3,
-	HEX4,
-	HEX5,
-	HEX6,
-	HEX7,
-
-    LEDR
+	space_pressed,
+	enter_pressed,
+	one_pressed,
+	two_pressed
 );
 
-/*****************************************************************************
- *                           Parameter Declarations                          *
- *****************************************************************************/
-
-
-/*****************************************************************************
- *                             Port Declarations                             *
- *****************************************************************************/
 
 // Inputs
 input				CLOCK_50;
@@ -39,17 +23,11 @@ inout				PS2_CLK;
 inout				PS2_DAT;
 
 // Outputs
-output		[6:0]	HEX0;
-output		[6:0]	HEX1;
-output		[6:0]	HEX2;
-output		[6:0]	HEX3;
-output		[6:0]	HEX4;
-output		[6:0]	HEX5;
-output		[6:0]	HEX6;
-output		[6:0]	HEX7;
 
-output      [3:0]   LEDR;
-
+output	space_pressed;
+output	enter_pressed;
+output	one_pressed;
+output	two_pressed;
 /*****************************************************************************
  *                 Internal Wires and Registers Declarations                 *
  *****************************************************************************/
@@ -62,16 +40,7 @@ wire				ps2_key_pressed;
 reg			[7:0]	last_data_received;
 
 
-// State Machine Registers
 
-/*****************************************************************************
- *                         Finite State Machine(s)                           *
- *****************************************************************************/
-
-
-/*****************************************************************************
- *                             Sequential Logic                              *
- *****************************************************************************/
 
 always @(posedge CLOCK_50)
 begin
@@ -81,22 +50,7 @@ begin
 		last_data_received <= ps2_key_data;
 end
 
-/*****************************************************************************
- *                            Combinational Logic                            *
- *****************************************************************************/
-
-assign HEX2 = 7'h7F;
-assign HEX3 = 7'h7F;
-assign HEX4 = 7'h7F;
-assign HEX5 = 7'h7F;
-assign HEX6 = 7'h7F;
-assign HEX7 = 7'h7F;
-
-/*****************************************************************************
- *                              Internal Modules                             *
- *****************************************************************************/
-
-PS2_Controller PS2 (
+KeyboardPS2_Controller PS2 (
 	// Inputs
 	.CLOCK_50				(CLOCK_50),
 	.reset				(~KEY[0]),
@@ -110,26 +64,7 @@ PS2_Controller PS2 (
 	.received_data_en	(ps2_key_pressed)
 );
 
-Hexadecimal_To_Seven_Segment Segment0 (
-	// Inputs
-	.hex_number			(last_data_received[3:0]),
 
-	// Bidirectional
-
-	// Outputs
-	.seven_seg_display	(HEX0)
-);
-
-Hexadecimal_To_Seven_Segment Segment1 (
-	// Inputs
-	.hex_number			(last_data_received[7:4]),
-
-	// Bidirectional
-
-	// Outputs
-	.seven_seg_display	(HEX1)
-);
-
-code_to_signal keyboard_code_to_signal(ps2_key_data, ps2_key_pressed, ~KEY[0], LEDR[0], LEDR[1], LEDR[2], LEDR[3]);
+code_to_signal keyboard_code_to_signal(ps2_key_data, ps2_key_pressed, ~KEY[0], space_pressed, enter_pressed, one_pressed, two_pressed);
 
 endmodule

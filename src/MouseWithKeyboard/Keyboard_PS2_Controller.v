@@ -6,7 +6,7 @@
  *                                                                           *
  *****************************************************************************/
 
-module PS2_Controller #(parameter INITIALIZE_MOUSE = 0) (
+module KeyboardPS2_Controller #(parameter INITIALIZE_MOUSE = 0) (
 	// Inputs
 	CLOCK_50,
 	reset,
