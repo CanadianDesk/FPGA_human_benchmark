@@ -99,7 +99,7 @@ module PRNG_scaler (
     reg [19:0] temp;
 
     always @(posedge clk ) begin
-        temp = 3000 * PRNG;
+        temp = 4000 * PRNG;
         m_PRNG = (temp / 255) + 300;
     end
 

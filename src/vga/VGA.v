@@ -1,10 +1,14 @@
 // Part 2 skeleton
 
-module fill
+module VGA
 	(
 		CLOCK_50,						//	On Board 50 MHz
 		// Your inputs and outputs here
 		KEY,							// On Board Keys
+
+		//TEMPORARY ADDITIONS OF TESTING ********************************************
+		PS2_CLK,
+		PS2_DAT,
 		// The ports below are for the VGA output.  Do not change.
 		VGA_CLK,   						//	VGA Clock
 		VGA_HS,							//	VGA H_SYNC
@@ -17,7 +21,9 @@ module fill
 	);
 
 	input			CLOCK_50;				//	50 MHz
-	input	[3:0]	KEY;					
+	input	[3:0]	KEY;	
+	input PST_CLK;
+	input PS2_DAT;				
 	// Declare your inputs and outputs here
 	// Do not change the following outputs
 	output			VGA_CLK;   				//	VGA Clock
@@ -66,5 +72,31 @@ module fill
 	// Put your code here. Your code should produce signals x,y,colour and writeEn
 	// for the VGA controller, in addition to any other functionality your design may require.
 	
+	wire [9:0] mouseX;
+	wire [8:0] mouseY;
+
+	VGAcontrol VGAcontroller(
+		.clk(CLOCK_50),
+		.V_SYNC(VGA_VS),
+		.iReset(~resetn),
+		.keyPress(~KEY[1]),
+		.iMouseX(mouseX[8:0]),
+		.iMouseY(mouseY[7:0]),
+		.x(x),
+		.y(y),
+		.color(colour),
+		.writeEn(writeEn)
+	);
+
+	zTopLevelMouse(
+		.clk(CLOCK_50),
+		.key(KEY),
+		.PS2_CLK(PS2_CLK),
+		.PS2_DAT(PS2_DAT),
+		.x_position(mouseX),
+		.y_position(mouseY)
+	);
+
+
 	
 endmodule

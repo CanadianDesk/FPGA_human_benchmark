@@ -1,6 +1,6 @@
 module mouseCodeToSignal(  
-	 input clk,
-	 input mouseMoved,
+	input clk,
+	input mouseMoved,
     input [7:0] mouseData,
     output reg [8:0] x_position,
     output reg [7:0] y_position,
@@ -30,7 +30,7 @@ initial begin
 	y_movement_signed = 9'b0;
 	new_y_position = 12'd120;
 	x_position = 10'd160;  // Center of 320 width
-   y_position = 10'd120;   // Center of 240 height
+    y_position = 10'd120;   // Center of 240 height
 	byte_count = 2'b0;
 end
 	

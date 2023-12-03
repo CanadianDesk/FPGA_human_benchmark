@@ -6,8 +6,8 @@ module VGAcontrol(
     input V_SYNC,
     input iReset,
     input keyPress,
-    //input [8:0] iMouseX
-    //input [7:0] iMouseY
+    input [8:0] iMouseX,
+    input [7:0] iMouseY,
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
@@ -15,15 +15,18 @@ module VGAcontrol(
 );
 
     reg [2:0] qReading;
-    reg [8:0] xCounter/*, mouseRegX*/;
-    reg [7:0] yCounter/*, mouseRegY*/;
+    reg [8:0] xCounter, mouseRegX;
+    reg [7:0] yCounter, mouseRegY;
     reg [16:0] readingAddress;
+
+    reg cursorPos;
+
 
     assign x = xCounter;
     assign y = yCounter;
 
     wire [2:0] qMenu, qRed;
-    assign color = qReading;
+    assign color = cursorPos ? 3'b000 : qReading;
 
     /**********************************************
     Modules to assign the Q values from ROM images
@@ -85,25 +88,29 @@ module VGAcontrol(
             xCounter = 0;
             yCounter = 0;
             writeEn = 0;
+            cursorPos = 0;
         end 
-        else if (~V_SYNC && V_SYNC_prev) begin
+        else if (~V_SYNC && V_SYNC_prev) begin //checks if negedge V_SYNC, stores mouseX and mouseY in register
             writeEn <= 1;
-            // mouseRegX <= iMouseX;
-            // mouseRegY <= iMouseY;
+            mouseRegX <= iMouseX;
+            mouseRegY <= iMouseY;
         end
         else if (writeEn) begin
             if (xCounter == 319 && yCounter == 249) begin
+                cursorPos <= (mouseRegX == xCounter || mouseRegY == yCounter) ? 1 : 0;
                 writeEn <= 0;
                 yCounter <= 0;
                 xCounter <= 0;
                 readingAddress <= 0;
             end
             else if (xCounter == 319) begin
+                cursorPos <= (mouseRegX == xCounter || mouseRegY == yCounter) ? 1 : 0;
                 yCounter <= yCounter + 1;
                 xCounter <= 0;
                 readingAddress <= readingAddress + 1;
             end
             else begin
+                cursorPos <= (mouseRegX == xCounter || mouseRegY == yCounter) ? 1 : 0;
                 xCounter <= xCounter + 1;
                 readingAddress <= readingAddress + 1;
             end
