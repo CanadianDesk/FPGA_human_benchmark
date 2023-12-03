@@ -1,6 +1,6 @@
 // Part 2 skeleton
 
-module fill
+module VGA
 	(
 		CLOCK_50,						//	On Board 50 MHz
 		// Your inputs and outputs here
