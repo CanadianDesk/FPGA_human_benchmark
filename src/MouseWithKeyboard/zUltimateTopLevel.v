@@ -8,8 +8,8 @@ module zUltimateTopLevel(
 	output two_pressed,
 	output space_pressed,
 	output leftClick_pressed,
-	output [9:0] x_position,
-	output [8:0] y_position
+	output [8:0] x_position,
+	output [7:0] y_position
 );
 
 zTopLevelKeyboard keyboard(CLOCK_50, KEY, PS2_CLK, PS2_DAT, space_pressed, enter_pressed, one_pressed, two_pressed);
