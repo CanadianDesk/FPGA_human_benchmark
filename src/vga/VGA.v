@@ -22,8 +22,8 @@ module VGA
 
 	input			CLOCK_50;				//	50 MHz
 	input	[3:0]	KEY;	
-	input PST_CLK,
-	input PS2_DAT,				
+	input PST_CLK;
+	input PS2_DAT;				
 	// Declare your inputs and outputs here
 	// Do not change the following outputs
 	output			VGA_CLK;   				//	VGA Clock
