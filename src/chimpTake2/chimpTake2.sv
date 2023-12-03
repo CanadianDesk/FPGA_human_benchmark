@@ -19,7 +19,7 @@ module chimpTake2(clk, iReset, board, level);
     reg [9:0] mouseX, [8:0] mouseY;
     prng j11(.clk(clk), .iReset(iReset), .oOutput(randNum));
     ////find out real module and variable names
-    MOUSE_PS2_Controller j12(.x_position(mouseX), .y_position(mouseY), .mousePressed(mouse));
+    zUltimateTopLevel j12(.x_position(mouseX), .y_position(mouseY), .space_pressed(space), .leftClick_pressed(mouse));
     chimpTake2MouseClick j13 (.iReset(iReset), .clk(clk), .mouseX(mouseX), .mouseY(mouseY),
          .BoxX(BoxX), .BoxY(BoxY));
     ////find out real module and variable names

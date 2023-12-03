@@ -1,4 +1,4 @@
-module mouseWithKeyboard(
+module zUltimateTopLevel(
 	input CLOCK_50,
 	input KEY,
 	// Bidirectionals
