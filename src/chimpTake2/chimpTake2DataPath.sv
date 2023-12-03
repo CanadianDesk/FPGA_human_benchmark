@@ -12,15 +12,15 @@ iNumToChoose, iRandNum, iMouseClick, iReset,
     integer boardSize = 3'd8;
     always@(posedge clk)begin
         //coonect the fifth bit of each cell to iShowEnable
-		  board[0][0][5] <= iShowEnable;
-		  board[0][1][5] <= iShowEnable;
-		  board[0][2][5] <= iShowEnable;
-		  board[0][3][5] <= iShowEnable;
-		  board[0][4][5] <= iShowEnable;
-		  board[0][5][5] <= iShowEnable;
-		  board[0][6][5] <= iShowEnable;
-		  board[0][7][5] <= iShowEnable;
-		  board[1][0][5] <= iShowEnable;
+		    board[0][0][5] <= iShowEnable;
+            board[0][1][5] <= iShowEnable;
+            board[0][2][5] <= iShowEnable;
+            board[0][3][5] <= iShowEnable;
+            board[0][4][5] <= iShowEnable;
+            board[0][5][5] <= iShowEnable;
+            board[0][6][5] <= iShowEnable;
+            board[0][7][5] <= iShowEnable;
+            board[1][0][5] <= iShowEnable;
 			board[1][1][5] <= iShowEnable;
 			board[1][2][5] <= iShowEnable;
 			board[1][3][5] <= iShowEnable;
