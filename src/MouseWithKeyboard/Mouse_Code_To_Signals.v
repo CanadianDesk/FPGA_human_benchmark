@@ -2,8 +2,8 @@ module mouseCodeToSignal(
 	 input clk,
 	 input mouseMoved,
     input [7:0] mouseData,
-    output reg [9:0] x_position,
-    output reg [8:0] y_position,
+    output reg [8:0] x_position,
+    output reg [7:0] y_position,
     output reg left_button_pressed
 );
 
@@ -45,8 +45,8 @@ begin
     end
 	 else 
 	 begin
-	 x_position <= new_x_position[9:0];
-	 y_position <= new_y_position[8:0];
+	 x_position <= new_x_position[8:0];
+	 y_position <= new_y_position[7:0];
 	 end
 
 end

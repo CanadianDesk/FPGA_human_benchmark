@@ -32,18 +32,15 @@ inout				PS2_CLK;
 inout				PS2_DAT;
 
 // Outputs
-output	x_position;
-output	y_position;
+output	[8:0] x_position;
+output	[7:0] y_position;
 output	leftClick_pressed;
 
 
 // Internal Wires
 wire		[7:0]	ps2_key_data;
 wire				mouseMoved;
-wire 		[9:0] x_position;
-wire 		[8:0] y_position;
 
-wire mouseClicked;
 
 // Internal Registers
 reg			[7:0]	last_data_received;
