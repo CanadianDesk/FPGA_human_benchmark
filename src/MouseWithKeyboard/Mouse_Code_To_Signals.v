@@ -1,6 +1,6 @@
 module mouseCodeToSignal(  
-	 input clk,
-	 input mouseMoved,
+	input clk,
+	input mouseMoved,
     input [7:0] mouseData,
     output reg [9:0] x_position,
     output reg [8:0] y_position,
