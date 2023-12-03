@@ -86,7 +86,7 @@ module VGAcontrol(
             yCounter = 0;
             writeEn = 0;
         end 
-        else if (~V_SYNC && V_SYNC_prev) begin
+        else if (~V_SYNC && V_SYNC_prev) begin //checks if negedge V_SYNC
             writeEn <= 1;
             // mouseRegX <= iMouseX;
             // mouseRegY <= iMouseY;
