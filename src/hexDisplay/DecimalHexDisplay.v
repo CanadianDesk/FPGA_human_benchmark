@@ -1,5 +1,3 @@
-
-
 module decimal_To_Seven_Segment (
 	// Inputs
 	dec_number,
