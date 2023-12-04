@@ -8,12 +8,10 @@
 // OUTPUTS
 //// 1. 2 bit, output of which mode to display (00 menu, 01 react, 10 chimp)
 
-module mainMenu(input i1, i2, clk, iReset, KEY[0],
+module mainMenu(input i1, i2, clk, iReset,
     output reg [1:0] oMode);
-    Keyboard_PS2_Controller j9(.one_pressed_out(i1), .two_pressed_out(i2));
+    zUltimateTopLevel j45(.one_pressed(i1), .two_pressed(i2));
     reg [3:0] current_state, next_state;
-    wire iKey0;
-    assign iKey0 = !KEY[0];
     localparam MENU = 3'd0,
     REACT_WAIT = 3'd1,
     REACT = 3'd2,
@@ -26,25 +24,25 @@ module mainMenu(input i1, i2, clk, iReset, KEY[0],
             oMode = 2'd0;
             if (i1) next_state = REACT_WAIT;
             else if (i2) next_state = CHIMP_WAIT;
-            else if (iKey0) next_state = MENU_WAIT;
+            else if (iReset) next_state = MENU_WAIT;
             end
         REACT_WAIT: next_state = i1 ? REACT_WAIT : REACT;
         REACT: begin 
             oMode = 2'd1;
-            next_state = iKey0 ? MENU_WAIT : REACT;
+            next_state = iReset ? MENU_WAIT : REACT;
             end
         CHIMP_WAIT: next_state = i2 ? CHIMP_WAIT : CHIMP;
         CHIMP: begin
             oMode = 2'd2;
-            next_state = iKey0 ? MENU_WAIT : CHIMP;
+            next_state = iReset ? MENU_WAIT : CHIMP;
             end
-        MENU_WAIT: next_state = iKey0 ? MENU_WAIT : MENU;
+        MENU_WAIT: next_state = iReset ? MENU_WAIT : MENU;
         default: next_state = MENU;
         endcase
     end
 
     always@(posedge clk) begin
-        current_state = next_state;
+        current_state <= next_state;
     end    
 endmodule
 
