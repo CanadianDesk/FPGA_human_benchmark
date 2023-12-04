@@ -171,7 +171,6 @@ module VGAcontrol(
                             7: QSPRITE <= qSeven;
                             8: QSPRITE <= qEight;
                             9: QSPRITE <= qNine;
-                            default: 
                         endcase
                     end 
                     1: begin
@@ -186,7 +185,6 @@ module VGAcontrol(
                             7: QSPRITE <= qSeven;
                             8: QSPRITE <= qEight;
                             9: QSPRITE <= qNine;
-                            default: 
                         endcase
                     end
                     2: begin
@@ -201,7 +199,6 @@ module VGAcontrol(
                             7: QSPRITE <= qSeven;
                             8: QSPRITE <= qEight;
                             9: QSPRITE <= qNine;
-                            default: 
                         endcase
                     end
                     3: begin
@@ -216,7 +213,6 @@ module VGAcontrol(
                             7: QSPRITE <= qSeven;
                             8: QSPRITE <= qEight;
                             9: QSPRITE <= qNine;
-                            default: 
                         endcase
                     end                    
                 endcase                
@@ -285,7 +281,7 @@ module extractDigits (
     //digit 1
     always @(*) begin
         temp1 = value / 1000;
-        thouands = temp1 % 10;
+        thousands = temp1 % 10;
         temp2 = value / 100;
         hundreds = temp2 % 10;
         temp3 = value / 10;
