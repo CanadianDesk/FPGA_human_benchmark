@@ -13,7 +13,9 @@ module VGAcontrol(
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
-    output reg writeEn
+    output reg writeEn,
+    output reg spriteEn,
+    output reg cursorEn
 );
 
     reg [2:0] qReading;
@@ -25,7 +27,7 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] qMenu, qRed, qBlue, qGreen, qScore;
+    wire [2:0] qMenu, qRed, qBlue, qGreen, qScore, q1, q2, q3, q4, q5, q6, q7, q8, q9, q0;
     assign color = qReading;
 
     /**********************************************
@@ -34,9 +36,19 @@ module VGAcontrol(
 
     menurom q1(readingAddress, clk, qMenu);
     redrom q2(readingAddress, clk, qRed);
-	 greenrom q3(readingAddress, clk, qGreen);
-	 bluerom q4(readingAddress, clk,qBlue);
-	 scorerom q5(readingAddress, clk, qScore);
+	greenrom q3(readingAddress, clk, qGreen);
+	bluerom q4(readingAddress, clk,qBlue);
+	scorerom q5(readingAddress, clk, qScore);
+    rom0 q6(readingAddress, clk, q0);
+    rom1 q7(readingAddress, clk, q1);
+    rom2 q8(readingAddress, clk, q2);
+    rom3 q9(readingAddress, clk, q3);
+    rom4 q10(readingAddress, clk, q4);
+    rom5 q11(readingAddress, clk, q5);
+    rom6 q12(readingAddress, clk, q6);
+    rom7 q13(readingAddress, clk, q7);
+    rom8 q14(readingAddress, clk, q8);
+    rom9 q15(readingAddress, clk, q9);
 
     /**********************************************
     STATE MACHINE TO CHOOSE THE RIGHT Q
@@ -66,8 +78,8 @@ module VGAcontrol(
         case (reactScreen)
             2'd0: qReading = qBlue;
             2'd1: qReading = qRed;
-				2'd2: qReading = qGreen;
-				2'd3: qReading = qScore;
+			2'd2: qReading = qGreen;
+			2'd3: qReading = qScore;
             default: qReading = qMenu;
         endcase
     end
@@ -92,34 +104,25 @@ module VGAcontrol(
         if (iReset) begin
             xCounter <= 0;
             yCounter <= 0;
-				mxCounter <= 0;
-				myCounter <= 0;
-				readingAddress <= 0;
+			readingAddress <= 0;
             writeEn <= 0;
         end 
         else if (~V_SYNC && V_SYNC_prev) begin
             writeEn <= 1;
-            // mouseRegX <= iMouseX;
-            // mouseRegY <= iMouseY;
+            mouseRegX <= iMouseX;
+            mouseRegY <= iMouseY;
         end
         else if (writeEn) begin
             if (xCounter == 319 && yCounter == 239) begin
-					 /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
-					 if (screen = 3) begin
-						
-					 end
-					 else begin
-						yCounter <= 0;
-						xCounter <= 0;
-						mxCounter <= 0;
-						myCounter <= 0;
-						readingAddress <= 0;					 
-						writeEn <= 0
-					 end
+                /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
                 yCounter <= 0;
                 xCounter <= 0;
                 readingAddress <= 0;					 
-					 writeEn <= 0;
+                writeEn <= 0;
+                if (screen == 3)
+                    spriteEn <= 1;
+                else 
+                    cursorEn <= 1;
             end
             else if (xCounter == 319) begin
                 yCounter <= yCounter + 1;
@@ -131,7 +134,14 @@ module VGAcontrol(
                 readingAddress <= readingAddress + 1;
             end
         end
+        else if (spriteEn) begin
+            //DRAW SPRITES WOOOOO!!!!
+        end
+        else if (cursorEn) begin
+            //DRAW CURSOR WOOOOO!!!!
+        end
     end
+
 
     
 endmodule
