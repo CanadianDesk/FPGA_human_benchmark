@@ -224,7 +224,9 @@ module VGAcontrol(
                         screen3digitsCounter <= 0;
                         spriteEn <= 0;
                         backEn <= 0;
-                        cursorEn <= 1;                        
+                        cursorEn <= 1;
+                        xCounter <= 0;
+                        yCounter <= 0;                        
                     end
                     else begin  //need to draw next sprite
                         //DESIGNATE WHERE TO DRAW NEXT:
