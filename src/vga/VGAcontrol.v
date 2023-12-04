@@ -85,13 +85,13 @@ module VGAcontrol(
 //    end
 
     //Signals
-    always @(*) begin
+    always @(posedge clk) begin
         case (reactScreen)
-            2'd0: QBACK = qBlue;
-            2'd1: QBACK = qRed;
-			2'd2: QBACK = qGreen;
-			2'd3: QBACK = qScore;
-            default: QBACK = qMenu;
+            2'd0: QBACK <= qBlue;
+            2'd1: QBACK <= qRed;
+			2'd2: QBACK <= qGreen;
+			2'd3: QBACK <= qScore;
+            default: QBACK <= qMenu;
         endcase
     end
 
@@ -223,13 +223,14 @@ module VGAcontrol(
                     if (screen3digitsCounter == 3) begin //finished drawing all sprites
                         screen3digitsCounter <= 0;
                         spriteEn <= 0;
+                        backEn <= 0;
                         cursorEn <= 1;                        
                     end
                     else begin  //need to draw next sprite
                         //DESIGNATE WHERE TO DRAW NEXT:
                         screen3digitsCounter <= screen3digitsCounter + 1;
                         xCounter <= ((screen3digitsCounter + 1) * 17) + 120;
-                        xCounter <= ((screen3digitsCounter + 1) * 17) + 155;
+                        yCounter <= 155;
                     end
                 end
                 else if (mxCounter == 17) begin //end row of a sprite
