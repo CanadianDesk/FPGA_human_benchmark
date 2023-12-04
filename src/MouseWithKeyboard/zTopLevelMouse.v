@@ -48,7 +48,7 @@ reg			[7:0]	last_data_received;
 
 always @(posedge CLOCK_50)
 begin
-	if (KEY[0] == 1'b0)
+	if (KEY[3] == 1'b0)
 		last_data_received <= 8'h00;
 	else if (mouseMoved == 1'b1)
 		last_data_received <= ps2_key_data;
@@ -57,7 +57,7 @@ end
 MousePS2_Controller PS2 (
 	// Inputs
 	.CLOCK_50				(CLOCK_50),
-	.reset				(~KEY[0]),
+	.reset				(~KEY[3]),
 
 	// Bidirectionals
 	.PS2_CLK			(PS2_CLK),
