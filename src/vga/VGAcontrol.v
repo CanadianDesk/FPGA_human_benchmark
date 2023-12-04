@@ -1,13 +1,11 @@
 //FSM THAT CONTROLS THE VGA
-
-
 module VGAcontrol(
     input clk,
     input V_SYNC,
     input iReset,
     input keyPress,
-	 input [1:0] reactScreen,
-//	 input [11:0] currentScore,
+    input [1:0] reactScreen,
+    input [11:0] currentScore,
     //input [8:0] iMouseX
     //input [7:0] iMouseY
     output [8:0] x,
@@ -20,16 +18,26 @@ module VGAcontrol(
     reg [8:0] xCounter/*, mouseRegX*/;
     reg [7:0] yCounter/*, mouseRegY*/;
     reg [16:0] readingAddress;
-	 reg [4:0] mxCounter, myCounter;
+	reg [4:0] mxCounter, myCounter;
+    reg [2:0] screen3digitsCounter;
+    reg [3:0] scoreOnes, scoreTens, scoreHundreds, scoreThousands;
+    
+    extractDigits digitExtractor(
+        .value(currentScore),
+        .thousands(scoreThousands),
+        .hundreds(scoreHundreds),
+        .tens(scoreTens),
+        .ones(scoreOnes)
+    );
 
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] qMenu, qRed, qBlue, qGreen, qScore, q1, q2, q3, q4, q5, q6, q7, q8, q9, q0;
+    wire [2:0] QBACK, QSPRITE, QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, q1, q2, q3, q4, q5, q6, q7, q8, q9, q0;
+	assign QCURSOR = 3'b000; 
+	reg backEn, cursorEn, spriteEn;
 	 
-	 reg backEn, cursorEn, spriteEn;
-	 
-	 assign writeEn = backEn || cursorEn || spriteEn;
+	assign writeEn = backEn || cursorEn || spriteEn;
     assign color = qReading;
 
     /**********************************************
@@ -78,11 +86,11 @@ module VGAcontrol(
     //Signals
     always @(*) begin
         case (reactScreen)
-            2'd0: qReading = qBlue;
-            2'd1: qReading = qRed;
-				2'd2: qReading = qGreen;
-				2'd3: qReading = qScore;
-            default: qReading = qMenu;
+            2'd0: QBACK = qBlue;
+            2'd1: QBACK = qRed;
+			2'd2: QBACK = qGreen;
+			2'd3: QBACK = qScore;
+            default: QBACK = qMenu;
         endcase
     end
 
@@ -106,26 +114,40 @@ module VGAcontrol(
         if (iReset) begin
             xCounter <= 0;
             yCounter <= 0;
-				readingAddress <= 0;
+			readingAddress <= 0;
             backEn <= 0;
-				spriteEn <= 0;
-				cursorEn <= 0;
+			spriteEn <= 0;
+            mxCounter <= 0;
+            myCounter <= 0;
+			cursorEn <= 0;
+            screen3digitsCounter <=0;
         end 
         else if (~V_SYNC && V_SYNC_prev) begin
             backEn <= 1;
+            qReading <= QBACK;
             mouseRegX <= iMouseX;
             mouseRegY <= iMouseY;
         end
         else if (backEn) begin
             if (xCounter == 319 && yCounter == 239) begin
                 /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
-                yCounter <= 0;
-                xCounter <= 0;
                 readingAddress <= 0;					 
                 backEn <= 0;
-                if (screen == 3)
+                if (reactScreen == 3)
+                    qReading <= QSPRITE;
                     spriteEn <= 1;
+                    //DESIGNATE WHICH SPRITE TO DRAW NEXT, AND WHERE:  
+                    xCounter <= 120;
+                    yCounter <= 155;                    
+                    case (scoreThousands)
+                        0: QSPRITE <= q0;
+                        1: QSPRITE <= q1;
+                        2: QSPRITE <= q2;
+                        3: QSPRITE <= q3; 
+                        default: QSPRITE <= q9; 
+                    endcase
                 else 
+                    qReading <= QCURSOR;
                     cursorEn <= 1;
             end
             else if (xCounter == 319) begin
@@ -140,11 +162,112 @@ module VGAcontrol(
         end
         else if (spriteEn) begin
             //DRAW SPRITES WOOOOO!!!!
+            //for react, start numbers at 120, 155 when reactScreen = 3
+            //for chimp, [TODO]
+            if (reactScreen == 3) begin
+                if (mxCounter == 17 && myCounter == 17) begin //finished drawing one sprite
+                    mxCounter <= 0;
+                    myCounter <= 0;
+                    readingAddress <= 0;
+                    if (screen3digitsCounter == 3) begin //finished drawing all sprites
+                        screen3digitsCounter <= 0;
+                        spriteEn <= 0;
+                        qReading <= QCURSOR;
+                        cursorEn <= 1;                        
+                    end
+                    else begin  //need to draw next sprite
+                        //DESIGNATE WHICH SPRITE TO DRAW NEXT, and where:
+                        screen3digitsCounter <= screen3digitsCounter + 1;
+                        xCounter <= ((screen3digitsCounter + 1) * 17) + 120;
+                        xCounter <= ((screen3digitsCounter + 1) * 17) + 155;
+                        case (screen3digitsCounter)
+                            0: begin
+                                case (scoreHundreds)
+                                    0: QSPRITE <= q0;
+                                    1: QSPRITE <= q1;
+                                    2: QSPRITE <= q2;
+                                    3: QSPRITE <= q3;
+                                    4: QSPRITE <= q4;
+                                    5: QSPRITE <= q5;
+                                    6: QSPRITE <= q6;
+                                    7: QSPRITE <= q7;
+                                    8: QSPRITE <= q8;
+                                    9: QSPRITE <= q9;
+                                    default: 
+                                endcase
+                            end 
+                            1: begin
+                                case (scoreTens)
+                                    0: QSPRITE <= q0;
+                                    1: QSPRITE <= q1;
+                                    2: QSPRITE <= q2;
+                                    3: QSPRITE <= q3;
+                                    4: QSPRITE <= q4;
+                                    5: QSPRITE <= q5;
+                                    6: QSPRITE <= q6;
+                                    7: QSPRITE <= q7;
+                                    8: QSPRITE <= q8;
+                                    9: QSPRITE <= q9;
+                                    default: 
+                                endcase
+                            end
+                            2: begin
+                                case (scoreOnes)
+                                    0: QSPRITE <= q0;
+                                    1: QSPRITE <= q1;
+                                    2: QSPRITE <= q2;
+                                    3: QSPRITE <= q3;
+                                    4: QSPRITE <= q4;
+                                    5: QSPRITE <= q5;
+                                    6: QSPRITE <= q6;
+                                    7: QSPRITE <= q7;
+                                    8: QSPRITE <= q8;
+                                    9: QSPRITE <= q9;
+                                    default: 
+                                endcase
+                            end
+                        endcase
+                    end
+                end
+                else if (mxCounter == 17) begin //end row of a sprite
+                    myCounter <= myCounter + 1;
+                    yCounter <= yCounter + 1;
+                    mxCounter <= 0;
+                    xCounter <= (screen3digitsCounter * 17) + 120;
+                    readingAddress <= readingAddress + 1;
+                end 
+                else begin
+                    xCounter <= xCounter + 1;
+                    mxCounter <= mxCounter + 1;
+                    readingAddress <= readingAddress + 1;
+                end
+            end
         end
         else if (cursorEn) begin
             //DRAW CURSOR WOOOOO!!!!
         end
     end
+endmodule
+
+
+module extractDigits (
+    input [11:0] value, //the 12 bit input of currentScore
+    output reg [3:0] thousands,
+    output reg [3:0] hundreds,
+    output reg [3:0] tens,
+    output reg [3:0] ones
+);
+    reg [15:0] temp1, temp2, temp3;
+    //digit 1
+    always @(*) begin
+        temp1 = value / 1000;
+        ones = temp1 % 10;
+        temp2 = value / 100;
+        tens = temp2 % 10;
+        temp3 = value / 10;
+        hundreds = temp3 % 10;
+        ones = value % 10;
+    end    
 
 
     
