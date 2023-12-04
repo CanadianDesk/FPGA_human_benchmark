@@ -11,7 +11,7 @@ module VGAcontrol(
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
-    output reg writeEn,
+    output reg writeEn
 );
 
     reg [2:0] qReading;
@@ -33,7 +33,7 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] QBACK, QSPRITE, QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, q1, q2, q3, q4, q5, q6, q7, q8, q9, q0;
+    wire [2:0] QBACK, QSPRITE, QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero;
 	assign QCURSOR = 3'b000; 
 	reg backEn, cursorEn, spriteEn;
 	 
@@ -49,16 +49,16 @@ module VGAcontrol(
 	greenrom q3(readingAddress, clk, qGreen);
 	bluerom q4(readingAddress, clk,qBlue);
 	scorerom q5(readingAddress, clk, qScore);
-    rom0 q6(readingAddress, clk, q0);
-    rom1 q7(readingAddress, clk, q1);
-    rom2 q8(readingAddress, clk, q2);
-    rom3 q9(readingAddress, clk, q3);
-    rom4 q10(readingAddress, clk, q4);
-    rom5 q11(readingAddress, clk, q5);
-    rom6 q12(readingAddress, clk, q6);
-    rom7 q13(readingAddress, clk, q7);
-    rom8 q14(readingAddress, clk, q8);
-    rom9 q15(readingAddress, clk, q9);
+    rom0 q6(readingAddress, clk, qZero);
+    rom1 q7(readingAddress, clk, qOne);
+    rom2 q8(readingAddress, clk, qTwo);
+    rom3 q9(readingAddress, clk, qThree);
+    rom4 q10(readingAddress, clk, qFour);
+    rom5 q11(readingAddress, clk, qFive);
+    rom6 q12(readingAddress, clk, qSix);
+    rom7 q13(readingAddress, clk, qSeven);
+    rom8 q14(readingAddress, clk, qEight);
+    rom9 q15(readingAddress, clk, qNine);
 
     /**********************************************
     STATE MACHINE TO CHOOSE THE RIGHT Q
@@ -133,22 +133,24 @@ module VGAcontrol(
                 /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
                 readingAddress <= 0;					 
                 backEn <= 0;
-                if (reactScreen == 3)
+                if (reactScreen == 3) begin
                     qReading <= QSPRITE;
                     spriteEn <= 1;
                     //DESIGNATE WHICH SPRITE TO DRAW NEXT, AND WHERE:  
                     xCounter <= 120;
                     yCounter <= 155;                    
                     case (scoreThousands)
-                        0: QSPRITE <= q0;
-                        1: QSPRITE <= q1;
-                        2: QSPRITE <= q2;
-                        3: QSPRITE <= q3; 
-                        default: QSPRITE <= q9; 
+                        0: QSPRITE <= qZero;
+                        1: QSPRITE <= qOne;
+                        2: QSPRITE <= qTwo;
+                        3: QSPRITE <= qThree; 
+                        default: QSPRITE <= qNine; 
                     endcase
-                else 
+                end
+                else begin
                     qReading <= QCURSOR;
                     cursorEn <= 1;
+                end
             end
             else if (xCounter == 319) begin
                 yCounter <= yCounter + 1;
@@ -183,46 +185,46 @@ module VGAcontrol(
                         case (screen3digitsCounter)
                             0: begin
                                 case (scoreHundreds)
-                                    0: QSPRITE <= q0;
-                                    1: QSPRITE <= q1;
-                                    2: QSPRITE <= q2;
-                                    3: QSPRITE <= q3;
-                                    4: QSPRITE <= q4;
-                                    5: QSPRITE <= q5;
-                                    6: QSPRITE <= q6;
-                                    7: QSPRITE <= q7;
-                                    8: QSPRITE <= q8;
-                                    9: QSPRITE <= q9;
+                                    0: QSPRITE <= qZero;
+                                    1: QSPRITE <= qOne;
+                                    2: QSPRITE <= qTwo;
+                                    3: QSPRITE <= qThree;
+                                    4: QSPRITE <= qFour;
+                                    5: QSPRITE <= qFive;
+                                    6: QSPRITE <= qSix;
+                                    7: QSPRITE <= qSeven;
+                                    8: QSPRITE <= qEight;
+                                    9: QSPRITE <= qNine;
                                     default: 
                                 endcase
                             end 
                             1: begin
                                 case (scoreTens)
-                                    0: QSPRITE <= q0;
-                                    1: QSPRITE <= q1;
-                                    2: QSPRITE <= q2;
-                                    3: QSPRITE <= q3;
-                                    4: QSPRITE <= q4;
-                                    5: QSPRITE <= q5;
-                                    6: QSPRITE <= q6;
-                                    7: QSPRITE <= q7;
-                                    8: QSPRITE <= q8;
-                                    9: QSPRITE <= q9;
+                                    0: QSPRITE <= qZero;
+                                    1: QSPRITE <= qOne;
+                                    2: QSPRITE <= qTwo;
+                                    3: QSPRITE <= qThree;
+                                    4: QSPRITE <= qFour;
+                                    5: QSPRITE <= qFive;
+                                    6: QSPRITE <= qSix;
+                                    7: QSPRITE <= qSeven;
+                                    8: QSPRITE <= qEight;
+                                    9: QSPRITE <= qNine;
                                     default: 
                                 endcase
                             end
                             2: begin
                                 case (scoreOnes)
-                                    0: QSPRITE <= q0;
-                                    1: QSPRITE <= q1;
-                                    2: QSPRITE <= q2;
-                                    3: QSPRITE <= q3;
-                                    4: QSPRITE <= q4;
-                                    5: QSPRITE <= q5;
-                                    6: QSPRITE <= q6;
-                                    7: QSPRITE <= q7;
-                                    8: QSPRITE <= q8;
-                                    9: QSPRITE <= q9;
+                                    0: QSPRITE <= qZero;
+                                    1: QSPRITE <= qOne;
+                                    2: QSPRITE <= qTwo;
+                                    3: QSPRITE <= qThree;
+                                    4: QSPRITE <= qFour;
+                                    5: QSPRITE <= qFive;
+                                    6: QSPRITE <= qSix;
+                                    7: QSPRITE <= qSeven;
+                                    8: QSPRITE <= qEight;
+                                    9: QSPRITE <= qNine;
                                     default: 
                                 endcase
                             end
