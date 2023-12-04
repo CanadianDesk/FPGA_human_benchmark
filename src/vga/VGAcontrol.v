@@ -14,8 +14,6 @@ module VGAcontrol(
     output [7:0] y,
     output [2:0] color,
     output reg writeEn,
-    output reg spriteEn,
-    output reg cursorEn
 );
 
     reg [2:0] qReading;
@@ -28,6 +26,10 @@ module VGAcontrol(
     assign y = yCounter;
 
     wire [2:0] qMenu, qRed, qBlue, qGreen, qScore, q1, q2, q3, q4, q5, q6, q7, q8, q9, q0;
+	 
+	 reg backEn, cursorEn, spriteEn;
+	 
+	 assign writeEn = backEn || cursorEn || spriteEn;
     assign color = qReading;
 
     /**********************************************
@@ -78,8 +80,8 @@ module VGAcontrol(
         case (reactScreen)
             2'd0: qReading = qBlue;
             2'd1: qReading = qRed;
-			2'd2: qReading = qGreen;
-			2'd3: qReading = qScore;
+				2'd2: qReading = qGreen;
+				2'd3: qReading = qScore;
             default: qReading = qMenu;
         endcase
     end
@@ -104,21 +106,23 @@ module VGAcontrol(
         if (iReset) begin
             xCounter <= 0;
             yCounter <= 0;
-			readingAddress <= 0;
-            writeEn <= 0;
+				readingAddress <= 0;
+            backEn <= 0;
+				spriteEn <= 0;
+				cursorEn <= 0;
         end 
         else if (~V_SYNC && V_SYNC_prev) begin
-            writeEn <= 1;
+            backEn <= 1;
             mouseRegX <= iMouseX;
             mouseRegY <= iMouseY;
         end
-        else if (writeEn) begin
+        else if (backEn) begin
             if (xCounter == 319 && yCounter == 239) begin
                 /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
                 yCounter <= 0;
                 xCounter <= 0;
                 readingAddress <= 0;					 
-                writeEn <= 0;
+                backEn <= 0;
                 if (screen == 3)
                     spriteEn <= 1;
                 else 
