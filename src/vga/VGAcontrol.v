@@ -11,7 +11,7 @@ module VGAcontrol(
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
-    output reg writeEn
+    output writeEn
 );
 
     reg [2:0] qReading;
@@ -20,7 +20,7 @@ module VGAcontrol(
     reg [16:0] readingAddress;
 	reg [4:0] mxCounter, myCounter;
     reg [2:0] screen3digitsCounter;
-    reg [3:0] scoreOnes, scoreTens, scoreHundreds, scoreThousands;
+    wire [3:0] scoreOnes, scoreTens, scoreHundreds, scoreThousands;
     
     extractDigits digitExtractor(
         .value(currentScore),
@@ -33,7 +33,8 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] QBACK, QSPRITE, QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero;
+    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero;
+    reg [2:0] QBACK, QSPRITE;
 	assign QCURSOR = 3'b000; 
 	reg backEn, cursorEn, spriteEn;
 	 
@@ -124,31 +125,22 @@ module VGAcontrol(
         end 
         else if (~V_SYNC && V_SYNC_prev) begin
             backEn <= 1;
-            qReading <= QBACK;
             mouseRegX <= iMouseX;
             mouseRegY <= iMouseY;
         end
         else if (backEn) begin
+            qReading <= QBACK;
             if (xCounter == 319 && yCounter == 239) begin
                 /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
                 readingAddress <= 0;					 
                 backEn <= 0;
                 if (reactScreen == 3) begin
-                    qReading <= QSPRITE;
                     spriteEn <= 1;
-                    //DESIGNATE WHICH SPRITE TO DRAW NEXT, AND WHERE:  
+                    //DESIGNATE WHERE TO DRAW SPRITE NEXT:  
                     xCounter <= 120;
                     yCounter <= 155;                    
-                    case (scoreThousands)
-                        0: QSPRITE <= qZero;
-                        1: QSPRITE <= qOne;
-                        2: QSPRITE <= qTwo;
-                        3: QSPRITE <= qThree; 
-                        default: QSPRITE <= qNine; 
-                    endcase
                 end
                 else begin
-                    qReading <= QCURSOR;
                     cursorEn <= 1;
                 end
             end
@@ -163,10 +155,71 @@ module VGAcontrol(
             end
         end
         else if (spriteEn) begin
-            //DRAW SPRITES WOOOOO!!!!
-            //for react, start numbers at 120, 155 when reactScreen = 3
-            //for chimp, [TODO]
+            qReading <= QSPRITE;
             if (reactScreen == 3) begin
+                //UPDATE THE COLORS FROM ROM
+                case (screen3digitsCounter)
+                    0: begin
+                        case (scoreThousands)
+                            0: QSPRITE <= qZero;
+                            1: QSPRITE <= qOne;
+                            2: QSPRITE <= qTwo;
+                            3: QSPRITE <= qThree;
+                            4: QSPRITE <= qFour;
+                            5: QSPRITE <= qFive;
+                            6: QSPRITE <= qSix;
+                            7: QSPRITE <= qSeven;
+                            8: QSPRITE <= qEight;
+                            9: QSPRITE <= qNine;
+                            default: 
+                        endcase
+                    end 
+                    1: begin
+                        case (scoreHundreds)
+                            0: QSPRITE <= qZero;
+                            1: QSPRITE <= qOne;
+                            2: QSPRITE <= qTwo;
+                            3: QSPRITE <= qThree;
+                            4: QSPRITE <= qFour;
+                            5: QSPRITE <= qFive;
+                            6: QSPRITE <= qSix;
+                            7: QSPRITE <= qSeven;
+                            8: QSPRITE <= qEight;
+                            9: QSPRITE <= qNine;
+                            default: 
+                        endcase
+                    end
+                    2: begin
+                        case (scoreTens)
+                            0: QSPRITE <= qZero;
+                            1: QSPRITE <= qOne;
+                            2: QSPRITE <= qTwo;
+                            3: QSPRITE <= qThree;
+                            4: QSPRITE <= qFour;
+                            5: QSPRITE <= qFive;
+                            6: QSPRITE <= qSix;
+                            7: QSPRITE <= qSeven;
+                            8: QSPRITE <= qEight;
+                            9: QSPRITE <= qNine;
+                            default: 
+                        endcase
+                    end
+                    3: begin
+                        case (scoreOnes)
+                            0: QSPRITE <= qZero;
+                            1: QSPRITE <= qOne;
+                            2: QSPRITE <= qTwo;
+                            3: QSPRITE <= qThree;
+                            4: QSPRITE <= qFour;
+                            5: QSPRITE <= qFive;
+                            6: QSPRITE <= qSix;
+                            7: QSPRITE <= qSeven;
+                            8: QSPRITE <= qEight;
+                            9: QSPRITE <= qNine;
+                            default: 
+                        endcase
+                    end                    
+                endcase                
                 if (mxCounter == 17 && myCounter == 17) begin //finished drawing one sprite
                     mxCounter <= 0;
                     myCounter <= 0;
@@ -174,61 +227,13 @@ module VGAcontrol(
                     if (screen3digitsCounter == 3) begin //finished drawing all sprites
                         screen3digitsCounter <= 0;
                         spriteEn <= 0;
-                        qReading <= QCURSOR;
                         cursorEn <= 1;                        
                     end
                     else begin  //need to draw next sprite
-                        //DESIGNATE WHICH SPRITE TO DRAW NEXT, and where:
+                        //DESIGNATE WHERE TO DRAW NEXT:
                         screen3digitsCounter <= screen3digitsCounter + 1;
                         xCounter <= ((screen3digitsCounter + 1) * 17) + 120;
                         xCounter <= ((screen3digitsCounter + 1) * 17) + 155;
-                        case (screen3digitsCounter)
-                            0: begin
-                                case (scoreHundreds)
-                                    0: QSPRITE <= qZero;
-                                    1: QSPRITE <= qOne;
-                                    2: QSPRITE <= qTwo;
-                                    3: QSPRITE <= qThree;
-                                    4: QSPRITE <= qFour;
-                                    5: QSPRITE <= qFive;
-                                    6: QSPRITE <= qSix;
-                                    7: QSPRITE <= qSeven;
-                                    8: QSPRITE <= qEight;
-                                    9: QSPRITE <= qNine;
-                                    default: 
-                                endcase
-                            end 
-                            1: begin
-                                case (scoreTens)
-                                    0: QSPRITE <= qZero;
-                                    1: QSPRITE <= qOne;
-                                    2: QSPRITE <= qTwo;
-                                    3: QSPRITE <= qThree;
-                                    4: QSPRITE <= qFour;
-                                    5: QSPRITE <= qFive;
-                                    6: QSPRITE <= qSix;
-                                    7: QSPRITE <= qSeven;
-                                    8: QSPRITE <= qEight;
-                                    9: QSPRITE <= qNine;
-                                    default: 
-                                endcase
-                            end
-                            2: begin
-                                case (scoreOnes)
-                                    0: QSPRITE <= qZero;
-                                    1: QSPRITE <= qOne;
-                                    2: QSPRITE <= qTwo;
-                                    3: QSPRITE <= qThree;
-                                    4: QSPRITE <= qFour;
-                                    5: QSPRITE <= qFive;
-                                    6: QSPRITE <= qSix;
-                                    7: QSPRITE <= qSeven;
-                                    8: QSPRITE <= qEight;
-                                    9: QSPRITE <= qNine;
-                                    default: 
-                                endcase
-                            end
-                        endcase
                     end
                 end
                 else if (mxCounter == 17) begin //end row of a sprite
@@ -246,7 +251,24 @@ module VGAcontrol(
             end
         end
         else if (cursorEn) begin
+            qReading <= QCURSOR;
             //DRAW CURSOR WOOOOO!!!!
+            if (mxCounter == 3 && myCounter == 3) begin //done drawing cursor
+                xCounter <= 0;
+                yCounter <= 0;
+                mxCounter <= 0;
+                myCounter <= 0;
+                cursorEn <= 0;
+            end 
+            else if (mxCounter == 3) begin
+                mxCounter <= 0;
+                xCounter <= mouseRegX - 2;
+                yCounter <= yCounter + 1;
+                myCounter <= myCounter + 1;
+            end 
+            else begin
+                mxCounter <= mxCounter
+            end
         end
     end
 endmodule
@@ -263,14 +285,12 @@ module extractDigits (
     //digit 1
     always @(*) begin
         temp1 = value / 1000;
-        ones = temp1 % 10;
+        thouands = temp1 % 10;
         temp2 = value / 100;
-        tens = temp2 % 10;
+        hundreds = temp2 % 10;
         temp3 = value / 10;
-        hundreds = temp3 % 10;
+        tens = temp3 % 10;
         ones = value % 10;
     end    
-
-
     
 endmodule
