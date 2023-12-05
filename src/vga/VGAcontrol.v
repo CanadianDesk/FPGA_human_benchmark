@@ -34,7 +34,6 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero;
     wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero, qGrid;
     reg [2:0] QBACK, QSPRITE;
 	assign QCURSOR = 3'b000; 
@@ -82,19 +81,13 @@ module VGAcontrol(
 //            MENU_WAIT: next_state = keyPress ? MENU_WAIT : MENU;
 //            MENU: next_state = keyPress ? RED_WAIT : MENU;
 //            RED_WAIT: next_state = keyPress ? RED_WAIT : RED;
+//            RED: next_state =   ? MENU_WAIT: RED;
 //            default: next_state = MENU;
 //        endcase
 //    end
 
     //Signals
     always @(*) begin
-        case (reactScreen)
-            2'd0: QBACK <= qBlue;
-            2'd1: QBACK <= qRed;
-			2'd2: QBACK <= qGreen;
-			2'd3: QBACK <= qScore;
-            default: QBACK <= qMenu;
-        endcase
 		case(iMode) 
 			2'd0: QBACK <= qMenu;
 			2'd1: begin
@@ -146,9 +139,7 @@ module VGAcontrol(
             backEn <= 1;
             mouseRegX <= iMouseX;
             mouseRegY <= iMouseY;
-            xCounter <= 0;
-            yCounter <= 0;
-			cursorCounter <= 0;
+				cursorCounter <= 0;
         end
         else if (backEn) begin
             qReading <= QBACK;
@@ -157,15 +148,14 @@ module VGAcontrol(
                 readingAddress <= 0;					 
                 backEn <= 0;
                 if (reactScreen == 3 && iMode == 1) begin
-                    // spriteEn <= 1;
+                    spriteEn <= 1;
                     //DESIGNATE WHERE TO DRAW SPRITE NEXT:  
                     xCounter <= 120;
                     yCounter <= 155;                    
                 end
-                // else begin
-                //     cursorEn <= 1;
-                // end
-                spriteEn <= 1;
+                else begin
+                    cursorEn <= 1;
+                end
             end
             else if (xCounter == 319) begin
                 yCounter <= yCounter + 1;
@@ -269,10 +259,6 @@ module VGAcontrol(
                     mxCounter <= mxCounter + 1;
                     readingAddress <= readingAddress + 1;
                 end
-            end
-            else begin
-                spriteEn <= 0;
-                cursorEn <= 1;
             end
         end
         else if (cursorEn) begin
