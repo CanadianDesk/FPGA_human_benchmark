@@ -4,11 +4,10 @@ module VGAcontrol(
     input V_SYNC,
     input iReset,
     input [1:0] reactScreen,
-	input [1:0] iMode,
+	 input [1:0] iMode,
     input [11:0] currentScore,
     input [8:0] iMouseX,
     input [7:0] iMouseY,
-    input [6:0] board [7:0] [7:0],
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
@@ -16,7 +15,7 @@ module VGAcontrol(
 );
 
     reg [2:0] qReading;
-	reg [1:0] cursorCounter;
+	 reg [1:0] cursorCounter;
     reg [8:0] xCounter, mouseRegX;
     reg [7:0] yCounter, mouseRegY;
     reg [16:0] readingAddress;
