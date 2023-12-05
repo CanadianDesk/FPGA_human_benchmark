@@ -85,7 +85,7 @@ module VGAcontrol(
 //    end
 
     //Signals
-    always @(posedge clk) begin
+    always @(*) begin
         case (reactScreen)
             2'd0: QBACK <= qBlue;
             2'd1: QBACK <= qRed;
@@ -127,6 +127,8 @@ module VGAcontrol(
             backEn <= 1;
             mouseRegX <= iMouseX;
             mouseRegY <= iMouseY;
+            xCounter <= 0;
+            yCounter <= 0;
         end
         else if (backEn) begin
             qReading <= QBACK;
@@ -223,7 +225,6 @@ module VGAcontrol(
                     if (screen3digitsCounter == 3) begin //finished drawing all sprites
                         screen3digitsCounter <= 0;
                         spriteEn <= 0;
-                        backEn <= 0;
                         cursorEn <= 1;
                         xCounter <= 0;
                         yCounter <= 0;                        
