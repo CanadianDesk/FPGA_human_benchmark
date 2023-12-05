@@ -14,8 +14,9 @@ module VGAcontrol(
     output writeEn
 );
 
+    reg [2:0] gridXCounter, gridYcounter;
     reg [2:0] qReading;
-	 reg [1:0] cursorCounter;
+	reg [1:0] cursorCounter;
     reg [8:0] xCounter, mouseRegX;
     reg [7:0] yCounter, mouseRegY;
     reg [16:0] readingAddress;
@@ -34,7 +35,7 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero, qGrid;
+    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero, qGrid, qHidden, qDisabled;
     reg [2:0] QBACK, QSPRITE;
 	assign QCURSOR = 3'b000; 
 	reg backEn, cursorEn, spriteEn;
@@ -61,7 +62,9 @@ module VGAcontrol(
     rom7 q13(readingAddress, clk, qSeven);
     rom8 q14(readingAddress, clk, qEight);
     rom9 q15(readingAddress, clk, qNine);
-	 gridrom q16(readingAddress, clk, qGrid);
+	gridrom q16(readingAddress, clk, qGrid);
+    hiddenrom q17(readingAddress, clk, qHidden);
+    disabledrom q18(readingAddress, clk, qDisabled);
 
     /**********************************************
     STATE MACHINE TO CHOOSE THE RIGHT Q
@@ -154,6 +157,8 @@ module VGAcontrol(
                     yCounter <= 155;                    
                 end
                 else begin
+                    xCounter <= mouseRegX;
+                    yCounter <= mouseRegY;
                     cursorEn <= 1;
                 end
             end
@@ -257,6 +262,65 @@ module VGAcontrol(
                 else begin
                     xCounter <= xCounter + 1;
                     mxCounter <= mxCounter + 1;
+                    readingAddress <= readingAddress + 1;
+                end
+            end
+            if (iMode == 2) begin
+                if (board[gridXCounter][gridYcounter][6] == 0) begin
+                    QSPRITE <= qDisabled;
+                end
+                else if (board[gridXCounter][gridYcounter][5] == 0) begin
+                    QSPRITE <= qHidden;
+                end
+                else begin
+                    case (board[gridXCounter][gridYcounter][4:0])
+                        1: QSPRITE <= qOne;
+                        2: QSPRITE <= qTwo;
+                        3: QSPRITE <= qThree;
+                        4: QSPRITE <= qFour;
+                        5: QSPRITE <= qFive;
+                        6: QSPRITE <= qSix;
+                        7: QSPRITE <= qSeven;
+                        8: QSPRITE <= qEight;
+                        9: QSPRITE <= qNine; 
+                        default: 
+                    endcase
+                end
+
+                if (mxCounter == 17 && myCounter == 17) begin //DONE ONE SQUARE
+                    mxCounter <= 0;
+                    myCounter <= 0;
+                    readingAddress <= 0;
+                    if (gridXCounter == 7 && gridYcounter == 7) begin //DONE ALL THE SQUARES
+                        gridXCounter <= 0;
+                        gridYcounter <= 0;
+                        spriteEn <= 0;
+                        cursorEn <= 1;
+                        xCounter <= mouseRegX;
+                        yCounter <= mouseRegY;
+                    end
+                    else if (gridXCounter == 7) begin //DONE A ROW OF SQUARES
+                        xCounter <= 16;
+                        yCounter <= (gridYcounter + 1) * 28 + 7;
+                        gridXCounter <= 0;
+                        gridYcounter <= gridYcounter + 1;
+                    end
+                    else begin
+                        gridXCounter <= gridXCounter + 1;
+                        xCounter <=  16 + 37 * (gridXCounter + 1);
+                        yCounter <= (gridYcounter + 1) * 28 + 7;
+                    end
+                end
+                else if (mxCounter == 17) begin //DONE A ROW INSIDE A SQUARE
+                    myCounter <= myCounter + 1;
+                    mxCounter <= mxCounter;
+                    yCounter <= yCounter + 1;
+                    xCounter <= 16 + 37 * (gridXCounter);
+                    readingAddress <= readingAddress + 1;
+                end
+                else begin
+                    mxCounter <= mxCounter + 1;
+                    xCounter <= xCounter + 1;
                     readingAddress <= readingAddress + 1;
                 end
             end
