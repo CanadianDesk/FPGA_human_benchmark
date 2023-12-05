@@ -12,6 +12,9 @@ module VGAcontrol(
 );
 
     reg [2:0] qReading;
+	 reg [1:0] cursorCounter;
+    reg [8:0] xCounter, mouseRegX;
+    reg [7:0] yCounter, mouseRegY;
     reg [16:0] readingAddress;
 	reg [4:0] mxCounter, myCounter;
     reg [2:0] screen3digitsCounter;
