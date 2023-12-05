@@ -59,6 +59,7 @@ module VGAcontrol(
     rom7 q13(readingAddress, clk, qSeven);
     rom8 q14(readingAddress, clk, qEight);
     rom9 q15(readingAddress, clk, qNine);
+	 gridrom q16(readingAddress, clk, qGrid);
 
     /**********************************************
     STATE MACHINE TO CHOOSE THE RIGHT Q
