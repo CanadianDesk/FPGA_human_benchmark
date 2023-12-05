@@ -32,6 +32,7 @@ module VGAcontrol(
     assign y = yCounter;
 
     wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero;
+    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero, qGrid;
     reg [2:0] QBACK, QSPRITE;
 	assign QCURSOR = 3'b000; 
 	reg backEn, cursorEn, spriteEn;
