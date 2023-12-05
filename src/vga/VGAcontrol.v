@@ -3,11 +3,11 @@ module VGAcontrol(
     input clk,
     input V_SYNC,
     input iReset,
-    input keyPress,
     input [1:0] reactScreen,
+	 input [1:0] iMode,
     input [11:0] currentScore,
-    //input [8:0] iMouseX
-    //input [7:0] iMouseY
+    input [8:0] iMouseX,
+    input [7:0] iMouseY,
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
@@ -15,8 +15,9 @@ module VGAcontrol(
 );
 
     reg [2:0] qReading;
-    reg [8:0] xCounter/*, mouseRegX*/;
-    reg [7:0] yCounter/*, mouseRegY*/;
+	 reg [1:0] cursorCounter;
+    reg [8:0] xCounter, mouseRegX;
+    reg [7:0] yCounter, mouseRegY;
     reg [16:0] readingAddress;
 	reg [4:0] mxCounter, myCounter;
     reg [2:0] screen3digitsCounter;
@@ -33,7 +34,7 @@ module VGAcontrol(
     assign x = xCounter;
     assign y = yCounter;
 
-    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero;
+    wire [2:0] QCURSOR, qMenu, qRed, qBlue, qGreen, qScore, qOne, qTwo, qThree, qFour, qFive, qSix, qSeven, qEight, qNine, qZero, qGrid;
     reg [2:0] QBACK, QSPRITE;
 	assign QCURSOR = 3'b000; 
 	reg backEn, cursorEn, spriteEn;
@@ -60,6 +61,7 @@ module VGAcontrol(
     rom7 q13(readingAddress, clk, qSeven);
     rom8 q14(readingAddress, clk, qEight);
     rom9 q15(readingAddress, clk, qNine);
+	 gridrom q16(readingAddress, clk, qGrid);
 
     /**********************************************
     STATE MACHINE TO CHOOSE THE RIGHT Q
@@ -79,20 +81,29 @@ module VGAcontrol(
 //            MENU_WAIT: next_state = keyPress ? MENU_WAIT : MENU;
 //            MENU: next_state = keyPress ? RED_WAIT : MENU;
 //            RED_WAIT: next_state = keyPress ? RED_WAIT : RED;
-//            RED: next_state = keyPress ? MENU_WAIT: RED;
+//            RED: next_state =   ? MENU_WAIT: RED;
 //            default: next_state = MENU;
 //        endcase
 //    end
 
     //Signals
-    always @(posedge clk) begin
-        case (reactScreen)
-            2'd0: QBACK <= qBlue;
-            2'd1: QBACK <= qRed;
-			2'd2: QBACK <= qGreen;
-			2'd3: QBACK <= qScore;
-            default: QBACK <= qMenu;
-        endcase
+    always @(*) begin
+		case(iMode) 
+			2'd0: QBACK <= qMenu;
+			2'd1: begin
+				case (reactScreen)
+					2'd0: QBACK <= qBlue;
+					2'd1: QBACK <= qRed;
+					2'd2: QBACK <= qGreen;
+					2'd3: QBACK <= qScore;
+					default: QBACK <= qMenu;
+				endcase
+			end
+			2'd2: QBACK <= qGrid;
+			default: QBACK <= qGreen;
+		endcase
+		
+
     end
 
 //    //State transition
@@ -122,11 +133,13 @@ module VGAcontrol(
             myCounter <= 0;
 			cursorEn <= 0;
             screen3digitsCounter <=0;
+				qReading <= QBACK;
         end 
         else if (~V_SYNC && V_SYNC_prev) begin
             backEn <= 1;
             mouseRegX <= iMouseX;
             mouseRegY <= iMouseY;
+				cursorCounter <= 0;
         end
         else if (backEn) begin
             qReading <= QBACK;
@@ -134,7 +147,7 @@ module VGAcontrol(
                 /*OVERITE DRAWING LOGIC SHOULD GO HERE (CURSOR, SPRITES)*/
                 readingAddress <= 0;					 
                 backEn <= 0;
-                if (reactScreen == 3) begin
+                if (reactScreen == 3 && iMode == 1) begin
                     spriteEn <= 1;
                     //DESIGNATE WHERE TO DRAW SPRITE NEXT:  
                     xCounter <= 120;
@@ -156,7 +169,7 @@ module VGAcontrol(
         end
         else if (spriteEn) begin
             qReading <= QSPRITE;
-            if (reactScreen == 3) begin
+            if (reactScreen == 3 && iMode == 1) begin
                 //UPDATE THE COLORS FROM ROM
                 case (screen3digitsCounter)
                     0: begin
@@ -223,10 +236,9 @@ module VGAcontrol(
                     if (screen3digitsCounter == 3) begin //finished drawing all sprites
                         screen3digitsCounter <= 0;
                         spriteEn <= 0;
-                        backEn <= 0;
                         cursorEn <= 1;
-                        xCounter <= 0;
-                        yCounter <= 0;                        
+                        xCounter <= mouseRegX;
+                        yCounter <= mouseRegY;                        
                     end
                     else begin  //need to draw next sprite
                         //DESIGNATE WHERE TO DRAW NEXT:
@@ -265,8 +277,10 @@ module VGAcontrol(
                 yCounter <= yCounter + 1;
                 myCounter <= myCounter + 1;
             end 
-            else begin
-                mxCounter <= mxCounter
+//            else if (mxCounter == 0 && myCounter
+				else begin
+                mxCounter <= mxCounter + 1;
+					 xCounter <= xCounter + 1;
             end
         end
     end
