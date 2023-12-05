@@ -10,7 +10,7 @@
 
 module mainMenu(input i1, i2, clk, iReset,
     output reg [1:0] oMode);
-    zUltimateTopLevel j45(.one_pressed(i1), .two_pressed(i2));
+    //zUltimateTopLevel j45(.one_pressed(i1), .two_pressed(i2));
     reg [3:0] current_state, next_state;
     localparam MENU = 3'd0,
     REACT_WAIT = 3'd1,
