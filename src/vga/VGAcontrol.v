@@ -157,14 +157,15 @@ module VGAcontrol(
                 readingAddress <= 0;					 
                 backEn <= 0;
                 if (reactScreen == 3 && iMode == 1) begin
-                    spriteEn <= 1;
+                    // spriteEn <= 1;
                     //DESIGNATE WHERE TO DRAW SPRITE NEXT:  
                     xCounter <= 120;
                     yCounter <= 155;                    
                 end
-                else begin
-                    cursorEn <= 1;
-                end
+                // else begin
+                //     cursorEn <= 1;
+                // end
+                spriteEn <= 1;
             end
             else if (xCounter == 319) begin
                 yCounter <= yCounter + 1;
@@ -268,6 +269,10 @@ module VGAcontrol(
                     mxCounter <= mxCounter + 1;
                     readingAddress <= readingAddress + 1;
                 end
+            end
+            else begin
+                spriteEn <= 0;
+                cursorEn <= 1;
             end
         end
         else if (cursorEn) begin
