@@ -6,8 +6,6 @@ module VGAcontrol(
     input keyPress,
     input [1:0] reactScreen,
     input [11:0] currentScore,
-    //input [8:0] iMouseX
-    //input [7:0] iMouseY
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
