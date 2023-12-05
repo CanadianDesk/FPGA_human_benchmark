@@ -44,7 +44,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
 
@@ -58,7 +58,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
             8'h16:
@@ -71,7 +71,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
             8'h1E:
@@ -84,7 +84,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
             8'hf0:

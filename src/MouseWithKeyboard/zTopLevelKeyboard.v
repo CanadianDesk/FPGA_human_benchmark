@@ -65,6 +65,6 @@ KeyboardPS2_Controller PS2 (
 );
 
 
-code_to_signal keyboard_code_to_signal(ps2_key_data, ps2_key_pressed, ~KEY[0], space_pressed, enter_pressed, one_pressed, two_pressed);
+code_to_signal keyboard_code_to_signal(last_data_received, ps2_key_pressed, ~KEY[0], space_pressed, enter_pressed, one_pressed, two_pressed);
 
 endmodule

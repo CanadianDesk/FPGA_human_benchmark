@@ -12,8 +12,7 @@ module code_to_signal (
     reg read1;
 
     // Initialize the break code flag and output signals
-    initial begin
-        
+    initial begin      
         space_pressed = 1'b0;
         enter_pressed = 1'b0;
         one_pressed = 1'b0;
@@ -29,7 +28,6 @@ module code_to_signal (
             enter_pressed <= 1'b0;
             one_pressed <= 1'b0;
             two_pressed <= 1'b0;
-          
         end 
         else 
         begin
@@ -44,7 +42,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
 
@@ -58,7 +56,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
             8'h16:
@@ -71,7 +69,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
             8'h1E:
@@ -84,7 +82,7 @@ module code_to_signal (
                     end
                     if(read1 == 1'b0)
                     begin
-                        read <= 1b'0;
+                        read <= 1'b0;
                     end
                 end
             8'hf0:
