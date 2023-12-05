@@ -79,7 +79,6 @@ module VGAcontrol(
 //            MENU_WAIT: next_state = keyPress ? MENU_WAIT : MENU;
 //            MENU: next_state = keyPress ? RED_WAIT : MENU;
 //            RED_WAIT: next_state = keyPress ? RED_WAIT : RED;
-//            RED: next_state = keyPress ? MENU_WAIT: RED;
 //            default: next_state = MENU;
 //        endcase
 //    end
