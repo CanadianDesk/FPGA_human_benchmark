@@ -3,7 +3,6 @@ module VGAcontrol(
     input clk,
     input V_SYNC,
     input iReset,
-    input keyPress,
     input [1:0] reactScreen,
     input [11:0] currentScore,
     output [8:0] x,
