@@ -127,7 +127,7 @@ iNumToChoose, iRandNum, iMouseClick, iReset,
             board[4][6] <= 7'd0;
             board[4][7] <= 7'd0;
             board[5][0] <= 7'd0;
-            board[5][1] <= 7'd0;
+            board[5][1] <= 7'd1;
             board[5][2] <= 7'd0;
             board[5][3] <= 7'd0;
             board[5][4] <= 7'd0;
