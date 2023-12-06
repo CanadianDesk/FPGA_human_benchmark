@@ -3,7 +3,7 @@ iNumToChoose, iRandNum, iMouseClick, iReset,
  oDoneLoad, oChoseCorrectNum, oChoseWrongNum, board, iBoxX, iBoxY, oRoundCounter);
     input clk, iResetBoard, iLoadEnable, iShowEnable, iMouseClick, iReset;
     input [4:0] iNumToChoose;
-	 input reg [4:0] iLevel;
+	input reg [4:0] iLevel;
     input [7:0] iRandNum;
     input [2:0] iBoxX;
     input [2:0] iBoxY;
@@ -168,7 +168,7 @@ iNumToChoose, iRandNum, iMouseClick, iReset,
         end else oDoneLoad <= 1; //board is done loading bc roundCounter > iLevel
 
         if (iMouseClick && oDoneLoad) begin
-				oRoundCounter <= 0;
+			oRoundCounter <= 0;
             if (board[iBoxX][iBoxY][4:0] == iNumToChoose) oChoseCorrectNum <= 1;
             else oChoseWrongNum <= 1;
         end
