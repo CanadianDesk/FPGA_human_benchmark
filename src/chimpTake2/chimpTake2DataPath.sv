@@ -2,13 +2,14 @@ module chimpTake2DataPath(clk, iResetBoard, iLoadEnable, iShowEnable, iLevel,
 iNumToChoose, iRandNum, iMouseClick, iReset,
  oDoneLoad, oChoseCorrectNum, oChoseWrongNum, board, iBoxX, iBoxY, oRoundCounter);
     input clk, iResetBoard, iLoadEnable, iShowEnable, iMouseClick, iReset;
-    input [4:0] iLevel, iNumToChoose;
+    input [4:0] iNumToChoose;
+	 input reg [4:0] iLevel;
     input [7:0] iRandNum;
     input [2:0] iBoxX;
     input [2:0] iBoxY;
     output reg oDoneLoad, oChoseCorrectNum, oChoseWrongNum;
     output reg [6:0] board [7:0] [7:0];
-    output reg [5:0] oRoundCounter;
+    output reg [4:0] oRoundCounter;
     integer boardSize = 3'd8;
     always@(posedge clk)begin
         //connect the fifth bit of each cell to iShowEnable
