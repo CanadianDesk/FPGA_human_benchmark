@@ -3,13 +3,18 @@
 // ECE241 Project
 
 module chimpTake2ControlPath(clk, iSpace, iDoneLoad, iReset, 
-iChoseCorrectNum, iChoseWrongNum, oLevel, oShowEnable, oLoadEnable, 
-oNumToChoose, oResetBoard, iRoundCount);
-    input clk, iSpace, iDoneLoad, iReset, iChoseCorrectNum, iChoseWrongNum;
+iChoseCorrectNum, iChoseWrongNum, oShowEnable, oLoadEnable, 
+oNumToChoose, oResetBoard, iRoundCount, current_state, oLevel);
+	 //output wire [4:0] olevel;
+    input clk, iDoneLoad, iReset, iChoseCorrectNum, iChoseWrongNum;
+	 input wire iSpace;
 	 input [5:0] iRoundCount;
-    output reg [4:0] oLevel, oNumToChoose;
+    output reg [4:0] oNumToChoose;
+	 output reg [4:0] oLevel;
+	 //assign olevel = oLevel;
     output reg oShowEnable, oLoadEnable, oResetBoard;
-    reg [6:0] current_state, next_state;
+    output reg [6:0] current_state;
+	 reg [6:0] next_state;
     localparam LOAD_START = 7'd0,
     LOAD_START_WAIT = 7'd1,
     LOAD_1 = 7'd2,
@@ -45,18 +50,25 @@ oNumToChoose, oResetBoard, iRoundCount);
     CHOOSE_30 = 7'd32,
     CHOOSE_31 = 7'd33;
     always @(*) begin
+			//oLevel = oLevel + 1 - 1;
         case (current_state)
-            LOAD_START: next_state <= iSpace ? LOAD_START_WAIT : LOAD_START;
-            LOAD_START_WAIT: next_state <= iSpace ? LOAD_START_WAIT : LOAD_1;
-            LOAD_1: next_state <= (iDoneLoad) ? LOAD_1 : CHOOSE_1;
-            CHOOSE_1: begin
-				if (iChoseWrongNum) next_state <= LOAD_START;
-				else if (iChoseCorrectNum && oLevel > 5'd1) next_state <= CHOOSE_2;
-				else if (iChoseCorrectNum && oLevel == 5'd1) begin
-					oLevel <= oLevel + 1'd1;
-					next_state <= LOAD_1;
+            LOAD_START: begin 
+				if(iSpace)
+					next_state = LOAD_START_WAIT;
+				else next_state = LOAD_START;
+					//next_state = iSpace ? LOAD_START_WAIT : LOAD_START;
+				//oLevel = 5'd4;
 				end
-				else if (iChoseCorrectNum == 0) next_state <= CHOOSE_1;
+            LOAD_START_WAIT: next_state = iSpace ? LOAD_START_WAIT : LOAD_1;
+            LOAD_1: next_state = (iDoneLoad) ? LOAD_1 : CHOOSE_1;
+            CHOOSE_1: begin
+				if (iChoseWrongNum) next_state = LOAD_START;
+				else if (iChoseCorrectNum && oLevel > 5'd1) next_state = CHOOSE_2;
+				else if (iChoseCorrectNum && oLevel == 5'd1) begin
+					oLevel = oLevel + 1'd1;
+					next_state = LOAD_1;
+				end
+				else if (iChoseCorrectNum == 0) next_state = CHOOSE_1;
 				else next_state <= LOAD_START;
 			end
 			CHOOSE_2: begin
@@ -355,7 +367,7 @@ oNumToChoose, oResetBoard, iRoundCount);
     end
     always@(*) begin
         oNumToChoose <= 0;
-		  if (iReset) oLevel <= 5'd4;
+//		  if (iReset) oLevel <= 5'd4;
         if (current_state < 7'd4) oLoadEnable <= 1;
         else oLoadEnable <= 0;
         if (current_state < 7'd4) oShowEnable <= 1;
@@ -394,6 +406,7 @@ oNumToChoose, oResetBoard, iRoundCount);
             CHOOSE_29: oNumToChoose <= 5'd29;
             CHOOSE_30: oNumToChoose <= 5'd30;
             CHOOSE_31: oNumToChoose <= 5'd31;
+				default: oNumToChoose <= 5'd0;
         endcase    
     end
 
