@@ -4,7 +4,7 @@
 
 module chimpTake2ControlPath(clk, iSpace, iDoneLoad, iReset, 
 iChoseCorrectNum, iChoseWrongNum, oShowEnable, oLoadEnable, 
-oNumToChoose, oResetBoard, iRoundCount, oLevel);
+oNumToChoose, oResetBoard, iRoundCount, oLevel); ///removed current_state
     //output wire [4:0] olevel;
     input clk, iDoneLoad, iReset, iChoseCorrectNum, iChoseWrongNum;
 	 input wire iSpace;
@@ -13,7 +13,7 @@ oNumToChoose, oResetBoard, iRoundCount, oLevel);
 	 output reg [4:0] oLevel;
 	 //assign olevel = oLevel;
     output reg oShowEnable, oLoadEnable, oResetBoard;
-     reg [6:0] current_state;
+     reg [6:0] current_state; ///removed output
 	 reg [6:0] next_state;
     localparam LOAD_START = 7'd0,
     LOAD_START_WAIT = 7'd1,
@@ -49,7 +49,7 @@ oNumToChoose, oResetBoard, iRoundCount, oLevel);
     CHOOSE_29 = 7'd31,
     CHOOSE_30 = 7'd32,
     CHOOSE_31 = 7'd33,
-    CHOOSE_INCREMENT = 7'd34;
+    CHOOSE_INCREMENT = 7'd34; /////added state
     always @(*) begin
 			//oLevel = oLevel + 1 - 1;
         case (current_state)
@@ -396,51 +396,51 @@ end
 				oResetBoard  = 1;
 				next_state = LOAD_1;
 			end
-            default: next_state <= LOAD_START;
+            default: next_state = LOAD_START;
         endcase
     end
     always@(*) begin
-        oNumToChoose <= 0;
-//		  if (iReset) oLevel <= 5'd4;
-        if (current_state < 7'd4) oLoadEnable <= 1;
-        else oLoadEnable <= 0;
-        if (current_state < 7'd4) oShowEnable <= 1;
-        else oShowEnable <= 0;
-        if (current_state < 7'd2 || iReset || current_state == 7'd34) oResetBoard <= 1;
-        else oResetBoard <= 0;
+        oNumToChoose = 0;
+//		  if (iReset) oLevel = 5'd4;
+        if (current_state < 7'd4) oLoadEnable = 1;
+        else oLoadEnable = 0;
+        if (current_state < 7'd4) oShowEnable = 1;
+        else oShowEnable = 0;
+        if (current_state < 7'd2 || iReset || current_state == 7'd34) oResetBoard = 1;
+        else oResetBoard = 0;
         case(current_state)
-            CHOOSE_1: oNumToChoose <= 5'd1;
-            CHOOSE_2: oNumToChoose <= 5'd2;
-            CHOOSE_3: oNumToChoose <= 5'd3;
-            CHOOSE_4: oNumToChoose <= 5'd4;
-            CHOOSE_5: oNumToChoose <= 5'd5;
-            CHOOSE_6: oNumToChoose <= 5'd6;
-            CHOOSE_7: oNumToChoose <= 5'd7;
-            CHOOSE_8: oNumToChoose <= 5'd8;
-            CHOOSE_9: oNumToChoose <= 5'd9;
-            CHOOSE_10: oNumToChoose <= 5'd10;
-            CHOOSE_11: oNumToChoose <= 5'd11;
-            CHOOSE_12: oNumToChoose <= 5'd12;
-            CHOOSE_13: oNumToChoose <= 5'd13;
-            CHOOSE_14: oNumToChoose <= 5'd14;
-            CHOOSE_15: oNumToChoose <= 5'd15;
-            CHOOSE_16: oNumToChoose <= 5'd16;
-            CHOOSE_17: oNumToChoose <= 5'd17;
-            CHOOSE_18: oNumToChoose <= 5'd18;
-            CHOOSE_19: oNumToChoose <= 5'd19;
-            CHOOSE_20: oNumToChoose <= 5'd20;
-            CHOOSE_21: oNumToChoose <= 5'd21;
-            CHOOSE_22: oNumToChoose <= 5'd22;
-            CHOOSE_23: oNumToChoose <= 5'd23;
-            CHOOSE_24: oNumToChoose <= 5'd24;
-            CHOOSE_25: oNumToChoose <= 5'd25;
-            CHOOSE_26: oNumToChoose <= 5'd26;
-            CHOOSE_27: oNumToChoose <= 5'd27;
-            CHOOSE_28: oNumToChoose <= 5'd28;
-            CHOOSE_29: oNumToChoose <= 5'd29;
-            CHOOSE_30: oNumToChoose <= 5'd30;
-            CHOOSE_31: oNumToChoose <= 5'd31;
-				default: oNumToChoose <= 5'd0;
+            CHOOSE_1: oNumToChoose = 5'd1;
+            CHOOSE_2: oNumToChoose = 5'd2;
+            CHOOSE_3: oNumToChoose = 5'd3;
+            CHOOSE_4: oNumToChoose = 5'd4;
+            CHOOSE_5: oNumToChoose = 5'd5;
+            CHOOSE_6: oNumToChoose = 5'd6;
+            CHOOSE_7: oNumToChoose = 5'd7;
+            CHOOSE_8: oNumToChoose = 5'd8;
+            CHOOSE_9: oNumToChoose = 5'd9;
+            CHOOSE_10: oNumToChoose = 5'd10;
+            CHOOSE_11: oNumToChoose = 5'd11;
+            CHOOSE_12: oNumToChoose = 5'd12;
+            CHOOSE_13: oNumToChoose = 5'd13;
+            CHOOSE_14: oNumToChoose = 5'd14;
+            CHOOSE_15: oNumToChoose = 5'd15;
+            CHOOSE_16: oNumToChoose = 5'd16;
+            CHOOSE_17: oNumToChoose = 5'd17;
+            CHOOSE_18: oNumToChoose = 5'd18;
+            CHOOSE_19: oNumToChoose = 5'd19;
+            CHOOSE_20: oNumToChoose = 5'd20;
+            CHOOSE_21: oNumToChoose = 5'd21;
+            CHOOSE_22: oNumToChoose = 5'd22;
+            CHOOSE_23: oNumToChoose = 5'd23;
+            CHOOSE_24: oNumToChoose = 5'd24;
+            CHOOSE_25: oNumToChoose = 5'd25;
+            CHOOSE_26: oNumToChoose = 5'd26;
+            CHOOSE_27: oNumToChoose = 5'd27;
+            CHOOSE_28: oNumToChoose = 5'd28;
+            CHOOSE_29: oNumToChoose = 5'd29;
+            CHOOSE_30: oNumToChoose = 5'd30;
+            CHOOSE_31: oNumToChoose = 5'd31;
+				default: oNumToChoose = 5'd0;
         endcase    
     end
 
