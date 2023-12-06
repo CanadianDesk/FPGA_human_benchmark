@@ -8,6 +8,7 @@ module VGAcontrol(
     input [11:0] currentScore,
     input [8:0] iMouseX,
     input [7:0] iMouseY,
+	 input [6:0] board [7:0][7:0],
     output [8:0] x,
     output [7:0] y,
     output [2:0] color,
@@ -283,7 +284,7 @@ module VGAcontrol(
                         7: QSPRITE <= qSeven;
                         8: QSPRITE <= qEight;
                         9: QSPRITE <= qNine; 
-                        default: 
+                        default: QSPRITE <= qRed; 
                     endcase
                 end
 
